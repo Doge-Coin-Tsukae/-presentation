@@ -21,6 +21,7 @@
 #include "gameobject.h"
 #include "camera.h"
 #include "field.h"
+#include "meshfield.h"
 #include "animationmodel.h"
 #include "human.h"
 #include "model.h"
@@ -67,6 +68,8 @@ void CGame::Init()
 	AddGameObject<CSKYDOME>(1);
 
 	//’n–Ê
+	//AddGameObject<CMeshField>(1);
+
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)

@@ -170,6 +170,9 @@
     <ClCompile Include="animationmodel.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
+    <ClCompile Include="meshfield.cpp">
+      <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -312,6 +315,9 @@
     </ClInclude>
     <ClInclude Include="animationmodel.h">
       <Filter>ソース ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="meshfield.h">
+      <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

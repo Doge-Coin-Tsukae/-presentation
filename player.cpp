@@ -21,6 +21,7 @@
 #include "weapon.h"
 #include "colider.h"
 #include "player.h"
+#include "meshfield.h"
 #include "bullet.h"
 #include "bunker.h"
 #include "fade.h"
@@ -153,6 +154,10 @@ void CPlayer::Update()
 
 	//変数
 	rate+= ANIMEBLENDSPEED;
+
+	//メッシュフィールド高さ取得
+	//CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	//m_Position.y = meshField->GetHeight(m_Position);
 }
 
 void CPlayer::Update_Controll()
