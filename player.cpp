@@ -35,12 +35,13 @@ typedef struct
 	char *pFilename;	// ファイル名
 } ANIMENAME;
 
-ANIMENAME g_aParam[3] =
+ANIMENAME g_aParam[4] =
 {
 	//BGM
 	{(char *)"idle"},				// 待機
 	{(char *)"ready"},				// 構える
 	{(char *)"run"},				// 走る
+	{(char *)"fire"},				//発射
 };
 
 void CPlayer::Init()
@@ -51,7 +52,7 @@ void CPlayer::Init()
 	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam[0].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[1].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam[2].pFilename);		//アニメーション
-	
+	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam[3].pFilename);
 
 	m_Sight = new CSIGHT();
 	m_Sight->Init();
@@ -183,7 +184,7 @@ void CPlayer::Update_Controll()
 		m_Velocity.z += sin(m_Rotation.x)*m_speed;
 		m_Velocity.x -= cos(m_Rotation.x)*m_speed;
 		m_speed += 0.01f;
-		ChangeAnimation((char*)"run");
+		ChangeAnimation((char*)"fire");
 	}
 	if (CInput::GetKeyPress('S'))
 	{

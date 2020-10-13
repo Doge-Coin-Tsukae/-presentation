@@ -58,13 +58,13 @@ void CMeshField::Init()
 	int seed = 1;
 	srand(seed);	//乱数リセット
 
-	m_Vertex[0][0].Position.y = rand()% LAND;
-	m_Vertex[FIELDX - 1][0].Position.y = rand() % LAND;
-	m_Vertex[0][FIELDY - 1].Position.y = rand() % LAND;
-	m_Vertex[FIELDX - 1][FIELDY - 1].Position.y = rand() % LAND;
+	//m_Vertex[0][0].Position.y = rand()% LAND;
+	//m_Vertex[FIELDX - 1][0].Position.y = rand() % LAND;
+	//m_Vertex[0][FIELDY - 1].Position.y = rand() % LAND;
+	//m_Vertex[FIELDX - 1][FIELDY - 1].Position.y = rand() % LAND;
 
 
-	TyutenHenni(FIELDX /2 -1 ,FIELDY /2 -1);	//中点変位法
+	//TyutenHenni(FIELDX /2 -1 ,FIELDY /2 -1);	//中点変位法
 
 	//法線ベクトル算出
 	for (int x = 1; x <= 19; x++)

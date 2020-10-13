@@ -21,6 +21,7 @@
 #include "gameobject.h"
 #include "camera.h"
 #include "field.h"
+#include "meshfield.h"
 #include "human.h"
 #include "model.h"
 #include "animationmodel.h"
@@ -67,13 +68,7 @@ void CTutorial::Init()
 	AddGameObject<CSKYDOME>(1);
 
 	//’n–Ê
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			AddGameObject<CField>(1)->SetPosition(D3DXVECTOR3(-400 + i * 100, 0, -400 + j * 100));
-		}
-	}
+	AddGameObject<CMeshField>(1);
 
 	AddGameObject<CPlayer>(1)->SetPosition(D3DXVECTOR3(0.0f, 1.0f,  0.0f));
 
