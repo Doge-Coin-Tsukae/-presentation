@@ -41,6 +41,11 @@ void CCamera::Update()
 	m_Target = pPlayer->GetPosition();		//注視点をプレイヤーに
 	m_Target.y += 8.0f;						//カメラを少し上に
 
+	//プレイヤーの後ろに回り込むようにする
+	m_Position.x = m_Target.x + 12.0f *cos(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
+	m_Position.y = m_Target.y + 12.0f *sin(pPlayer->GetRotation().z);
+	m_Position.z = m_Target.z + 12.0f *-sin(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
+
 	//ズーム
 	if (m_zoom == true)
 	{
@@ -52,14 +57,6 @@ void CCamera::Update()
 		m_Position.x = m_Target.x + 4.0f *cos(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
 		m_Position.y = m_Target.y + 4.0f *sin(pPlayer->GetRotation().z);
 		m_Position.z = m_Target.z + 4.0f *-sin(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
-	}
-	//ズームアウト
-	else
-	{
-		//プレイヤーの後ろに回り込むようにする
-		m_Position.x = m_Target.x + 12.0f *cos(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
-		m_Position.y = m_Target.y + 12.0f *sin(pPlayer->GetRotation().z);
-		m_Position.z = m_Target.z + 12.0f *-sin(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
 	}
 }
 

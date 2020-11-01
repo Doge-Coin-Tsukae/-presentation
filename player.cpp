@@ -37,7 +37,6 @@ typedef struct
 
 ANIMENAME g_aParam[4] =
 {
-	//BGM
 	{(char *)"idle"},				// 待機
 	{(char *)"ready"},				// 構える
 	{(char *)"run"},				// 走る
@@ -184,7 +183,7 @@ void CPlayer::Update_Controll()
 		m_Velocity.z += sin(m_Rotation.x)*m_speed;
 		m_Velocity.x -= cos(m_Rotation.x)*m_speed;
 		m_speed += 0.01f;
-		ChangeAnimation((char*)"fire");
+		ChangeAnimation((char*)"run");
 	}
 	if (CInput::GetKeyPress('S'))
 	{
@@ -213,6 +212,7 @@ void CPlayer::Update_Controll()
 	if (m_Velocity == m_Position)
 	{
 		m_speed = 0.01f;
+		if(m_Weapon->GetNextShoot() == false)
 		ChangeAnimation((char*)g_aParam[0 + m_ready].pFilename);	//構えかアイドル状態に
 	}
 
@@ -220,6 +220,7 @@ void CPlayer::Update_Controll()
 	if (CInput::GetKeyPress(VK_LBUTTON))
 	{	//マウスが右クリックされた時
 		m_Weapon->Shoot(m_Sight->GetPosition(),m_TeamNumber);	//武器から発射する
+		ChangeAnimation((char*)"fire");
 	}
 
 	//構え
