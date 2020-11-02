@@ -35,12 +35,13 @@ typedef struct
 	char *pFilename;	// ファイル名
 } ANIMENAME;
 
-ANIMENAME g_aParam[4] =
+ANIMENAME g_aParam[5] =
 {
 	{(char *)"idle"},				// 待機
 	{(char *)"ready"},				// 構える
 	{(char *)"run"},				// 走る
 	{(char *)"fire"},				//発射
+	{(char *)"Death"},
 };
 
 void CPlayer::Init()
@@ -52,6 +53,7 @@ void CPlayer::Init()
 	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[1].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam[2].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam[3].pFilename);
+	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam[4].pFilename);
 
 	m_Sight = new CSIGHT();
 	m_Sight->Init();
@@ -97,11 +99,8 @@ void CPlayer::Update()
 	Update_Controll();
 
 	//上限加減チェック
-	if (m_Death == false)
-	{
-		m_Rotation.z = std::min(m_Rotation.z, 0.0f);
-		m_Rotation.z = std::max(m_Rotation.z, -0.5f);
-	}
+	m_Rotation.z = std::min(m_Rotation.z, 0.0f);
+	m_Rotation.z = std::max(m_Rotation.z, -0.5f);
 	rate = std::min(rate, 1.0f);
 	rate = std::max(rate, 0.0f);
 
@@ -120,7 +119,6 @@ void CPlayer::Update()
 		{
 			m_Velocity = m_Position;
 			m_speed = 0.01f;
-			//ChangeAnimation((char*)"idle");
 		}
 	}
 
@@ -148,13 +146,15 @@ void CPlayer::Update()
 	//ちんだ時の処理
 	if (m_Death == true)
 	{
-		if(m_Rotation.z <= -1.5408f) return;
-		m_Rotation.z -= 0.02f;
+		m_OldAnimationChara = (char*)"Death";
+		m_NowAnimationChara = (char*)"Death";
 	}
 
 	//変数
 	rate+= ANIMEBLENDSPEED;
-
+	m_Frame++;
+	if(m_Frame >= 240)
+		m_Frame = 0;
 	//メッシュフィールド高さ取得
 	//CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 	//m_Position.y = meshField->GetHeight(m_Position);
@@ -207,7 +207,6 @@ void CPlayer::Update_Controll()
 
 	m_Rotation.x += CInput::GetMousedDfference().x / 100;
 	m_Rotation.z -= CInput::GetMousedDfference().y / 100;
-	m_Frame++;
 
 	if (m_Velocity == m_Position)
 	{

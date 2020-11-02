@@ -18,18 +18,46 @@
 #include "player.h"
 #include "enemy.h"
 
-class CModel* CEnemy::m_Model;
+//class CModel* CEnemy::m_Model;
+class CAnimationModel* CEnemy::m_Animodel;
+
+#define		ANIMEBLENDSPEED	0.1f
+
+typedef struct
+{
+	char *pFilename;	// ファイル名
+} ANIMENAME2;
+
+ANIMENAME2 g_aParam2[5] =
+{
+	{(char *)"idle"},				// 待機
+	{(char *)"ready"},				// 構える
+	{(char *)"run"},				// 走る
+	{(char *)"fire"},				//発射
+	{(char *)"Death"},
+};
 
 void CEnemy::Load()
 {
-	m_Model = new CModel();
-	m_Model->Load("asset\\model\\plauyer1.obj");
+	m_Animodel = new CAnimationModel();
+	m_Animodel->Load("asset\\model\\player\\chara.fbx");					//モデルのロード(ボーン付き)
+	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam2[0].pFilename);		//アニメーション
+	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam2[1].pFilename);		//アニメーション
+	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam2[2].pFilename);		//アニメーション
+	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam2[3].pFilename);
+	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam2[4].pFilename);
+	//m_Model = new CModel();
+	//m_Model->Load("asset\\model\\plauyer1.obj");
 }
 
 void CEnemy::Unload()
 {
-	m_Model->Unload();
-	delete m_Model;
+	//m_Model->Unload();
+	//delete m_Model;
+
+	m_Animodel->Unload();
+	delete m_Animodel;
+
 }
 
 void CEnemy::Init()
@@ -40,12 +68,18 @@ void CEnemy::Init()
 
 	m_Weapon = new CWEAPON();
 	m_Weapon->Init();
-	m_Weapon->Setparent(this);
+	m_Weapon->Setparent(this);		//武器の親を自分に
 
 	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.3f, 1.3f, 1.3f);
 	m_TeamNumber = TEAM_ENEMY;		//チーム設定
+
+	//アニメーション
+	m_NowAnimationChara = g_aParam2[0].pFilename;
+	m_OldAnimationChara = g_aParam2[1].pFilename;
+	m_Frame = 0;
+	rate = 0;
 }
 
 void CEnemy::Uninit()
@@ -64,7 +98,7 @@ void CEnemy::Update()
 	//プレイヤーに入っているクラスの更新処理
 	m_Sight->Update();
 	m_Weapon->Update();
-
+	m_Animodel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
 }
 
 void CEnemy::Update_AI()
@@ -85,10 +119,12 @@ void CEnemy::Update_AI()
 		{
 			D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
 			m_Position += Velocity / 10;
+			ChangeAnimation((char*)"run");
 		}
 		else
 		{
 			m_Weapon->Shoot(m_Sight->GetPosition(), m_TeamNumber);
+			ChangeAnimation((char*)"fire");
 		}
 	}
 
@@ -96,6 +132,9 @@ void CEnemy::Update_AI()
 	{
 		m_Weapon->Reload();
 	}
+
+	rate += ANIMEBLENDSPEED;
+	m_Frame++;
 }
 
 void CEnemy::Draw()
@@ -115,7 +154,8 @@ void CEnemy::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
-	m_Model->Draw();
+	//m_Model->Draw();
+	m_Animodel->Draw();
 }
 
 void CEnemy::LookPlayer()
@@ -127,4 +167,12 @@ void CEnemy::LookPlayer()
 	D3DXVECTOR3 Velocity2 = GetVector(m_Position,m_Sight->GetPosition());
 	m_Rotation.x += (Velocity.x * Velocity2.x+ Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
 	m_Rotation.x -= 1.0f;
+}
+
+void CEnemy::ChangeAnimation(char* Name)
+{
+	if (m_NowAnimationChara == Name)return;	//今のアニメーションと次のアニメーションが一緒なら
+	m_OldAnimationChara = m_NowAnimationChara;		//新しいアニメーションデータを古いアニメーションデータにする
+	m_NowAnimationChara = Name;						//新しいアニメーションデータを入れる
+	rate = 0.0f;									//ブレンド値をリセット
 }
