@@ -153,8 +153,8 @@ void CPlayer::Update()
 	//変数
 	rate+= ANIMEBLENDSPEED;
 	m_Frame++;
-	if(m_Frame >= 240)
-		m_Frame = 0;
+	//if(m_Frame >= 240)
+	//	m_Frame = 0;
 	//メッシュフィールド高さ取得
 	//CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 	//m_Position.y = meshField->GetHeight(m_Position);

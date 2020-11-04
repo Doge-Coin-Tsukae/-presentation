@@ -31,6 +31,7 @@
 
 #include "player.h"
 #include "enemy.h"
+#include "friend.h"
 #include "enemycommander.h"
 #include "bullet.h"
 #include "bunker.h"
@@ -54,6 +55,7 @@ void CGame::Init()
 	CBullet::Load();	//弾のモデルを呼び出す
 	CBUNKER::Load();	//バンカーのモデルを呼び出す
 	CEnemy::Load();		//敵のモデルを呼び出す
+	CFriend::Load();
 	CWEAPON::Load();	//銃のモデルを呼び出す
 	CDEADTREE::Load();	//枯れ木のモデルを呼び出す
 	CSMOKE::Load();		//煙の画像を呼び出す
@@ -89,6 +91,8 @@ void CGame::Init()
 	AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(10.0f, 1.0f,-100.0f));
 	AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f,-100.0f));
 
+	AddGameObject<CFriend>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f, -200.0f));
+
 	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(40.0f, 0.0f, -130.0f));
 	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(-40.0f, 0.0f, -130.0f));
 
@@ -122,7 +126,7 @@ void CGame::Init()
 	AddGameObject<CWEAPON2D>(4);
 	AddGameObject<CPLAYERUI>(4);
 
-	PlaySound(SOUND_BGM_BGM002);
+	//PlaySound(SOUND_BGM_BGM002);
 
 	CFADE::SetTexture((char*)"asset/texture/fade.png");
 	CFADE::Fade_Start(false,60,D3DCOLOR());

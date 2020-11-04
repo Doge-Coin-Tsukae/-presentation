@@ -18,8 +18,7 @@
 #include "player.h"
 #include "enemy.h"
 
-//class CModel* CEnemy::m_Model;
-class CAnimationModel* CEnemy::m_Animodel;
+//class CAnimationModel* CEnemy::m_Animodel;
 
 #define		ANIMEBLENDSPEED	0.1f
 
@@ -39,6 +38,17 @@ ANIMENAME2 g_aParam2[5] =
 
 void CEnemy::Load()
 {
+	
+}
+
+void CEnemy::Unload()
+{
+
+
+}
+
+void CEnemy::Init()
+{
 	m_Animodel = new CAnimationModel();
 	m_Animodel->Load("asset\\model\\player\\chara.fbx");					//モデルのロード(ボーン付き)
 	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam2[0].pFilename);		//アニメーション
@@ -46,22 +56,7 @@ void CEnemy::Load()
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam2[2].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam2[3].pFilename);
 	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam2[4].pFilename);
-	//m_Model = new CModel();
-	//m_Model->Load("asset\\model\\plauyer1.obj");
-}
 
-void CEnemy::Unload()
-{
-	//m_Model->Unload();
-	//delete m_Model;
-
-	m_Animodel->Unload();
-	delete m_Animodel;
-
-}
-
-void CEnemy::Init()
-{
 	m_Sight = new CSIGHT();
 	m_Sight->Init();
 	m_Sight->Setparent(this);		//照準の親を自分に
@@ -89,16 +84,25 @@ void CEnemy::Uninit()
 
 	m_Sight->Uninit();
 	delete m_Sight;
+
+	m_Animodel->Unload();
+	delete m_Animodel;
 }
 
 void CEnemy::Update()
 {
+	rate = std::min(rate, 1.0f);
+	rate = std::max(rate, 0.0f);
+
 	//ヘルパー関数
 	Update_AI();
 	//プレイヤーに入っているクラスの更新処理
 	m_Sight->Update();
 	m_Weapon->Update();
 	m_Animodel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
+
+	rate += ANIMEBLENDSPEED;
+	m_Frame++;
 }
 
 void CEnemy::Update_AI()
@@ -127,14 +131,15 @@ void CEnemy::Update_AI()
 			ChangeAnimation((char*)"fire");
 		}
 	}
+	else
+	{
+		ChangeAnimation((char*)"idle");
+	}
 
 	if (m_Weapon->GetAmmo() <= 0)
 	{
 		m_Weapon->Reload();
 	}
-
-	rate += ANIMEBLENDSPEED;
-	m_Frame++;
 }
 
 void CEnemy::Draw()

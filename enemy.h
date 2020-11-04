@@ -5,7 +5,7 @@
 class CEnemy : public CGameObject	//継承(インヘリタンス)
 {
 private:
-	static CAnimationModel* m_Animodel;	//3Dアニメーションモデルクラス
+	CAnimationModel* m_Animodel;	//3Dアニメーションモデルクラス
 	//static CModel* m_Model;			//3Dモデルクラス
 	CSIGHT* m_Sight;			//照準
 	CWEAPON* m_Weapon;			//所持武器
