@@ -115,8 +115,34 @@ void CPlayer::Update()
 	std::vector<CBUNKER*> bunkerList = scene->GetGameObjects<CBUNKER>(1);
 	for (CBUNKER* bunker : bunkerList)
 	{
-		if (intersectAABB(m_Colider, bunker->GetColider()))
+		//AABB
+		/*if (intersectAABB(m_Colider, bunker->GetColider()))
 		{
+			m_Velocity = m_Position;
+			m_speed = 0.01f;
+		}*/
+
+		//OBB
+		D3DXVECTOR3 direction = m_Position - bunker->GetPosition();
+
+		D3DXVECTOR3 obbx, obbz;
+		float obbLenx, obbLenz;
+
+		obbx = bunker->GetObbX();
+		obbLenx = D3DXVec3Length(&obbx);
+		obbx /= obbLenx;
+
+		obbz = bunker->GetObbZ();
+		obbLenz = D3DXVec3Length(&obbz);
+		obbz /= obbLenz;
+
+		float lenX, lenZ;
+		lenX = D3DXVec3Dot(&obbx, &direction);
+		lenZ = D3DXVec3Dot(&obbz, &direction);
+
+		if (fabs(lenX) < obbLenx && fabs(lenZ) < obbLenz)
+		{
+			//enemy->SetDestroy();
 			m_Velocity = m_Position;
 			m_speed = 0.01f;
 		}

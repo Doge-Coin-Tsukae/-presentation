@@ -17,12 +17,12 @@
 
 void CSelectpointer::Init()
 {
-	m_Position = D3DXVECTOR3(800.0f, 5.0f, 0.0f);
+	m_Position = D3DXVECTOR3(803.0f, 33.0f, 0.0f);
 
-	m_point = new CPolygon;
-	m_point->SetSize(300.0f, 150.0f);
+	m_point = new CMovePolygon;
+	m_point->Init();
 	m_point->SetTexture((char*)"asset/texture/selectitem/cursor.png");
-	m_point->Init(m_Position);
+	m_point->SetSize(65.0f, 70.0f);
 
 	Pointpos = D3DXVECTOR2(0.0f, 0.0f);
 }
@@ -35,9 +35,11 @@ void CSelectpointer::Uninit()
 
 void CSelectpointer::Update()
 {
+
+	//À•WÝ’è
+	m_point->SetPosition(D3DXVECTOR3(m_Position.x + Pointpos.x * 74.0f, m_Position.y + Pointpos.y * 68.0f, m_Position.z));
 	m_point->Update();
 
-	
 }
 
 void CSelectpointer::Draw()

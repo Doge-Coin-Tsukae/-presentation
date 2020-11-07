@@ -39,6 +39,7 @@
 #include "gauge.h"
 #include "carsor.h"
 #include "chip.h"
+#include "selectpointer.h"
 #include "selectitem.h"
 
 void CGame::Init()

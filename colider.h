@@ -49,3 +49,15 @@ inline bool intersectAABB(const AABB& box1, const AABB& box2) {
 	if (box1.max.z < box2.min.z) return false;
 	return true;   // Õ“ËII
 }
+
+//OBB
+class OBB
+{
+private:
+	D3DXVECTOR3 scale;
+public:
+	bool intersectOBB(const OBB& box1, const OBB& box2)
+	{
+		return false;
+	}
+};

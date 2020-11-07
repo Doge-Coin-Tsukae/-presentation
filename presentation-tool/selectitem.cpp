@@ -16,6 +16,7 @@
 #include "model.h"
 #include "colider.h"
 #include "bunker.h"
+#include"selectpointer.h"
 
 #include "selectitem.h"
 
@@ -27,6 +28,9 @@ void CSelectItem::Init()
 	m_under->SetSize(300.0f,150.0f);
 	m_under->SetTexture((char*)"asset/texture/selectitem/under2.png");
 	m_under->Init(m_Position);
+
+	m_pointer = new CSelectpointer;
+	m_pointer->Init();
 
 	//縦方向
 	for (int h = 0; h < 4;h++)
@@ -60,6 +64,8 @@ void CSelectItem::Uninit()
 		}
 	}
 
+	m_pointer->Uninit();
+	delete m_pointer;
 	m_under->Uninit();
 	delete m_under;
 }
@@ -67,7 +73,7 @@ void CSelectItem::Uninit()
 void CSelectItem::Update()
 {
 	m_under->Update();
-
+	m_pointer->Update();
 	//縦方向
 	for (int h = 0; h < 4; h++)
 	{
@@ -77,6 +83,12 @@ void CSelectItem::Update()
 			m_chip[h][w]->Update();
 		}
 	}
+
+	//カーソル動かす
+	if (CInput::GetKeyTrigger(VK_UP))	 m_pointer->move_up();
+	if (CInput::GetKeyTrigger(VK_DOWN))  m_pointer->move_down();
+	if (CInput::GetKeyTrigger(VK_LEFT))  m_pointer->move_left();
+	if (CInput::GetKeyTrigger(VK_RIGHT)) m_pointer->move_right();
 
 	//ボックスをクリックされた時の動き
 	if (CInput::GetKeyPress(VK_LBUTTON))
@@ -112,6 +124,7 @@ void CSelectItem::Update()
 void CSelectItem::Draw()
 {
 	m_under->Draw();
+	m_pointer->Draw();
 
 	//縦方向
 	for (int h = 0; h < 4; h++)
