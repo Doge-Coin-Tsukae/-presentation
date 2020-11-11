@@ -36,7 +36,7 @@ void CSelectpointer::Uninit()
 void CSelectpointer::Update()
 {
 
-	//À•WÝ’è
+	//‰æ‘œ‚ÌÀ•WÝ’è
 	m_point->SetPosition(D3DXVECTOR3(m_Position.x + Pointpos.x * 74.0f, m_Position.y + Pointpos.y * 68.0f, m_Position.z));
 	m_point->Update();
 

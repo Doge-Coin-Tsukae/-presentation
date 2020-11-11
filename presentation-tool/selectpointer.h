@@ -5,11 +5,11 @@
 class CSelectpointer :public CGameObject
 {
 private:
-	CMovePolygon *m_point;
+	CMovePolygon *m_point;	//ポインタ画像
 
 	D3DXVECTOR2 Pointpos;	//現在のポインタの位置
 
-	bool click;
+	//bool click;
 
 public:
 	void move_up() { Pointpos.y -= 1.0f; }
@@ -21,4 +21,6 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	
+	D3DXVECTOR2  GetPos() { return  Pointpos; }
 };

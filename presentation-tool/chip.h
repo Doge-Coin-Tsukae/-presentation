@@ -17,4 +17,7 @@ public:
 
 	bool Colision(POINT pos);
 	void SetPolygon(char* name, D3DXVECTOR2 Size, D3DXVECTOR2 Split, D3DXVECTOR2 Splitend);
+	void Setid(int ids) { id = ids; }
+
+	int GetId() { return id; }
 };

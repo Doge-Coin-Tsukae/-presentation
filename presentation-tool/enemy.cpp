@@ -65,10 +65,10 @@ void CEnemy::Uninit()
 void CEnemy::Update()
 {
 	//ヘルパー関数
-	Update_AI();
+	//Update_AI();
 	//プレイヤーに入っているクラスの更新処理
-	m_Sight->Update();
-	m_Weapon->Update();
+	//m_Sight->Update();
+	//m_Weapon->Update();
 
 }
 

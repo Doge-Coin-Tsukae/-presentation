@@ -14,8 +14,17 @@
 #include "polygon.h"
 #include "chip.h"
 #include "model.h"
+#include "human.h"
+#include "carsor.h"
 #include "colider.h"
 #include "bunker.h"
+#include "sight.h"
+#include "weapon.h"
+#include "player.h"
+#include "enemy.h"
+#include "base.h"
+#include "tree.h"
+
 #include"selectpointer.h"
 
 #include "selectitem.h"
@@ -44,6 +53,8 @@ void CSelectItem::Init()
 			m_chip[h][w]->SetPolygon((char*)"asset/texture/selectitem/chip2.png",
 				D3DXVECTOR2(73.0f,68.0f),
 				D3DXVECTOR2(0.5f*w, 0.25f*h), D3DXVECTOR2(0.5f + (0.5f * w), 0.25 + (0.25*h)));
+
+			m_chip[h][w]->Setid((h*2)+ w);
 		}
 	}
 
@@ -118,6 +129,40 @@ void CSelectItem::Update()
 				}
 			}
 		}
+	}
+
+	//スペースキーを押したとき
+	if (CInput::GetKeyTrigger(VK_SPACE))
+	{
+		CScene* scene = CManager::GetScene();
+		CCARSOR* pcarsor = scene->GetGameObject<CCARSOR>(2);
+
+		switch (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId())
+		{
+		case 0:
+			scene->AddGameObject<CPlayer>(1)->SetPosition(pcarsor->GetPosition());
+			break;
+		case 1:
+			scene->AddGameObject<CEnemy>(1)->SetPosition(pcarsor->GetPosition());
+			break;
+		case 2:
+			scene->AddGameObject<CBASE>(1)->SetPosition(pcarsor->GetPosition());
+			break;
+		case 3:
+			scene->AddGameObject<CPlayer>(1)->SetPosition(pcarsor->GetPosition());
+			break;
+		case 4:
+			scene->AddGameObject<CTREE>(1)->SetPosition(pcarsor->GetPosition());
+			break;
+		case 5:
+			scene->AddGameObject<CBUNKER>(1)->SetPosition(pcarsor->GetPosition());
+			break;
+		default:
+			scene->AddGameObject<CPlayer>(1)->SetPosition(pcarsor->GetPosition());
+			break;
+		}
+		
+		
 	}
 }
 

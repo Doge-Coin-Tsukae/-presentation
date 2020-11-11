@@ -69,43 +69,43 @@ void CPlayer::Update()
 	//Update_Controll();
 
 	//上限加減チェック
-	m_Rotation.z = min(m_Rotation.z, 0.0f);
-	m_Rotation.z = max(m_Rotation.z, -0.5f);
+	//m_Rotation.z = min(m_Rotation.z, 0.0f);
+	//m_Rotation.z = max(m_Rotation.z, -0.5f);
 
 	//プレイヤーに入っているクラスの更新処理
-	m_Sight->Update();
-	m_Weapon->Update();
-	m_Colider.update(m_Velocity);
+	//m_Sight->Update();
+	//m_Weapon->Update();
+	//m_Colider.update(m_Velocity);
 
 	//当たり判定処理
-	CScene* scene = CManager::GetScene();
-	std::vector<CBUNKER*> bunkerList = scene->GetGameObjects<CBUNKER>(1);
-	for (CBUNKER* bunker : bunkerList)
-	{
-		if (intersectAABB(m_Colider, bunker->GetColider()))
-		{
-			m_Velocity = m_Position;
-		}
-	}
+	//CScene* scene = CManager::GetScene();
+	//std::vector<CBUNKER*> bunkerList = scene->GetGameObjects<CBUNKER>(1);
+	//for (CBUNKER* bunker : bunkerList)
+	//{
+		//if (intersectAABB(m_Colider, bunker->GetColider()))
+		//{
+			//m_Velocity = m_Position;
+		//}
+	//}
 
 	//座標を更新
-	m_Position = m_Velocity;
+	//m_Position = m_Velocity;
 
 	//体力が0以下になったとき
-	if (m_Hp <= 0)
-	{
-		Death();
-	}
+	//if (m_Hp <= 0)
+	//{
+		//Death();
+	//}
 
 	//銃を撃っているときは速度を減速させる
-	if (m_Weapon->GetNextShoot() ==true)
-	{
-		m_speed = SLOWSPEED;
-	}
-	else
-	{
-		m_speed = NORMALSPEED;
-	}
+	//if (m_Weapon->GetNextShoot() ==true)
+	//{
+		//m_speed = SLOWSPEED;
+	//}
+	//else
+	//{
+		//m_speed = NORMALSPEED;
+	//}
 
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
