@@ -7,6 +7,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "scene.h"
+#include "Vector.h"
 
 #include "camera.h"
 #include "meshfield.h"
@@ -19,6 +20,8 @@ void CCARSOR::Init()
 	m_Model->Load("asset\\model\\ningen.obj");
 
 	m_Scale = D3DXVECTOR3(5.0f, 5.0f, 5.0f);
+
+	ShowCursor(FALSE);
 }
 
 void CCARSOR::Uninit()
@@ -29,20 +32,33 @@ void CCARSOR::Uninit()
 
 void CCARSOR::Update()
 {
-	//
-	//POINT pos;
-	//GetCursorPos(&pos);
-	//ScreenToClient(GetWindow(),&pos);
+	
+	POINT pos;
+	GetCursorPos(&pos);
+	ScreenToClient(GetWindow(),&pos);
 
 	CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 
-	//CalcScreenToWorld(&ppos,pos.x, pos.y,1.0f,SCREEN_WIDTH,SCREEN_HEIGHT, &camera->GetViewMatrix(),&camera->GetProjectionMatrix());
+	CalcScreenToWorld(&ppos,pos.x, pos.y,1.0f,SCREEN_WIDTH,SCREEN_HEIGHT, &camera->GetViewMatrix(),&camera->GetProjectionMatrix());
 
-	//m_Position = ppos;
+	D3DXVECTOR3 vpos;	//スクリーンとカメラのベクトルレイ
+
+	vpos = GetVector(camera->GetPosition(), ppos);
 	m_Position = camera->GetPosition();
-	m_Position.z -= 25.0f;
-	m_Position.y = meshField->GetHeight(m_Position);
+	while (1)
+	{
+		m_Position += vpos;
+
+		if (meshField->GetHeight(m_Position) >= m_Position.y)
+		{
+			m_Position.y = meshField->GetHeight(m_Position);
+			break;
+		}
+	}
+	//m_Position = ppos;
+	//m_Position.z -= 25.0f;
+	
 
 }
 

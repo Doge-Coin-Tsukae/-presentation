@@ -83,6 +83,12 @@ void CSelectItem::Uninit()
 
 void CSelectItem::Update()
 {
+
+	//m_Rotation.z = min(m_Rotation.z, 0.0f);
+	//m_Rotation.z = max(m_Rotation.z, -0.5f);
+	//m_Rotation.z = min(m_Rotation.z, 0.0f);
+	//m_Rotation.z = max(m_Rotation.z, -0.5f);
+
 	m_under->Update();
 	m_pointer->Update();
 	//c•ûŒü

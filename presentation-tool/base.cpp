@@ -131,11 +131,12 @@ void CBASE::Draw()
 	m_Zone->Draw();		//“–‚½‚è”»’è‚Ì•`‰æ
 
 
+	//IMGUI
 	ImGui::NewFrame();
 
 	ImGui::SetNextWindowSize(ImVec2(320, 100));
 	ImGui::Begin("base");
-	ImGui::Checkbox("unko",&test);
+	ImGui::Checkbox("aiueo",&test);
 	ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
 	ImGui::Text("fugafuga");
 	ImGui::End();
