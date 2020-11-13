@@ -17,7 +17,7 @@
 void CCARSOR::Init()
 {
 	m_Model = new CModel();
-	m_Model->Load("asset\\model\\ningen.obj");
+	m_Model->Load("asset\\model\\yokoari.obj");
 
 	m_Scale = D3DXVECTOR3(5.0f, 5.0f, 5.0f);
 
@@ -46,6 +46,7 @@ void CCARSOR::Update()
 
 	vpos = GetVector(camera->GetPosition(), ppos);
 	m_Position = camera->GetPosition();
+
 	while (1)
 	{
 		m_Position += vpos;
@@ -56,10 +57,6 @@ void CCARSOR::Update()
 			break;
 		}
 	}
-	//m_Position = ppos;
-	//m_Position.z -= 25.0f;
-	
-
 }
 
 void CCARSOR::Draw()

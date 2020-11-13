@@ -152,6 +152,12 @@
     <ClCompile Include="selectpointer.cpp">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClCompile>
+    <ClCompile Include="deadtree.cpp">
+      <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClCompile>
+    <ClCompile Include="modechip.cpp">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameobject.h">
@@ -284,6 +290,12 @@
       <Filter>ソース ファイル\gameobject\player</Filter>
     </ClInclude>
     <ClInclude Include="selectpointer.h">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="deadtree.h">
+      <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClInclude>
+    <ClInclude Include="modechip.h">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
   </ItemGroup>

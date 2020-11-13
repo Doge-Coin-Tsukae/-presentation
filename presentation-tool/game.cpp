@@ -33,12 +33,14 @@
 #include "bunker.h"
 #include "polygon.h"
 #include "skydome.h"
+#include "deadtree.h"
 
 #include "tree.h"
 #include "number.h"
 #include "gauge.h"
 #include "carsor.h"
 #include "chip.h"
+#include "modechip.h"
 #include "selectpointer.h"
 #include "selectitem.h"
 
@@ -49,6 +51,7 @@ void CGame::Init()
 	CEnemy::Load();
 	CEnemyRespornPoint::Load();
 	CWEAPON::Load();
+	CDEADTREE::Load();
 
 	m_GameManeger = new CGAME_MANEGER;
 	m_GameManeger->Init();
@@ -86,7 +89,6 @@ void CGame::Init()
 	AddGameObject<CTREE>(1)->SetPosition(D3DXVECTOR3(20.0f, 5.0f, -160.0f));
 	AddGameObject<CTREE>(1)->SetPosition(D3DXVECTOR3(-15.0f, 5.0f, -150.0f));
 
-	AddGameObject<CCARSOR>(2);
 	AddGameObject<CSelectItem>(2);
 	//AddGameObject<CPolygon>(2);
 }
@@ -97,6 +99,7 @@ void CGame::Uninit()
 	CScene::Uninit();
 
 	//テクスチャアンロード
+	CDEADTREE::Unload();
 	CWEAPON::UnLoad();
 	CEnemyRespornPoint::Unload();
 	CEnemy::Unload();

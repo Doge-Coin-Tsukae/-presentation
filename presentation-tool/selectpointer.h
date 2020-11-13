@@ -22,5 +22,6 @@ public:
 	void Update();
 	void Draw();
 	
+	void SetPos(D3DXVECTOR2 pos) { Pointpos = pos; }
 	D3DXVECTOR2  GetPos() { return  Pointpos; }
 };

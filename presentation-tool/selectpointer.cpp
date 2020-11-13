@@ -17,8 +17,6 @@
 
 void CSelectpointer::Init()
 {
-	m_Position = D3DXVECTOR3(803.0f, 33.0f, 0.0f);
-
 	m_point = new CMovePolygon;
 	m_point->Init();
 	m_point->SetTexture((char*)"asset/texture/selectitem/cursor.png");

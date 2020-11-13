@@ -161,6 +161,7 @@
     <ClCompile Include="carsor.cpp" />
     <ClCompile Include="chip.cpp" />
     <ClCompile Include="colider.cpp" />
+    <ClCompile Include="deadtree.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemycommander.cpp" />
     <ClCompile Include="enemyrespornpoint.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="meshfield.cpp" />
+    <ClCompile Include="modechip.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="player.cpp" />
@@ -202,6 +204,7 @@
     <ClInclude Include="carsor.h" />
     <ClInclude Include="chip.h" />
     <ClInclude Include="colider.h" />
+    <ClInclude Include="deadtree.h" />
     <ClInclude Include="enemycommander.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyrespornpoint.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="meshfield.h" />
+    <ClInclude Include="modechip.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="player.h" />
