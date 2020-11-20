@@ -15,6 +15,8 @@ private:
 
 	VERTEX_3D					m_Vertex[FIELDX][FIELDY];
 
+	int seed,oldseed;
+
 	//ダイアモンドスクエア
 	void diamondSquare(float Array[FIELDX][FIELDY], int size)
 	{
@@ -102,6 +104,8 @@ private:
 		return (rand() % (range * 4)) - range;
 	}
 
+	void UpdateSeed();		//地形生成
+	void SetImGui();
 public:
 	CMeshField() {}
 	~CMeshField() {}

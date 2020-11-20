@@ -43,9 +43,11 @@ public:		//アクセス指定子
 		}
 	}
 
-	void SetImGui()
+	//ImGui
+	virtual void SetImGui()
 	{
 		ImGui::Text("fugafuga");
 		ImGui::SliderFloat("fugafuga",&m_Rotation.x,0,1);
+		ImGui::Checkbox("delete",&m_Destroy);
 	}
 };

@@ -24,7 +24,7 @@ void CENEMY_COMMANDER::Uninit()
 }
 void CENEMY_COMMANDER::Update()
 {
-	if (resporn_timer <= 0)
+	/*if (resporn_timer <= 0)
 	{
 		CScene* scene = CManager::GetScene();
 		std::vector<CBASE*> baseList = scene->GetGameObjects<CBASE>(1);
@@ -44,5 +44,5 @@ void CENEMY_COMMANDER::Update()
 		resporn_timer = MAX_RESPORNTIME;
 	}
 
-	resporn_timer--;
+	resporn_timer--;*/
 }

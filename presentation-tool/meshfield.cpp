@@ -4,7 +4,7 @@
 #include "meshfield.h"
 
 #define LAND 100
-#define SEED 4325894783
+#define SEED 0
 
 //float g_FieldHeight[FIELDX][FIELDY] =
 //{
@@ -56,7 +56,8 @@ void CMeshField::Init()
 			m_Vertex[x][z].TexCoord = D3DXVECTOR2(x*0.5f, z*0.5f);
 		}
 	}
-	int seed = SEED;
+	seed = SEED;
+	oldseed = seed;
 	srand(seed);	//乱数リセット
 
 	//四隅乱数
@@ -182,9 +183,115 @@ void CMeshField::Uninit()
 
 void CMeshField::Update()
 {
-
+	UpdateSeed();
 }
 
+void CMeshField::UpdateSeed()
+{
+	if (seed == oldseed) return;
+
+	srand(seed);	//乱数リセット
+
+	//四隅乱数
+	m_Vertex[0][0].Position.y = rand() % LAND;
+	m_Vertex[FIELDX - 1][0].Position.y = rand() % LAND;
+	m_Vertex[0][FIELDY - 1].Position.y = rand() % LAND;
+	m_Vertex[FIELDX - 1][FIELDY - 1].Position.y = rand() % LAND;
+
+
+	//写し(m_vertex.positionでやるとエラーが出るから)
+	float pos[FIELDX][FIELDY];
+	for (int x = 0; x < FIELDX; x++)
+	{
+		for (int z = 0; z < FIELDY; z++)
+		{
+			pos[x][z] = m_Vertex[x][z].Position.y;
+		}
+	}
+
+	//ダイアモンドスクエア(座標,2のn乗+1)
+	diamondSquare(pos, 129);
+
+	//写し(座標を戻す)
+	for (int x = 0; x < FIELDX; x++)
+	{
+		for (int z = 0; z < FIELDY; z++)
+		{
+			m_Vertex[x][z].Position.y = pos[x][z];
+		}
+	}
+
+	//法線ベクトル算出
+	for (int x = 1; x < FIELDX - 1; x++)
+	{
+		for (int z = 1; z < FIELDY - 1; z++)
+		{
+			D3DXVECTOR3 vx, vz, vn;
+
+			vx = m_Vertex[x + 1][z].Position - m_Vertex[x - 1][z].Position;
+			vz = m_Vertex[x][z - 1].Position - m_Vertex[x][z + 1].Position;
+
+			D3DXVec3Cross(&vn, &vz, &vx);	//外積(掛ける順番に気を付ける)
+			D3DXVec3Normalize(&vn, &vn);//正規化(長さ1にする)
+			m_Vertex[x][z].Normal = vn;
+		}
+	}
+
+	//頂点バッファ生成
+	{
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DEFAULT;
+		bd.ByteWidth = sizeof(VERTEX_3D) * FIELDX*FIELDY;
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags = 0;
+
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = m_Vertex;
+
+		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+	}
+
+	// インデックスバッファ生成
+	{
+		unsigned int index[(FIELDX * 2) * FIELDY - 2];		//インデックスの数と同じ
+
+		int i = 0;
+		for (int x = 0; x < FIELDX - 1; x++)
+		{
+			for (int z = 0; z < FIELDY; z++)
+			{
+				index[i] = x * FIELDX + z;
+				i++;
+				index[i] = (x + 1) * FIELDY + z;
+				i++;
+			}
+
+			if (x == FIELDX - 1)
+				break;
+			index[i] = (x + 1) * FIELDX + (FIELDX - 1);
+			i++;
+			index[i] = (x + 1) * FIELDX;
+			i++;
+
+		}
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DEFAULT;
+		bd.ByteWidth = sizeof(unsigned int) * (FIELDX * 2) * FIELDY - 2;
+		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bd.CPUAccessFlags = 0;
+
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = index;
+
+		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_IndexBuffer);
+	}
+
+	oldseed = seed;
+}
 void CMeshField::Draw()
 {
 
@@ -221,6 +328,19 @@ void CMeshField::Draw()
 
 	//ポリゴン描画
 	CRenderer::GetDeviceContext()->DrawIndexed((FIELDX * 2) * FIELDY - 2, 0, 0);
+
+	//IMGUI
+
+	ImGui::SetNextWindowSize(ImVec2(320, 100));
+	ImGui::Begin("FIELD");
+	SetImGui();		//現在クリックしているゲームオブジェクトの編集画面を出す
+	ImGui::End();
+
+}
+
+void CMeshField::SetImGui()
+{
+	ImGui::SliderInt("seed", &seed, 0, 100);
 }
 
 float CMeshField::GetHeight(D3DXVECTOR3 Position)

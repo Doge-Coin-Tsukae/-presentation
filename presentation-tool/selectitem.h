@@ -22,8 +22,9 @@ private:
 
 	bool ClickItemBox();	//アイテムボタンをクリックしたとき
 	bool ClikEditBox();		//編集ボタンをクリックしたとき
+	void ClickColider();
 	void WorldObject();		//ワールド座標にオブジェクトを配置する
-	void UpdateControll();
+	void UpdateControll();	//input処理
 public:
 	void Init();
 	void Uninit();

@@ -153,8 +153,7 @@ void CSelectItem::Update()
 	m_carsor->Update();
 	UpdateControll();
 	
-	CPlayer *player = CManager::GetScene()->GetGameObject<CPlayer>(1);
-	m_EditGameObject = player;
+
 }
 
 void CSelectItem::Draw()
@@ -183,7 +182,6 @@ void CSelectItem::Draw()
 	if (NowMode == SET)
 	{
 		//IMGUI
-		ImGui::NewFrame();
 
 		ImGui::SetNextWindowSize(ImVec2(320, 100));
 		ImGui::Begin("SET_MODE");
@@ -191,17 +189,17 @@ void CSelectItem::Draw()
 		ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
 		ImGui::Text("fugafuga");
 		ImGui::End();
+
 	}
 
 	//編集モードの時に配置する
 	if (NowMode == EDIT)
 	{
 		//IMGUI
-		ImGui::NewFrame();
 
 		ImGui::SetNextWindowSize(ImVec2(320, 100));
 		ImGui::Begin("EDIT_MODE");
-		m_EditGameObject->SetImGui();		//現在クリックしているゲームオブジェクトの編集画面を出す
+		if(m_EditGameObject !=nullptr)m_EditGameObject->SetImGui();		//現在クリックしているゲームオブジェクトの編集画面を出す
 		ImGui::End();
 	}
 }
@@ -227,7 +225,7 @@ void CSelectItem::UpdateControll()
 			//編集モードのときはオブジェクトがクリックされたらそのオブジェクトの編集画面表示
 			if (NowMode == EDIT)
 			{
-
+				ClickColider();
 			}
 		}
 	}
@@ -249,6 +247,8 @@ bool CSelectItem::ClikEditBox()
 
 			NowMode = i;	//モードセット
 
+			m_EditGameObject = nullptr;	//編集モードでオブジェクト削除してモード変更するとクラッシュするので
+
 			return true;
 		}
 	}
@@ -268,6 +268,8 @@ bool CSelectItem::ClickItemBox()
 	if (pos.y < m_Position.y + min.y)return false;
 	if (pos.y > m_Position.y + max.y)return false;
 
+	m_EditGameObject = nullptr;	//編集モードでオブジェクト削除してアイテムボックスをクリックするとクラッシュするので
+
 	//チップの当たり判定
 		//縦方向
 	for (int h = 0; h < 4; h++)
@@ -284,6 +286,27 @@ bool CSelectItem::ClickItemBox()
 	}
 
 	return false;
+}
+
+void CSelectItem::ClickColider()
+{
+	CScene* scene = CManager::GetScene();
+
+	std::vector<CGameObject*> gameobjectlist = scene->GetALLGameObjects<CGameObject>(1);
+	CCARSOR *cursor = scene->GetGameObject<CCARSOR>(1);
+	for (CGameObject* gameobject : gameobjectlist)
+	{
+		if (gameobject->GetPosition() != cursor->GetPosition())
+		{
+			if (cursor->Collision(gameobject) == true)
+			{
+				m_EditGameObject = gameobject;	//m_EditGameObjectにクリックされたオブジェクトのポインタクラスを入れる
+				return;
+			}
+		}
+	}
+	//なにもクリックされなかったとき
+	m_EditGameObject == nullptr;
 }
 
 void CSelectItem::WorldObject()

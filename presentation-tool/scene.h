@@ -99,4 +99,16 @@ public:
 		}
 		return objects;
 	}
+
+	//ゲームオブジェクトを全部引き出す大作戦(複数)
+	template<typename T>
+	std::vector<T*> GetALLGameObjects(int Layer)
+	{
+		std::vector<T*>objects;//STLの配列
+		for (CGameObject* object : m_GameObject[Layer])
+		{
+			objects.push_back((T*)object);
+		}
+		return objects;
+	}
 };

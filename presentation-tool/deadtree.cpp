@@ -4,6 +4,7 @@
 #include "model.h"
 #include "scene.h"
 
+#include "meshfield.h"
 #include "colider.h"
 #include "deadtree.h"
 
@@ -33,6 +34,9 @@ void CDEADTREE::Uninit()
 }
 void CDEADTREE::Update()
 {
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	m_Position.y = meshField->GetHeight(m_Position);
 }
 void CDEADTREE::Draw()
 {

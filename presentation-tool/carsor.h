@@ -25,4 +25,18 @@ public:
 	);
 
 	D3DXVECTOR3 WorldCarsor() { return ppos; }
+
+	bool Collision(CGameObject* gameobject)
+	{
+		D3DXVECTOR3 direction = m_Position - gameobject->GetPosition();
+		float length = D3DXVec3Length(&direction);
+
+		if (length < m_Scale.x)
+		{
+			return true;
+		}
+
+
+		return false;
+	}
 };
