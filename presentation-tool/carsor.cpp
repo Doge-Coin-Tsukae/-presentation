@@ -32,19 +32,20 @@ void CCARSOR::Uninit()
 
 void CCARSOR::Update()
 {
-	
+	//ポインターのスクリーン座標習得
 	POINT pos;
 	GetCursorPos(&pos);
 	ScreenToClient(GetWindow(),&pos);
 
+	//カメラとメッシュフィールドのデータ入手
 	CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 
+	//スクリーン座標からワールド座標に変換
 	CalcScreenToWorld(&ppos,pos.x, pos.y,1.0f,SCREEN_WIDTH,SCREEN_HEIGHT, &camera->GetViewMatrix(),&camera->GetProjectionMatrix());
 
-	D3DXVECTOR3 vpos;	//スクリーンとカメラのベクトルレイ
-
-	vpos = GetVector(camera->GetPosition(), ppos);
+	//カーソルの座標とカメラの座標でベクトルをとる
+	 D3DXVECTOR3 vpos = GetVector(camera->GetPosition(), ppos);	//スクリーンとカメラのベクトル
 	m_Position = camera->GetPosition();
 
 	while (1)

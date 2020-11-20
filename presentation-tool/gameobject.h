@@ -42,4 +42,10 @@ public:		//アクセス指定子
 			return false;
 		}
 	}
+
+	void SetImGui()
+	{
+		ImGui::Text("fugafuga");
+		ImGui::SliderFloat("fugafuga",&m_Rotation.x,0,1);
+	}
 };

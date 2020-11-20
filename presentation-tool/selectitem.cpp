@@ -1,6 +1,6 @@
 //---------------------------------
 //
-//画面右にオブジェクト一覧を作る
+//画面右のボックスの管理
 //
 //---------------------------------
 
@@ -8,6 +8,9 @@
 #include "renderer.h"
 #include "manager.h"
 #include "scene.h"
+#include "imgui.h"
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
 
 #include "input.h"
 #include "scene.h"
@@ -31,8 +34,20 @@
 
 #include "selectitem.h"
 
+enum BOTTONMODE
+{
+	SET,		//設置
+	EDIT,		//編集
+};
+
 void CSelectItem::Init()
 {
+	const char* texturename[2] = //ファイルネーム
+	{
+		"asset/texture/selectitem/button-mode-set.png",
+		"asset/texture/selectitem/button-mode-edit.png",
+	};
+
 	m_Position = D3DXVECTOR3(800.0f, 40.0f, 0.0f);
 
 	m_under = new CPolygon;
@@ -67,10 +82,12 @@ void CSelectItem::Init()
 		m_modechip[h] = new CMODECHIP;
 		m_modechip[h]->Init();
 		m_modechip[h]->SetPosition(D3DXVECTOR3(m_Position.x-2 + 78 * h, m_Position.y -53, 0.0f));
-		m_modechip[h]->SetPolygon((char*)"asset/texture/selectitem/button-mode-edit.png",
+		m_modechip[h]->SetPolygon((char*)texturename[h],
 			D3DXVECTOR2(70.0f, 25.0f));
 		m_modechip[h]->Setid(h);
 	}
+	m_modechip[1]->SetMode();		//配置モードにする
+	NowMode = SET;
 
 	m_carsor = new CCARSOR;
 	m_carsor->Init();
@@ -109,7 +126,7 @@ void CSelectItem::Uninit()
 
 void CSelectItem::Update()
 {
-
+	//上限を調べる
 	//m_Rotation.z = min(m_Rotation.z, 0.0f);
 	//m_Rotation.z = max(m_Rotation.z, -0.5f);
 	//m_Rotation.z = min(m_Rotation.z, 0.0f);
@@ -130,10 +147,67 @@ void CSelectItem::Update()
 	for (int h = 0; h < 2; h++)
 	{
 		m_modechip[h]->Update();
+
 	}
 
 	m_carsor->Update();
+	UpdateControll();
+	
+	CPlayer *player = CManager::GetScene()->GetGameObject<CPlayer>(1);
+	m_EditGameObject = player;
+}
 
+void CSelectItem::Draw()
+{
+	m_under->Draw();
+	m_pointer->Draw();
+
+	//縦方向
+	for (int h = 0; h < 3; h++)
+	{
+		//横方向
+		for (int w = 0; w < 2; w++)
+		{
+			m_chip[h][w]->Draw();
+		}
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		m_modechip[i]->Draw();
+	}
+
+	m_carsor->Draw();
+
+	//配置モードの時に配置する
+	if (NowMode == SET)
+	{
+		//IMGUI
+		ImGui::NewFrame();
+
+		ImGui::SetNextWindowSize(ImVec2(320, 100));
+		ImGui::Begin("SET_MODE");
+		ImGui::Checkbox("aiueo", &click);
+		ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
+		ImGui::Text("fugafuga");
+		ImGui::End();
+	}
+
+	//編集モードの時に配置する
+	if (NowMode == EDIT)
+	{
+		//IMGUI
+		ImGui::NewFrame();
+
+		ImGui::SetNextWindowSize(ImVec2(320, 100));
+		ImGui::Begin("EDIT_MODE");
+		m_EditGameObject->SetImGui();		//現在クリックしているゲームオブジェクトの編集画面を出す
+		ImGui::End();
+	}
+}
+
+void CSelectItem::UpdateControll()
+{
 	//カーソル動かす
 	if (CInput::GetKeyTrigger(VK_UP))	 m_pointer->move_up();
 	if (CInput::GetKeyTrigger(VK_DOWN))  m_pointer->move_down();
@@ -144,31 +218,42 @@ void CSelectItem::Update()
 	if (CInput::GetKeyTrigger(VK_LBUTTON))
 	{
 		//アイテムボックスをクリックしてなかったらワールドにオブジェクト配置
-		if(ClickItemBox()==false) WorldObject();
+		if (ClickItemBox() == false && ClikEditBox() == false)
+		{
+			//設置モードのときはワールドにオブジェクト配置
+			if (NowMode == SET)
+				WorldObject();
+
+			//編集モードのときはオブジェクトがクリックされたらそのオブジェクトの編集画面表示
+			if (NowMode == EDIT)
+			{
+
+			}
+		}
 	}
 }
 
-void CSelectItem::Draw()
+bool CSelectItem::ClikEditBox()
 {
-	m_under->Draw();
-	m_pointer->Draw();
+	POINT pos;
+	GetCursorPos(&pos);		//現在のカーソルのポジション取得
+	ScreenToClient(GetWindow(), &pos);
 
-	//縦方向
-	for (int h = 0; h < 4; h++)
+	for (int i = 0; i < 2; i++)
 	{
-		//横方向
-		for (int w = 0; w < 2; w++)
+		//ボタンがクリックされていた
+		if (m_modechip[i]->Colision(pos) == true && NowMode != i)
 		{
-			m_chip[h][w]->Draw();
+			m_modechip[i]->SetMode();
+			m_modechip[1 - i]->SetMode();
+
+			NowMode = i;	//モードセット
+
+			return true;
 		}
 	}
 
-	for (int h = 0; h < 2; h++)
-	{
-		m_modechip[h]->Draw();
-	}
-
-	m_carsor->Draw();
+	return false;
 }
 
 bool CSelectItem::ClickItemBox()

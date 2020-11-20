@@ -21,6 +21,7 @@ void CMODECHIP::Update()
 }
 void CMODECHIP::Draw()
 {
+	if (m_SelectMode == true)
 	m_polygon->Draw();
 }
 
@@ -31,6 +32,21 @@ void CMODECHIP::SetPolygon(char* name, D3DXVECTOR2 Size)
 	m_polygon->SetSize(m_Size.y, m_Size.x);
 	m_polygon->SetTexture(name);
 	m_polygon->SetPosition(m_Position);
+}
+
+void CMODECHIP::SetMode()
+{
+	if (m_SelectMode == false)
+	{
+		m_SelectMode = true;
+
+	}
+	else
+	{
+		m_SelectMode = false;
+	}
+
+
 }
 
 bool CMODECHIP::Colision(POINT pos)

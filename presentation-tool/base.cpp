@@ -4,9 +4,6 @@
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
-#include "imgui.h"
-#include "imgui_impl_dx11.h"
-#include "imgui_impl_win32.h"
 #include "Vector.h"
 #include "meshfield.h"
 #include "gamemaneger.h"
@@ -132,16 +129,16 @@ void CBASE::Draw()
 
 
 	//IMGUI
-	ImGui::NewFrame();
+	//ImGui::NewFrame();
 
-	ImGui::SetNextWindowSize(ImVec2(320, 100));
-	ImGui::Begin("base");
-	ImGui::Checkbox("aiueo",&test);
-	ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
-	ImGui::Text("fugafuga");
-	ImGui::End();
+	//ImGui::SetNextWindowSize(ImVec2(320, 100));
+	//ImGui::Begin("base");
+	//ImGui::Checkbox("aiueo",&test);
+	//ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
+	//ImGui::Text("fugafuga");
+	//ImGui::End();
 
-	ImGui::Render();
+	//ImGui::Render();
 
 
 }
