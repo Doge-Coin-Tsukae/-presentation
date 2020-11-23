@@ -158,6 +158,9 @@
     <ClCompile Include="modechip.cpp">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClCompile>
+    <ClCompile Include="save.cpp">
+      <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameobject.h">
@@ -297,6 +300,9 @@
     </ClInclude>
     <ClInclude Include="modechip.h">
       <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="save.h">
+      <Filter>ソース ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

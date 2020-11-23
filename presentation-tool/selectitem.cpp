@@ -183,7 +183,7 @@ void CSelectItem::Draw()
 	{
 		//IMGUI
 
-		ImGui::SetNextWindowSize(ImVec2(320, 100));
+		ImGui::SetNextWindowSize(ImVec2(220, 100));
 		ImGui::Begin("SET_MODE");
 		ImGui::Checkbox("aiueo", &click);
 		ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
@@ -197,7 +197,7 @@ void CSelectItem::Draw()
 	{
 		//IMGUI
 
-		ImGui::SetNextWindowSize(ImVec2(320, 100));
+		ImGui::SetNextWindowSize(ImVec2(220, 100));
 		ImGui::Begin("EDIT_MODE");
 		if(m_EditGameObject !=nullptr)m_EditGameObject->SetImGui();		//現在クリックしているゲームオブジェクトの編集画面を出す
 		ImGui::End();

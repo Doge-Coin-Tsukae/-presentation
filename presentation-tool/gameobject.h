@@ -50,4 +50,7 @@ public:		//アクセス指定子
 		ImGui::SliderFloat("fugafuga",&m_Rotation.x,0,1);
 		ImGui::Checkbox("delete",&m_Destroy);
 	}
+
+	virtual void Load(){}	//データのロード
+	virtual void Save(){}	//データのセーブ
 };
