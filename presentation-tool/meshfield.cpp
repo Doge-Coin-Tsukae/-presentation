@@ -340,7 +340,15 @@ void CMeshField::Draw()
 
 void CMeshField::SetImGui()
 {
-	ImGui::SliderInt("seed", &seed, 0, 100);
+	ImGui::SliderInt("seed", &seed, 0, 1000);
+}
+
+void CMeshField::Save(FILE* fp)
+{
+	fputs("bigin\n", fp);
+	fprintf(fp, "%d\n", seed);
+	fputs("end\n", fp);
+	fputs("\n", fp);
 }
 
 float CMeshField::GetHeight(D3DXVECTOR3 Position)

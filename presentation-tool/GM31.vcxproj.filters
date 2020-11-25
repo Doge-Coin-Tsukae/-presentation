@@ -232,9 +232,6 @@
     <ClInclude Include="colider.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
-    <ClInclude Include="tree.h">
-      <Filter>ソース ファイル\gameobject\billboard</Filter>
-    </ClInclude>
     <ClInclude Include="bunker.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
@@ -303,6 +300,9 @@
     </ClInclude>
     <ClInclude Include="save.h">
       <Filter>ソース ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="tree.h">
+      <Filter>ソース ファイル\gameobject\billboard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

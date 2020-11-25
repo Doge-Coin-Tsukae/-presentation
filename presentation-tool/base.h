@@ -31,5 +31,7 @@ public:
 	void Update();
 	void Draw();
 
+	void Save(FILE* fp);
+
 	TERRITORY GetTerritory() { return m_territory; }
 };

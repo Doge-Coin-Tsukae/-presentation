@@ -18,5 +18,8 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+
+	void Save(FILE* fp);
+
 	AABB GetColider() { return m_Colider; }
 };

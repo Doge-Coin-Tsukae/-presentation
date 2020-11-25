@@ -186,3 +186,13 @@ void CPlayer::Damage()
 {
 	m_Hp -= 10;	//ƒ_ƒ[ƒW‚ğ“ü‚ê‚é
 }
+
+void CPlayer::Save(FILE* fp)
+{
+	fputs("bigin\n", fp);
+	fprintf(fp, "%f\n", m_Position.x);
+	fprintf(fp, "%f\n", m_Position.y);
+	fprintf(fp, "%f\n", m_Position.z);
+	fputs("end\n", fp);
+	fputs("\n", fp);
+}

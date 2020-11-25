@@ -115,5 +115,6 @@ public:
 	void Update();
 	void Draw();
 
+	void Save(FILE* fp);
 	float GetHeight(D3DXVECTOR3 Position);
 };

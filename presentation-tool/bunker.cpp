@@ -61,3 +61,13 @@ void CBUNKER::Draw()
 
 	m_Model->Draw();
 }
+
+void CBUNKER::Save(FILE* fp)
+{
+	fputs("bigin\n", fp);
+	fprintf(fp, "%f\n", m_Position.x);
+	fprintf(fp, "%f\n", m_Position.y);
+	fprintf(fp, "%f\n", m_Position.z);
+	fputs("end\n", fp);
+	fputs("\n", fp);
+}

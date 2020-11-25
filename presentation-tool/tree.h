@@ -13,4 +13,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+
+	void Save(FILE* fp);
+
 };

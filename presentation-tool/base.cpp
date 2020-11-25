@@ -126,19 +126,14 @@ void CBASE::Draw()
 
 	m_Flag->Draw();		//Šø‚Ì•`‰æ
 	m_Zone->Draw();		//“–‚½‚è”»’è‚Ì•`‰æ
+}
 
-
-	//IMGUI
-	//ImGui::NewFrame();
-
-	//ImGui::SetNextWindowSize(ImVec2(320, 100));
-	//ImGui::Begin("base");
-	//ImGui::Checkbox("aiueo",&test);
-	//ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
-	//ImGui::Text("fugafuga");
-	//ImGui::End();
-
-	//ImGui::Render();
-
-
+void CBASE::Save(FILE* fp)
+{
+	fputs("bigin\n", fp);
+	fprintf(fp, "%f\n", m_Position.x);
+	fprintf(fp, "%f\n", m_Position.y);
+	fprintf(fp, "%f\n", m_Position.z);
+	fputs("end\n", fp);
+	fputs("\n", fp);
 }

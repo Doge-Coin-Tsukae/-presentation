@@ -26,4 +26,5 @@ public:
 	void Draw();
 
 	void LookPlayer();		//ƒvƒŒƒCƒ„[‚ğŒ©‚é
+	void Save(FILE* fp);
 };

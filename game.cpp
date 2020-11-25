@@ -91,7 +91,7 @@ void CGame::Init()
 	AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(10.0f, 1.0f,-100.0f));
 	AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f,-100.0f));
 
-	AddGameObject<CFriend>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f, -200.0f));
+	//AddGameObject<CFriend>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f, -200.0f));
 
 	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(40.0f, 0.0f, -130.0f));
 	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(-40.0f, 0.0f, -130.0f));

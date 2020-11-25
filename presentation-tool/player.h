@@ -28,6 +28,8 @@ public:
 
 	void Death();		//€–Sˆ—
 	void Damage();		//ƒ_ƒ[ƒW
+
+	void Save(FILE* fp);
 	CWEAPON* GetWeapon(){return m_Weapon;}
 	bool	 isDeath() { return m_Death; }
 };

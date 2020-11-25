@@ -5,7 +5,6 @@
 #include "manager.h"
 #include "renderer.h"
 
-
 #include "input.h"
 #include "scene.h"
 #include "gamemaneger.h"
@@ -13,6 +12,7 @@
 #include "Result.h"
 
 #include "gameobject.h"
+#include "save.h"
 #include "camera.h"
 #include "field.h"
 #include "meshfield.h"
@@ -22,7 +22,6 @@
 #include "colider.h"
 #include "sight.h"
 #include "weapon.h"
-#include "colider.h"
 #include "base.h"
 #include "player.h"
 #include "enemy.h"
@@ -58,6 +57,7 @@ void CGame::Init()
 	//ƒJƒƒ‰0”Ô 3Dƒ‚ƒfƒ‹1”Ô 2Dƒ‚ƒfƒ‹”Ô
 	AddGameObject<CCamera>(0);
 
+	AddGameObject<CSAVE>(1);
 	AddGameObject<CCARSOR>(1);
 	AddGameObject<CSKYDOME>(1);
 

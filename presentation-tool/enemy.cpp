@@ -138,3 +138,13 @@ void CEnemy::LookPlayer()
 	m_Rotation.x += (Velocity.x * Velocity2.x+ Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
 	m_Rotation.x -= 1.0f;
 }
+
+void CEnemy::Save(FILE* fp)
+{
+	fputs("bigin\n", fp);
+	fprintf(fp,"%f\n" ,m_Position.x);
+	fprintf(fp, "%f\n", m_Position.y);
+	fprintf(fp, "%f\n", m_Position.z);
+	fputs("end\n", fp);
+	fputs("\n",fp);
+}
