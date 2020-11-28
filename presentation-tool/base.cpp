@@ -67,7 +67,7 @@ void CBASE::Update()
 
 	m_Territory_Invarter = D3DXVECTOR2(0, 0);	//侵入者の値リセット
 
-	Update_Colision();		//当たり判定
+	//Update_Colision();		//当たり判定
 
 
 	//陣地に部隊が入っているとき

@@ -4,11 +4,9 @@
 
 class CLOAD : public CGameObject
 {
-private:
-	std::string filename;
-
 public:
-	void Uninit();
-	void Update();
-	void Data_Load();
+	void Uninit();			//終了処理
+	void Update();			//更新処理
+	void Data_Load();		//ファイルからデータをロードする
+	void Data_Destroy();	//ゲームオブジェクトの削除
 };

@@ -187,7 +187,6 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="result.cpp" />
     <ClCompile Include="save.cpp" />
     <ClCompile Include="selectitem.cpp" />
     <ClCompile Include="selectpointer.cpp" />
@@ -236,7 +235,6 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
-    <ClInclude Include="Result.h" />
     <ClInclude Include="save.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="selectitem.h" />

@@ -26,22 +26,24 @@ void CLOAD::Uninit()
 
 void CLOAD::Update()
 {
+	//Iを押したときにファイルを読み込む処理を入れる
 	if (CInput::GetKeyTrigger('I'))
 		Data_Load();
 }
 
 void CLOAD::Data_Load()
 {
-	FILE *SaveFile;
-	CScene* scene = CManager::GetScene();
+	FILE *SaveFile;//ファイルポインタ
+	CScene* scene = CManager::GetScene();	
+
+	Data_Destroy();	//ロードする前にそれまでに配置されていたオブジェクトを削除する
 
 	//プレイヤーの情報をファイルから読み込む
 	{
 		SaveFile = fopen("asset/savedata/playerdata.txt", "r");
-
 		if (SaveFile == NULL)           // オープンに失敗した場合
-			return;                         // 異常終了
-		//プレイヤーの情報をファイルから持ってくる
+			return;
+
 		CPlayer* pPlayer = new CPlayer();
 		pPlayer->Init();
 		pPlayer->Load(SaveFile);
@@ -50,13 +52,12 @@ void CLOAD::Data_Load()
 		fclose(SaveFile);
 	}
 
-	//敵の情報をファイルに書き込む
+	//敵の情報をファイルから読み込む
 	{
 		SaveFile = fopen("asset/savedata/enemydata.txt", "r");
-
 		if (SaveFile == NULL)           // オープンに失敗した場合
-			return;                         // 異常終了
-		//プレイヤーの情報をファイルから持ってくる
+			return;
+
 		for (int i = 0; i < 3; i++)
 		{
 			CEnemy* pEnemy = new CEnemy();
@@ -68,12 +69,12 @@ void CLOAD::Data_Load()
 		fclose(SaveFile);
 	}
 
-	//バンカー情報をファイルに書き込む
+	//バンカー情報をファイルから読み込む
 	{
 		SaveFile = fopen("asset/savedata/bunkerdata.txt", "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;				// 異常終了
-		//情報を書き込む
+			return;
+
 		for (int i = 0; i < 3; i++)
 		{
 			CBUNKER* pBunker = new CBUNKER();
@@ -84,12 +85,13 @@ void CLOAD::Data_Load()
 
 		fclose(SaveFile);
 	}
-	//拠点情報を書き込む
+
+	//拠点情報をファイルから読み込む
 	{
 		SaveFile = fopen("asset/savedata/basedata.txt", "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;             // 異常終了
-		//情報を書き込む
+			return;
+
 		for (int i = 0; i < 3; i++)
 		{
 			CBASE* pBase = new CBASE();
@@ -100,12 +102,13 @@ void CLOAD::Data_Load()
 
 		fclose(SaveFile);
 	}
-	//木情報を書き込む
+
+	//木情報をファイルから読み込む
 	{
 		SaveFile = fopen("asset/savedata/treedata.txt", "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;				// 異常終了
-		//情報を書き込む
+			return;
+
 		for (int i = 0; i < 10; i++)
 		{
 			CTREE* pTree = new CTREE();
@@ -116,12 +119,13 @@ void CLOAD::Data_Load()
 
 		fclose(SaveFile);
 	}
-	//枯れ木情報を書き込む
+
+	//枯れ木情報をファイルから読み込む
 	{
 		SaveFile = fopen("asset/savedata/deadtreedata.txt", "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;				// 異常終了
-		//情報を書き込む
+			return;
+
 		for (int i = 0; i < 10; i++)
 		{
 			CDEADTREE* pDeadTree = new CDEADTREE();
@@ -132,13 +136,54 @@ void CLOAD::Data_Load()
 
 		fclose(SaveFile);
 	}
-	//地形情報をファイルに書き込む
+
+	//地形情報をファイルから読み込む
 	{
 		SaveFile = fopen("asset/savedata/field.txt", "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;				// 異常終了
+			return;
+
 		CMeshField* pMeshField = scene->GetGameObject<CMeshField>(1);
 		
 		fclose(SaveFile);
+	}
+}
+
+void CLOAD::Data_Destroy()
+{
+	CScene* scene = CManager::GetScene();
+
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+	if(pPlayer  != nullptr)		//プレイヤー情報があったときだけ消す
+		pPlayer->SetDestroy();
+
+	std::vector<CEnemy*> enemylist = scene->GetGameObjects<CEnemy>(1);
+	for (CEnemy* enemy : enemylist)
+	{
+		enemy->SetDestroy();
+	}
+
+	std::vector<CBUNKER*> bunkerlist = scene->GetGameObjects<CBUNKER>(1);
+	for (CBUNKER* bunker : bunkerlist)
+	{
+		bunker->SetDestroy();
+	}
+
+	std::vector<CBASE*> baselist = scene->GetGameObjects<CBASE>(1);
+	for (CBASE* base : baselist)
+	{
+		base->SetDestroy();
+	}
+
+	std::vector<CTREE*> treelist = scene->GetGameObjects<CTREE>(1);
+	for (CTREE* tree : treelist)
+	{
+		tree->SetDestroy();
+	}
+
+	std::vector<CDEADTREE*> deadtreelist = scene->GetGameObjects<CDEADTREE>(1);
+	for (CDEADTREE* deadtree : deadtreelist)
+	{
+		deadtree->SetDestroy();
 	}
 }

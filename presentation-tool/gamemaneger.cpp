@@ -2,7 +2,6 @@
 #include "manager.h"
 #include "renderer.h"
 #include "scene.h"
-#include "Result.h"
 #include "human.h"
 
 #include "model.h"

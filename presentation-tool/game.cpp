@@ -9,7 +9,6 @@
 #include "scene.h"
 #include "gamemaneger.h"
 #include "Game.h"
-#include "Result.h"
 
 #include "gameobject.h"
 #include "save.h"
@@ -94,13 +93,6 @@ void CGame::Update()
 	CScene::Update();	//リストに入っているゲームオブジェクトを呼び出す
 
 	m_GameManeger->Update();
-
-	//リターンキーでリザルト画面へ
-	if (CInput::GetKeyTrigger(VK_RETURN))
-	{
-		CManager::SetScene<CResult>();
-	}
-
 }
 
 void CGame::Draw()
