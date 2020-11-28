@@ -32,6 +32,6 @@ public:
 	void Draw();
 
 	void Save(FILE* fp);
-
+	void Load(FILE*fp, int line);
 	TERRITORY GetTerritory() { return m_territory; }
 };

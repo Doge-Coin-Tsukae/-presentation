@@ -27,4 +27,5 @@ public:
 
 	void LookPlayer();		//ƒvƒŒƒCƒ„[‚ğŒ©‚é
 	void Save(FILE* fp);
+	void Load(FILE*fp,int line);
 };

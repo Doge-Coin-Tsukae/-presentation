@@ -13,6 +13,7 @@
 
 #include "gameobject.h"
 #include "save.h"
+#include "load.h"
 #include "camera.h"
 #include "field.h"
 #include "meshfield.h"
@@ -57,35 +58,16 @@ void CGame::Init()
 	//ÉJÉÅÉâ0î‘ 3DÉÇÉfÉã1î‘ 2DÉÇÉfÉãî‘
 	AddGameObject<CCamera>(0);
 
-	AddGameObject<CSAVE>(1);
+	AddGameObject<CSAVE>(0);
+	AddGameObject<CLOAD>(0);
+
 	AddGameObject<CCARSOR>(1);
-	AddGameObject<CSKYDOME>(1);
 
 	//AddGameObject<CField>(1);
 	AddGameObject<CMeshField>(1);
 
-	AddGameObject<CPlayer>(1)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, -200.0f));
-
 	AddGameObject<CENEMY_COMMANDER>(1);
 
-	AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(5.0f, 1.0f, 0.0f));
-	AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(10.0f, 1.0f, 0.0f));
-	AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f, 0.0f));
-
-	AddGameObject<CBASE>(1)->SetPosition(D3DXVECTOR3(50.0f, 0.0f, -100.0f));
-	AddGameObject<CBASE>(1)->SetPosition(D3DXVECTOR3(-50.0f, 0.0f, 0.0f));
-
-	AddGameObject<CEnemyRespornPoint>(1)->SetPosition(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
-	AddGameObject<CEnemyRespornPoint>(1)->SetPosition(D3DXVECTOR3(100.0f, 0.0f, -100.0f));
-
-	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(20.0f, 0.0f, -130.0f));
-	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(-20.0f, 0.0f, -130.0f));
-
-	AddGameObject<CTREE>(1)->SetPosition(D3DXVECTOR3(-50.0f, 5.0f, -150.0f));
-	AddGameObject<CTREE>(1)->SetPosition(D3DXVECTOR3(-30.0f, 5.0f, -170.0f));
-	AddGameObject<CTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 5.0f, -180.0f));
-	AddGameObject<CTREE>(1)->SetPosition(D3DXVECTOR3(20.0f, 5.0f, -160.0f));
-	AddGameObject<CTREE>(1)->SetPosition(D3DXVECTOR3(-15.0f, 5.0f, -150.0f));
 
 	AddGameObject<CSelectItem>(2);
 	//AddGameObject<CPolygon>(2);

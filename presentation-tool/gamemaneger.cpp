@@ -37,7 +37,7 @@ void CConquest::Update()
 	//勝利条件を満たしたとき
 	if (m_Victory == true)
 	{
-		CManager::SetScene<CResult>();
+		//CManager::SetScene<CResult>();
 		return;
 	}
 	//敗北条件を満たしたとき
@@ -75,25 +75,25 @@ void CConquest::VictoryOrDefeatConditions()
 //ルールを束ねるマネージャー
 void CGAME_MANEGER::Init()
 {
-	m_GameMode = GAME_RULE_CONQUEST;	//取り合えずルールを入れる
-	//選ばれたルールによって代入するクラスを変更する
-	switch (m_GameMode)
-	{
-	case GAME_RULE_CONQUEST:
-		m_Rule = new CConquest;
-		break;
-	case GAME_RULE_DEATHMATH:
-			break;
-	default:
-		break;
-	}
+	//m_GameMode = GAME_RULE_CONQUEST;	//取り合えずルールを入れる
+	////選ばれたルールによって代入するクラスを変更する
+	//switch (m_GameMode)
+	//{
+	//case GAME_RULE_CONQUEST:
+	//	m_Rule = new CConquest;
+	//	break;
+	//case GAME_RULE_DEATHMATH:
+	//		break;
+	//default:
+	//	break;
+	//}
 }
 void CGAME_MANEGER::Uninit()
 {
-	m_Rule->Uninit();
-	delete m_Rule;
+	//m_Rule->Uninit();
+	//delete m_Rule;
 }
 void CGAME_MANEGER::Update()
 {
-	m_Rule->Update();
+	//m_Rule->Update();
 }

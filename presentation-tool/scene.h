@@ -70,6 +70,16 @@ public:
 		return gameObject;
 	}
 
+	//ゲームオブジェクトが継承されたオブジェクトをリストに追加するテンプレート
+	CGameObject* AddArgumentGameObject(CGameObject* gameobject,int Layer)
+	{
+		CGameObject* GameObject = gameobject;
+		m_GameObject[Layer].push_back(GameObject);
+		//gameobject->Init();
+
+		return gameobject;
+	}
+
 	//ゲームオブジェクトを捜索するテンプレート(単体のみ)
 	template <typename T>
 	T* GetGameObject(int Layer)

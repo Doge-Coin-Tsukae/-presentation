@@ -30,6 +30,7 @@ public:
 	void Damage();		//É_ÉÅÅ[ÉW
 
 	void Save(FILE* fp);
+	void Load(FILE* fp);
 	CWEAPON* GetWeapon(){return m_Weapon;}
 	bool	 isDeath() { return m_Death; }
 };

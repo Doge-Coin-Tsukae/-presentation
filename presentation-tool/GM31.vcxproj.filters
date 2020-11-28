@@ -161,6 +161,9 @@
     <ClCompile Include="save.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
+    <ClCompile Include="load.cpp">
+      <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameobject.h">
@@ -303,6 +306,9 @@
     </ClInclude>
     <ClInclude Include="tree.h">
       <Filter>ソース ファイル\gameobject\billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="load.h">
+      <Filter>ソース ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
