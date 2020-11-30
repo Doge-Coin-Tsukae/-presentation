@@ -29,6 +29,10 @@ void CTUTORIAL2D::Update()
 }
 void CTUTORIAL2D::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	Gamename->Draw();
 }
 void CTUTORIAL2D::ChangeTexture(char* SetTextureName)

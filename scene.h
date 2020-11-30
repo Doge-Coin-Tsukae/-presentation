@@ -49,6 +49,13 @@ public:
 	virtual void Draw()
 	{
 		LIGHT light;
+		light.Enable = true;
+		light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
+		D3DXVec4Normalize(&light.Direction, &light.Direction);
+		light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+		light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		CRenderer::SetLight(light);
+
 		for (int i = 0; i < MAX_LAYER; i++)
 		{
 			for (CGameObject* object : m_GameObject[i])

@@ -75,5 +75,9 @@ void CCAPTUREGAUGE::Update()
 
 void CCAPTUREGAUGE::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	m_Gauge->Draw();
 }

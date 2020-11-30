@@ -51,6 +51,10 @@ void CGAUGE::Update()
 
 void CGAUGE::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	Lower->Draw();
 	Gauge->Draw();
 }

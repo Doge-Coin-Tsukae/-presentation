@@ -40,6 +40,10 @@ void CTITLE2D::Update()
 }
 void CTITLE2D::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	Gamename->Draw();
 	Choose->Draw();
 }

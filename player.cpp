@@ -79,6 +79,32 @@ void CPlayer::Init()
 	m_Hp = 100;
 	m_Frame = 0;
 	rate = 0;
+
+	const char* VSfilename[MAXSHADER] = //バーテックスシェーダファイルネーム
+	{
+		"pixelLightinghalfVS.cso",	//シェーダー
+		"pixelLightingVS.cso",	//シェーダー
+		"vertexLightingVS.cso",	//シェーダー
+		"vertexShader.cso",	//シェーダー
+	};
+	const char* PSfilename[MAXSHADER] = //ピクセルシェーダファイルネーム
+	{
+		"pixelLightinghalfPS.cso",	//シェーダー
+		"pixelLightingPS.cso",	//シェーダー
+		"vertexLightingPS.cso",	//シェーダー
+		"pixelShader.cso",	//シェーダー
+	};
+	//ここにシェーダーファイルのロードを追加
+	for (int i = 0; i < MAXSHADER; i++)
+	{
+		//バーテックスシェーダーファイルのロード＆オブジェクト作成
+		CRenderer::CreateVertexShader(&m_VertexShader[i], &m_VertexLayout, VSfilename[i]);
+
+		//ピクセルシェーダーファイルのロード＆オブジェクト作成
+		CRenderer::CreatePixelShader(&m_pixelShader[i], PSfilename[i]);
+	}
+
+	shaderNo = 0;
 }
 
 void CPlayer::Uninit()
@@ -91,6 +117,12 @@ void CPlayer::Uninit()
 
 	m_Animodel->Unload();
 	delete m_Animodel;
+
+	for (int i = 0; i < MAXSHADER; i++)
+	{
+		m_VertexShader[i]->Release();
+		m_pixelShader[i]->Release();
+	}
 }
 
 void CPlayer::Update()
@@ -257,9 +289,24 @@ void CPlayer::Update_Controll()
 		pcamera->ZoomCamera();	//ズームしたり解除したり
 		m_ready = 1 - m_ready;	//構えたり解除したり
 	}
+
+	//シェーダー切り替え
+	if (CInput::GetKeyTrigger('Z'))
+	{
+		shaderNo++;
+		if (shaderNo >= MAXSHADER) shaderNo = 0;
+	}
+
 }
 void CPlayer::Draw()
 {
+	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
+	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//バーテックスシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[shaderNo], NULL, 0);
+	//ピクセルシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[shaderNo], NULL, 0);
+
 	m_Weapon->Draw();
 	m_Sight->Draw();
 
@@ -275,6 +322,13 @@ void CPlayer::Draw()
 	CRenderer::SetWorldMatrix(&world);
 
 	m_Animodel->Draw();
+
+	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
+	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//バーテックスシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[MAXSHADER-1], NULL, 0);
+	//ピクセルシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[MAXSHADER-1], NULL, 0);
 }
 
 void CPlayer::Death()

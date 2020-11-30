@@ -69,6 +69,10 @@ void CWEAPON2D::Update()
 
 void CWEAPON2D::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	m_Under->Draw();
 	m_MaxAnmo->Draw();
 	m_Anmo->Draw();

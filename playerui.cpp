@@ -52,6 +52,10 @@ void CPLAYERUI::Update()
 }
 void CPLAYERUI::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	m_HpGauge->Draw();
 
 	m_Sight->Draw();

@@ -35,6 +35,10 @@ void VICORDEF::Update()
 }
 void VICORDEF::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	Serif->Draw();
 }
 void VICORDEF::Set(bool Sets)

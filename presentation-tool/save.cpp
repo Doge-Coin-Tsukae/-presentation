@@ -56,6 +56,10 @@ void CSAVE::Data_Save()
 		//“G‚Ìî•ñ‚ğ‘‚«o‚·
 
 		std::vector<CEnemy*> enemylist = scene->GetGameObjects<CEnemy>(1);
+
+		//ŒÂ”‚ğ•Û‘¶‚·‚é
+		fprintf(SaveFile, "%d\n");
+
 		for (CEnemy* enemy : enemylist)
 		{
 			enemy->Save(SaveFile);
