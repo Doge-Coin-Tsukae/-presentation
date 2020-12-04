@@ -17,7 +17,7 @@
 
 #include "gameobject.h"
 #include "camera.h"
-#include "field.h"
+#include "meshfield.h"
 #include "model.h"
 #include "colider.h"
 #include "sight.h"
@@ -41,33 +41,41 @@ void CTitle::Init()
 	m_Clik = false;
 
 	CDEADTREE::Load();	//枯れ木のモデルを呼び出す
+	CBUNKER::Load();	//バンカーのモデルを呼び出す
 
+	CRenderer::SetDepthEnable(true);
 	AddGameObject<CCamera>(0);
 
 	AddGameObject<CSKYDOME>(1);
 
 	//地面
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			AddGameObject<CField>(1)->SetPosition(D3DXVECTOR3(-400 + i * 100, 0, -400 + j * 100));
-		}
-	}
+	AddGameObject<CMeshField>(1)->flatworld();
 
-	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, 0.0f));
-	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(45.0f, 0.0f, 10.0f));
-	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -5.0f));
-	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(35.0f, 0.0f, 5.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -150.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(45.0f, 0.0f, -160.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -155.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(35.0f, 0.0f, -135.0f));
 
-	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, 30.0f));
-	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(45.0f, 0.0f, 20.0f));
-	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -25.0f));
-	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(35.0f, 0.0f, -40.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -120.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(45.0f, 0.0f, -130.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -175.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(35.0f, 0.0f, -180.0f));
 
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(70.0f, 0.0f, -165.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(75.0f, 0.0f, -125.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(80.0f, 0.0f, -175.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(95.0f, 0.0f, -135.0f));
 
-
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(70.0f, 0.0f, -120.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(95.0f, 0.0f, -130.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(80.0f, 0.0f, -175.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(65.0f, 0.0f, -160.0f));
+	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(160.0f, 0.0f, -240.0f));
 	AddGameObject<CTITLE2D>(4);
+
+	CScene* scene = CManager::GetScene();
+	CBUNKER*  bunker = scene->GetGameObject<CBUNKER>(1);
+	bunker->SetRotation(D3DXVECTOR3(2.5f,0.0f,0.0f));
 
 	//PlaySound(SOUND_BGM_BGM001);
 

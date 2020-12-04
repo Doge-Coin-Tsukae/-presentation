@@ -66,7 +66,7 @@ void CFADE::Init()
 void CFADE::Uninit()
 {
 	m_VertexBuffer->Release();
-	m_Texture->Release();
+	//m_Texture->Release();
 }
 void CFADE::Update()
 {

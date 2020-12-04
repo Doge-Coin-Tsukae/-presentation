@@ -16,6 +16,7 @@
 #include "weapon.h"
 #include "colider.h"
 #include "player.h"
+#include "meshfield.h"
 #include "enemy.h"
 
 //class CAnimationModel* CEnemy::m_Animodel;
@@ -103,6 +104,10 @@ void CEnemy::Update()
 
 	rate += ANIMEBLENDSPEED;
 	m_Frame++;
+
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	m_Position.y = meshField->GetHeight(m_Position);
 }
 
 void CEnemy::Update_AI()
@@ -160,6 +165,7 @@ void CEnemy::Draw()
 	CRenderer::SetWorldMatrix(&world);
 
 	//m_Model->Draw();
+
 	m_Animodel->Draw();
 }
 
@@ -171,7 +177,7 @@ void CEnemy::LookPlayer()
 	D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
 	D3DXVECTOR3 Velocity2 = GetVector(m_Position,m_Sight->GetPosition());
 	m_Rotation.x += (Velocity.x * Velocity2.x+ Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
-	m_Rotation.x -= 1.0f;
+	//m_Rotation.x -= 0.0f;
 }
 
 void CEnemy::ChangeAnimation(char* Name)
@@ -180,4 +186,16 @@ void CEnemy::ChangeAnimation(char* Name)
 	m_OldAnimationChara = m_NowAnimationChara;		//新しいアニメーションデータを古いアニメーションデータにする
 	m_NowAnimationChara = Name;						//新しいアニメーションデータを入れる
 	rate = 0.0f;									//ブレンド値をリセット
+}
+
+void CEnemy::Load(FILE* fp, int line)
+{
+	for (int i = 0; i < line * 3; i++)
+	{
+		fscanf(fp, "");
+	}
+
+	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
+	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
+	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
 }

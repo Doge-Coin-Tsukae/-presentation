@@ -23,4 +23,3 @@ void CTitle::Update()
 		CManager::SetScene<CGame>();
 	}
 }
-

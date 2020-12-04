@@ -19,8 +19,8 @@
 
 void CCamera::Init()
 {
-	m_Position = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
-	m_Target = D3DXVECTOR3(1.0f, 3.0f, 0.0f);
+	m_Position = D3DXVECTOR3(0.0f, 3.0f, -150.0f);
+	m_Target = D3DXVECTOR3(1.0f, 3.0f, -150.0f);
 	m_zoom = false;
 }
 
@@ -71,4 +71,5 @@ void CCamera::Draw()
 	D3DXMatrixPerspectiveFovLH(&projectionMatrix,1.0f,(float)SCREEN_WIDTH/SCREEN_HEIGHT,1.0f,1000.0f);
 
 	CRenderer::SetProjectionMatrix(&projectionMatrix);
+	CRenderer::SetCameraPosition(m_Position);
 }

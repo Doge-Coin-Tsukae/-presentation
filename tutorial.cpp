@@ -68,7 +68,7 @@ void CTutorial::Init()
 	AddGameObject<CSKYDOME>(1);
 
 	//’n–Ê
-	AddGameObject<CMeshField>(1);
+	AddGameObject<CMeshField>(1)->flatworld();
 
 	AddGameObject<CPlayer>(1)->SetPosition(D3DXVECTOR3(0.0f, 1.0f,  0.0f));
 

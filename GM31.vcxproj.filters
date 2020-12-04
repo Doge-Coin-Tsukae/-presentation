@@ -36,6 +36,12 @@
     <Filter Include="ソース ファイル\gameobject\player\weapon">
       <UniqueIdentifier>{5df68657-247c-4871-b49f-acc4e7166904}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\system\model">
+      <UniqueIdentifier>{54db40e2-e0d3-4e1a-9b56-5da6c5ea6535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Manager">
+      <UniqueIdentifier>{46010bd0-31ab-4810-ab94-2ef6b616fa8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,9 +51,6 @@
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
     <ClCompile Include="renderer.cpp">
-      <Filter>ソース ファイル\system</Filter>
-    </ClCompile>
-    <ClCompile Include="model.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
@@ -88,9 +91,6 @@
     </ClCompile>
     <ClCompile Include="weapon2d.cpp">
       <Filter>ソース ファイル\gameobject\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="enemycommander.cpp">
-      <Filter>ソース ファイル\gameobject\player</Filter>
     </ClCompile>
     <ClCompile Include="skydome.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
@@ -167,11 +167,26 @@
     <ClCompile Include="tutorial2D.cpp">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClCompile>
-    <ClCompile Include="animationmodel.cpp">
-      <Filter>ソース ファイル\system</Filter>
-    </ClCompile>
     <ClCompile Include="meshfield.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClCompile>
+    <ClCompile Include="animationmodel.cpp">
+      <Filter>ソース ファイル\system\model</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>ソース ファイル\system\model</Filter>
+    </ClCompile>
+    <ClCompile Include="shellexplosion.cpp">
+      <Filter>ソース ファイル\gameobject\billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="titleeffectmanager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="enemycommander.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="load.cpp">
+      <Filter>ソース ファイル\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,9 +220,6 @@
     <ClInclude Include="manager.h">
       <Filter>ソース ファイル\system</Filter>
     </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>ソース ファイル\system</Filter>
-    </ClInclude>
     <ClInclude Include="renderer.h">
       <Filter>ソース ファイル\system</Filter>
     </ClInclude>
@@ -228,9 +240,6 @@
     </ClInclude>
     <ClInclude Include="weapon2d.h">
       <Filter>ソース ファイル\gameobject\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="enemycommander.h">
-      <Filter>ソース ファイル\gameobject\player</Filter>
     </ClInclude>
     <ClInclude Include="skydome.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
@@ -313,11 +322,26 @@
     <ClInclude Include="tutorial2D.h">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
-    <ClInclude Include="animationmodel.h">
-      <Filter>ソース ファイル\system</Filter>
-    </ClInclude>
     <ClInclude Include="meshfield.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClInclude>
+    <ClInclude Include="animationmodel.h">
+      <Filter>ソース ファイル\system\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>ソース ファイル\system\model</Filter>
+    </ClInclude>
+    <ClInclude Include="shellexplosion.h">
+      <Filter>ソース ファイル\gameobject\billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="titleeffectmanager.h">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="enemycommander.h">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="load.h">
+      <Filter>ソース ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +376,12 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="vertexLightingVS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="toonPS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="toonVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

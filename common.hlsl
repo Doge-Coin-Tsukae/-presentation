@@ -47,22 +47,6 @@ struct LIGHT	//光データ構造体(C言語から受け取る)
 	float4 Ambient;
 };
 
-// マテリアルバッファ
-struct MATERIAL
-{
-	float4		Ambient;
-	float4		Diffuse;
-	float4		Specular;
-	float4		Emission;
-	float		Shininess;
-	float3		Dummy;//16bit境界用
-};
-
-cbuffer MaterialBuffer : register(b3)
-{
-	MATERIAL	Material;
-}
-
 //コンスタントバッファ C言語からもらうデータの入れ物
 cbuffer LightBuffer : register(b4)//コンスタントバッファ４番とする 
 {
@@ -74,3 +58,4 @@ cbuffer CameraBuffer:register(b5)
 {
 	float4 CameraPosition;
 }
+

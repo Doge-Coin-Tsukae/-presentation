@@ -2,17 +2,17 @@
 
 #include "gameobject.h"
 
-class CTREE : public CGameObject
+class CShellExplosion : public CGameObject
 {
 private:
 	ID3D11Buffer*				m_VertexBuffer = nullptr;
 	ID3D11ShaderResourceView*	m_Texture = nullptr;
+
+	int m_Count;
 
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
-
-	void Load(FILE*fp, int line);
 };

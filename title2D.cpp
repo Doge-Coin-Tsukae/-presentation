@@ -16,8 +16,8 @@ void CTITLE2D::Init()
 	//ゲームタイトル表示
 	Gamename = new CPolygon;
 	Gamename->SetTexture((char*)"asset/texture/title.png");
-	Gamename->SetSize(300, 800);
-	Gamename->Init(D3DXVECTOR3(100, 0, 0));
+	Gamename->SetSize(200, 600);
+	Gamename->Init(D3DXVECTOR3(200, 0, 0));
 
 	//スペースボタンクリックを表示
 	Choose = new CPolygon;

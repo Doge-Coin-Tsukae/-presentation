@@ -82,14 +82,14 @@ void CPlayer::Init()
 
 	const char* VSfilename[MAXSHADER] = //バーテックスシェーダファイルネーム
 	{
-		"pixelLightinghalfVS.cso",	//シェーダー
+		"toonVS.cso",	//シェーダー
 		"pixelLightingVS.cso",	//シェーダー
 		"vertexLightingVS.cso",	//シェーダー
 		"vertexShader.cso",	//シェーダー
 	};
 	const char* PSfilename[MAXSHADER] = //ピクセルシェーダファイルネーム
 	{
-		"pixelLightinghalfPS.cso",	//シェーダー
+		"toonPS.cso",	//シェーダー
 		"pixelLightingPS.cso",	//シェーダー
 		"vertexLightingPS.cso",	//シェーダー
 		"pixelShader.cso",	//シェーダー
@@ -214,8 +214,8 @@ void CPlayer::Update()
 	//if(m_Frame >= 240)
 	//	m_Frame = 0;
 	//メッシュフィールド高さ取得
-	//CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
-	//m_Position.y = meshField->GetHeight(m_Position);
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	m_Position.y = meshField->GetHeight(m_Position);
 }
 
 void CPlayer::Update_Controll()
@@ -266,7 +266,7 @@ void CPlayer::Update_Controll()
 	m_Rotation.x += CInput::GetMousedDfference().x / 100;
 	m_Rotation.z -= CInput::GetMousedDfference().y / 100;
 
-	if (m_Velocity == m_Position)
+	if (m_Velocity.x == m_Position.x)
 	{
 		m_speed = 0.01f;
 		if(m_Weapon->GetNextShoot() == false)
@@ -353,4 +353,11 @@ void CPlayer::ChangeAnimation(char* Name)
 	m_OldAnimationChara = m_NowAnimationChara;		//新しいアニメーションデータを古いアニメーションデータにする
 	m_NowAnimationChara = Name;						//新しいアニメーションデータを入れる
 	rate = 0.0f;									//ブレンド値をリセット
+}
+
+void CPlayer::Load(FILE* fp)
+{
+	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
+	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
+	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
 }

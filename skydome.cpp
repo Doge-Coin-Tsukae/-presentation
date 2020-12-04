@@ -18,7 +18,7 @@ void CSKYDOME::Init()
 	m_Model = new CModel;
 	m_Model->Load("asset\\model\\Skydome.obj");
 
-	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	m_Position = D3DXVECTOR3(0.0f, 1.0f, -200.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 }

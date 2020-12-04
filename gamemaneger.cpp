@@ -88,7 +88,7 @@ void CConquest::VictoryOrDefeatConditions()
 {
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
-	std::vector<CBASE*> baseList = scene->GetGameObjects<CBASE>(2);
+	std::vector<CBASE*> baseList = scene->GetGameObjects<CBASE>(1);
 
 	//リセット
 	for (int i = 0; i < 2; i++)
@@ -100,20 +100,23 @@ void CConquest::VictoryOrDefeatConditions()
 	if (pPlayer->isDeath() == true)
 		m_Defeat = true;
 
+	int BaseCount = 0;
+
 	//以下勝利条件
 	for (CBASE* base : baseList)
 	{
 		if (base->GetTerritory() == FRIENDRY_ZONE) { m_BaseCaptcha[0]++; }
 		if (base->GetTerritory() == ENEMY_ZONE) { m_BaseCaptcha[1]++; }
+		BaseCount++;
 	}
 	//拠点全部取ったら勝ちにする
-	if (m_BaseCaptcha[0] >= 2)
+	if (m_BaseCaptcha[0] >= BaseCount)
 		m_Victory = true;
 }
 
 //チュートリアルのルール
 void CRULE_TUTORIAL::Init()
-{
+ {
 	CScene* scene = CManager::GetScene();
 	scene->AddGameObject<CTUTORIAL2D>(4);
 

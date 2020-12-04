@@ -3,32 +3,8 @@
 #include "renderer.h"
 #include "meshfield.h"
 
-#define LAND 30
-
-float g_FieldHeight[FIELDX][FIELDY] =
-{
-	{ 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{ 2.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{-1.0f,-1.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{-3.0f,-3.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f, 2.0f, 2.0f, 2.0f, 1.0f, 0.0f, 0.0f, 0.0f,},
-	{-5.0f,-5.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-1.0f,-1.0f,-1.0f, 2.0f, 2.0f, 2.0f, 0.0f,},
-	{-3.0f,-3.0f,-5.0f,-5.0f,-5.0f,-5.0f,-5.0f,-5.0f,-5.0f,-5.0f,-5.0f,-5.0f,-5.0f,-5.0f,-3.0f,-3.0f,-3.0f,-1.0f,-1.0f,-1.0f, 2.0f,},
-	{-1.0f,-1.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-5.0f,-5.0f,-5.0f,-3.0f,-3.0f,-3.0f,-1.0f,},
-	{2.0f,  1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-1.0f,-3.0f,-3.0f,-3.0f,-5.0f,-5.0f,-5.0f,-3.0f,},
-	{0.0f,  2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f,-1.0f,-1.0f,-1.0f,-3.0f,-3.0f,-3.0f,-5.0f,},
-	{0.0f,  0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 2.0f, 2.0f, 2.0f,-1.0f,-1.0f,-1.0f,-3.0f,},
-	{0.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 2.0f, 2.0f,-1.0f,},
-	{0.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 2.0f,},
-	{0.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{0.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{0.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{0.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{0.0f,  1.0f, 3.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{0.0f,  1.0f, 10.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{0.0f,  1.0f, 10.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{0.0f,  1.0f, 3.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-	{0.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,},
-};
+#define LAND 100
+#define SEED 0
 
 void CMeshField::Init()
 {
@@ -37,16 +13,8 @@ void CMeshField::Init()
 	{
 		for (int z = 0; z < FIELDY; z++)
 		{
-			float y = g_FieldHeight[z][x];
-			//数式で設定
-			/*float px, pz;
-			px = (x - 10) * 5.0f;
-			pz = (z - 10) * -5.0f;
-
-			float y = sinf(x*px) *sinf(z*pz)* 5.0f;*/
-
 			// 座標の設定
-			m_Vertex[x][z].Position = D3DXVECTOR3((x-10)*5.0f, 0,(z-10)*-5.0f);
+			m_Vertex[x][z].Position = D3DXVECTOR3((x - 10)*5.0f, 0, (z - 10)*-5.0f);
 			// 法線の設定
 			m_Vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 			// 頂点カラーの設定
@@ -55,21 +23,43 @@ void CMeshField::Init()
 			m_Vertex[x][z].TexCoord = D3DXVECTOR2(x*0.5f, z*0.5f);
 		}
 	}
-	int seed = 1;
+	seed = SEED;
+	oldseed = seed;
 	srand(seed);	//乱数リセット
 
-	//m_Vertex[0][0].Position.y = rand()% LAND;
-	//m_Vertex[FIELDX - 1][0].Position.y = rand() % LAND;
-	//m_Vertex[0][FIELDY - 1].Position.y = rand() % LAND;
-	//m_Vertex[FIELDX - 1][FIELDY - 1].Position.y = rand() % LAND;
+	//四隅乱数
+	m_Vertex[0][0].Position.y = rand() % LAND;
+	m_Vertex[FIELDX - 1][0].Position.y = rand() % LAND;
+	m_Vertex[0][FIELDY - 1].Position.y = rand() % LAND;
+	m_Vertex[FIELDX - 1][FIELDY - 1].Position.y = rand() % LAND;
 
 
-	//TyutenHenni(FIELDX /2 -1 ,FIELDY /2 -1);	//中点変位法
+	//写し(m_vertex.positionでやるとエラーが出るから)
+	float pos[FIELDX][FIELDY];
+	for (int x = 0; x < FIELDX; x++)
+	{
+		for (int z = 0; z < FIELDY; z++)
+		{
+			pos[x][z] = m_Vertex[x][z].Position.y;
+		}
+	}
+
+	//ダイアモンドスクエア(座標,2のn乗+1)
+	diamondSquare(pos, 129);
+
+	//写し(座標を戻す)
+	for (int x = 0; x < FIELDX; x++)
+	{
+		for (int z = 0; z < FIELDY; z++)
+		{
+			m_Vertex[x][z].Position.y = pos[x][z];
+		}
+	}
 
 	//法線ベクトル算出
-	for (int x = 1; x <= 19; x++)
+	for (int x = 1; x < FIELDX-1; x++)
 	{
-		for (int z = 1; z <= 19; z++)
+		for (int z = 1; z < FIELDY-1; z++)
 		{
 			D3DXVECTOR3 vx, vz, vn;
 
@@ -100,7 +90,7 @@ void CMeshField::Init()
 
 	// インデックスバッファ生成
 	{
-		unsigned int index[(22 * 2) * 20 - 2];		//インデックスの数と同じ
+		unsigned int index[(FIELDX * 2) * FIELDY - 2];		//インデックスの数と同じ
 
 		int i = 0;
 		for (int x = 0; x < FIELDX-1; x++)
@@ -113,18 +103,18 @@ void CMeshField::Init()
 				i++;
 			}
 
-			if (x == 19)
+			if (x == FIELDX-1)
 				break;
-			index[i] = (x + 1) * 21 + 20;
+			index[i] = (x + 1) * FIELDX + (FIELDX-1);
 			i++;
-			index[i] = (x + 1) * 21;
+			index[i] = (x + 1) * FIELDX;
 			i++;
 
 		}
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 		bd.Usage = D3D11_USAGE_DEFAULT;
-		bd.ByteWidth = sizeof(unsigned int) * (22*2) * 20 -2;
+		bd.ByteWidth = sizeof(unsigned int) * (FIELDX *2) * FIELDY -2;
 		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 		bd.CPUAccessFlags = 0;
 
@@ -140,11 +130,22 @@ void CMeshField::Init()
 		"asset/texture//moss_light.png",
 		NULL,
 		NULL,
-		&m_Texture,
+		&m_Texture[0],
 		NULL);
 
 	//テクスチャが張ってないとき、エラーを検知する
-	assert(m_Texture);
+	assert(m_Texture[0]);
+
+	//テクスチャ読み込み
+	D3DX11CreateShaderResourceViewFromFile(CRenderer::GetDevice(),
+		"asset/texture//dirt.png",
+		NULL,
+		NULL,
+		&m_Texture[1],
+		NULL);
+
+	//テクスチャが張ってないとき、エラーを検知する
+	assert(m_Texture[1]);
 
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -155,16 +156,124 @@ void CMeshField::Uninit()
 {
 	m_VertexBuffer->Release();
 	m_IndexBuffer->Release();
-	m_Texture->Release();
+	m_Texture[0]->Release();
+	m_Texture[1]->Release();
 }
 
 void CMeshField::Update()
 {
-
+	//UpdateSeed();
 }
 
+void CMeshField::UpdateSeed()
+{
+	if (seed == oldseed) return;
+
+	srand(seed);	//乱数リセット
+
+	//四隅乱数
+	m_Vertex[0][0].Position.y = rand() % LAND;
+	m_Vertex[FIELDX - 1][0].Position.y = rand() % LAND;
+	m_Vertex[0][FIELDY - 1].Position.y = rand() % LAND;
+	m_Vertex[FIELDX - 1][FIELDY - 1].Position.y = rand() % LAND;
+
+
+	//写し(m_vertex.positionでやるとエラーが出るから)
+	float pos[FIELDX][FIELDY];
+	for (int x = 0; x < FIELDX; x++)
+	{
+		for (int z = 0; z < FIELDY; z++)
+		{
+			pos[x][z] = m_Vertex[x][z].Position.y;
+		}
+	}
+
+	//ダイアモンドスクエア(座標,2のn乗+1)
+	diamondSquare(pos, 129);
+
+	//写し(座標を戻す)
+	for (int x = 0; x < FIELDX; x++)
+	{
+		for (int z = 0; z < FIELDY; z++)
+		{
+			m_Vertex[x][z].Position.y = pos[x][z];
+		}
+	}
+
+	//法線ベクトル算出
+	for (int x = 1; x < FIELDX - 1; x++)
+	{
+		for (int z = 1; z < FIELDY - 1; z++)
+		{
+			D3DXVECTOR3 vx, vz, vn;
+
+			vx = m_Vertex[x + 1][z].Position - m_Vertex[x - 1][z].Position;
+			vz = m_Vertex[x][z - 1].Position - m_Vertex[x][z + 1].Position;
+
+			D3DXVec3Cross(&vn, &vz, &vx);	//外積(掛ける順番に気を付ける)
+			D3DXVec3Normalize(&vn, &vn);//正規化(長さ1にする)
+			m_Vertex[x][z].Normal = vn;
+		}
+	}
+
+	//頂点バッファ生成
+	{
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DEFAULT;
+		bd.ByteWidth = sizeof(VERTEX_3D) * FIELDX*FIELDY;
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags = 0;
+
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = m_Vertex;
+
+		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+	}
+
+	// インデックスバッファ生成
+	{
+		unsigned int index[(FIELDX * 2) * FIELDY - 2];		//インデックスの数と同じ
+
+		int i = 0;
+		for (int x = 0; x < FIELDX - 1; x++)
+		{
+			for (int z = 0; z < FIELDY; z++)
+			{
+				index[i] = x * FIELDX + z;
+				i++;
+				index[i] = (x + 1) * FIELDY + z;
+				i++;
+			}
+
+			if (x == FIELDX - 1)
+				break;
+			index[i] = (x + 1) * FIELDX + (FIELDX - 1);
+			i++;
+			index[i] = (x + 1) * FIELDX;
+			i++;
+
+		}
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DEFAULT;
+		bd.ByteWidth = sizeof(unsigned int) * (FIELDX * 2) * FIELDY - 2;
+		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bd.CPUAccessFlags = 0;
+
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = index;
+
+		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_IndexBuffer);
+	}
+
+	oldseed = seed;
+}
 void CMeshField::Draw()
 {
+
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	//拡大縮小のマトリクス
@@ -191,13 +300,19 @@ void CMeshField::Draw()
 	CRenderer::SetMaterial(material);
 
 	//テクスチャ設定
-	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[1]);
 
 	//プリミティブトポロジ設定
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//ポリゴン描画
-	CRenderer::GetDeviceContext()->DrawIndexed((22 * 2) * 20 - 2, 0, 0);
+	CRenderer::GetDeviceContext()->DrawIndexed((FIELDX * 2) * FIELDY - 2, 0, 0);
+
+}
+
+void CMeshField::TextureMixed()
+{
+
 }
 
 float CMeshField::GetHeight(D3DXVECTOR3 Position)
@@ -246,42 +361,81 @@ float CMeshField::GetHeight(D3DXVECTOR3 Position)
 	return py;
 }
 
-void CMeshField::TyutenHenni(int centerx ,int centery)
+void CMeshField::flatworld()
 {
-	if (centerx >= FIELDX)return;
-	if (centery >= FIELDY)return;
-	if(m_Vertex[centerx][centery].Position.y != 0.0f) return;	//その点が変更済みの場合
-	float pos[4];		//四隅
-
-	int sx, sy;
-	sx = centerx;
-	sy = centery;
-
-	if (FIELDX < sx)
+	for (int x = 0; x < FIELDX; x++)
 	{
-		sx -= FIELDX;
+		for (int z = 0; z < FIELDY; z++)
+		{
+			m_Vertex[x][z].Position.y = 0.0f;
+		}
 	}
-	if (FIELDY < sy)
+	//法線ベクトル算出
+	for (int x = 1; x < FIELDX - 1; x++)
 	{
-		sy -= FIELDY;
+		for (int z = 1; z < FIELDY - 1; z++)
+		{
+			D3DXVECTOR3 vx, vz, vn;
+
+			vx = m_Vertex[x + 1][z].Position - m_Vertex[x - 1][z].Position;
+			vz = m_Vertex[x][z - 1].Position - m_Vertex[x][z + 1].Position;
+
+			D3DXVec3Cross(&vn, &vz, &vx);	//外積(掛ける順番に気を付ける)
+			D3DXVec3Normalize(&vn, &vn);//正規化(長さ1にする)
+			m_Vertex[x][z].Normal = vn;
+		}
 	}
 
-	//pos[0] = m_Vertex[centerx - sx][centery - sy].Position.y;
-	//pos[1] = m_Vertex[centerx + sx][centery - sy].Position.y;
-	//pos[2] = m_Vertex[centerx - sx][centery + sy].Position.y;
-	//pos[3] = m_Vertex[centerx + sx][centery + sy].Position.y;
+	//頂点バッファ生成
+	{
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DEFAULT;
+		bd.ByteWidth = sizeof(VERTEX_3D) * FIELDX*FIELDY;
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags = 0;
 
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = m_Vertex;
 
+		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+	}
 
-	/*int ry = (pos[0] + pos[1] + pos[3] + pos[4]) / 4;
-	ry += rand() % LAND;*/
-	int ry = rand() % LAND;
-	m_Vertex[centerx][centery].Position.y = ry;
+	// インデックスバッファ生成
+	{
+		unsigned int index[(FIELDX * 2) * FIELDY - 2];		//インデックスの数と同じ
 
-	//再帰呼び出し
-	TyutenHenni(centerx -sx/2, centery -sy/ 2);
-	TyutenHenni(centerx + (sx / 2), centery -sy/ 2);
-	TyutenHenni(centerx -sx/ 2, centery + (sy/ 2));
-	TyutenHenni(centerx + (sx / 2), centery + (sy / 2));
+		int i = 0;
+		for (int x = 0; x < FIELDX - 1; x++)
+		{
+			for (int z = 0; z < FIELDY; z++)
+			{
+				index[i] = x * FIELDX + z;
+				i++;
+				index[i] = (x + 1) * FIELDY + z;
+				i++;
+			}
 
+			if (x == FIELDX - 1)
+				break;
+			index[i] = (x + 1) * FIELDX + (FIELDX - 1);
+			i++;
+			index[i] = (x + 1) * FIELDX;
+			i++;
+
+		}
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DEFAULT;
+		bd.ByteWidth = sizeof(unsigned int) * (FIELDX * 2) * FIELDY - 2;
+		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bd.CPUAccessFlags = 0;
+
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = index;
+
+		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_IndexBuffer);
+	}
 }

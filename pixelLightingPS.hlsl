@@ -6,11 +6,13 @@ SamplerState g_SamplerState : register(s0); //サンプラー０番
 void main(in PS_IN In, out float4 outDiffuse : SV_Target) 
 {
 	float4 normal = normalize(In.Normal);
-	float  light = 0.5f - dot(normal.xyz, Light.Direction.xyz) *0.5f;
 
 	outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);	//テクスチャの色取得
-	outDiffuse.rgb *= In.Diffuse.rgb * light;					//頂点色と明るさを乗算
 	outDiffuse.a *= In.Diffuse.a;								//αは別処理(明るさはいらない)
+
+	float  light = 0.5f - dot(normal.xyz, Light.Direction.xyz) *0.5f;
+	outDiffuse.rgb *= In.Diffuse.rgb * light;					//頂点色と明るさを乗算
+
 
 	//フォン鏡面反射を加える
 	float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz; //視線ベクトル作成

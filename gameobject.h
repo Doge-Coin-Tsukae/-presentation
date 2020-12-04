@@ -91,4 +91,6 @@ public:		//アクセス指定子
 			return false;
 		}
 	}
+
+	virtual void Load() {}	//データのロード
 };
