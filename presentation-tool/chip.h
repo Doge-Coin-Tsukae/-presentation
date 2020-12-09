@@ -5,9 +5,9 @@
 class CChip:public CGameObject
 {
 private:
-	int id;			//オブジェクトの種類
-	CSplitPolygon *m_polygon;
-	D3DXVECTOR2 m_Size;
+	int id;			//オブジェクトの種類(チップを複数個出すときの識別コード)
+	CSplitPolygon *m_polygon;	//画像分割できるポリゴン
+	D3DXVECTOR2 m_Size;	//ボタンの大きさ
 
 public:
 	void Init();

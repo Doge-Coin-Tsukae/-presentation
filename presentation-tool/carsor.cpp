@@ -19,7 +19,7 @@ void CCARSOR::Init()
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\yokoari.obj");
 
-	m_Scale = D3DXVECTOR3(5.0f, 5.0f, 5.0f);
+	m_Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 
 	ShowCursor(FALSE);
 }
@@ -35,7 +35,7 @@ void CCARSOR::Update()
 	//ポインターのスクリーン座標習得
 	POINT pos;
 	GetCursorPos(&pos);
-	ScreenToClient(GetWindow(),&pos);
+	ScreenToClient(GetWindow(),&pos);	//カーソルの座標をアプリケーションの座標にする
 
 	//カメラとメッシュフィールドのデータ入手
 	CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
@@ -45,8 +45,8 @@ void CCARSOR::Update()
 	CalcScreenToWorld(&ppos,pos.x, pos.y,1.0f,SCREEN_WIDTH,SCREEN_HEIGHT, &camera->GetViewMatrix(),&camera->GetProjectionMatrix());
 
 	//カーソルの座標とカメラの座標でベクトルをとる
-	 D3DXVECTOR3 vpos = GetVector(camera->GetPosition(), ppos);	//スクリーンとカメラのベクトル
-	m_Position = camera->GetPosition();
+	D3DXVECTOR3 vpos = GetVector(camera->GetPosition(), ppos);	//スクリーンとカメラのベクトル
+	m_Position = camera->GetPosition();	
 
 	while (1)
 	{

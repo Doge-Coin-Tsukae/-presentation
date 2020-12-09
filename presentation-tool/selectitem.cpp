@@ -29,9 +29,9 @@
 #include "deadtree.h"
 #include "tree.h"
 
-#include"selectpointer.h"
-#include"modechip.h"
-
+#include "selectpointer.h"
+#include "modechip.h"
+#include "saveloadchip.h"
 #include "selectitem.h"
 
 enum BOTTONMODE
@@ -92,12 +92,20 @@ void CSelectItem::Init()
 	m_carsor = new CCARSOR;
 	m_carsor->Init();
 
+	m_SaveLoadChip = new CSaveLoadChip;
+	m_SaveLoadChip->SetPosition(m_Position);
+	m_SaveLoadChip->Init();
+
 	min = D3DXVECTOR2(0,0);
 	max = D3DXVECTOR2(150.0f, 300.0f);
+	click = false;
 }
 
 void CSelectItem::Uninit()
 {
+	m_SaveLoadChip->Uninit();
+	delete m_SaveLoadChip;
+
 	m_carsor->Uninit();
 	delete m_carsor;
 
@@ -151,9 +159,9 @@ void CSelectItem::Update()
 	}
 
 	m_carsor->Update();
+	m_SaveLoadChip->Update();
 	UpdateControll();
 	
-
 }
 
 void CSelectItem::Draw()
@@ -178,6 +186,8 @@ void CSelectItem::Draw()
 
 	m_carsor->Draw();
 
+	m_SaveLoadChip->Draw();
+
 	//配置モードの時に配置する
 	if (NowMode == SET)
 	{
@@ -185,7 +195,6 @@ void CSelectItem::Draw()
 
 		ImGui::SetNextWindowSize(ImVec2(220, 100));
 		ImGui::Begin("SET_MODE");
-		ImGui::Checkbox("aiueo", &click);
 		ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
 		ImGui::Text("fugafuga");
 		ImGui::End();
@@ -202,6 +211,8 @@ void CSelectItem::Draw()
 		if(m_EditGameObject !=nullptr)m_EditGameObject->SetImGui();		//現在クリックしているゲームオブジェクトの編集画面を出す
 		ImGui::End();
 	}
+
+
 }
 
 void CSelectItem::UpdateControll()
@@ -216,7 +227,7 @@ void CSelectItem::UpdateControll()
 	if (CInput::GetKeyTrigger(VK_LBUTTON))
 	{
 		//アイテムボックスをクリックしてなかったらワールドにオブジェクト配置
-		if (ClickItemBox() == false && ClikEditBox() == false)
+		if (ClickItemBox() == false && ClikEditBox() == false && m_SaveLoadChip->ClickSaveLoad() ==false)
 		{
 			//設置モードのときはワールドにオブジェクト配置
 			if (NowMode == SET)
@@ -228,6 +239,21 @@ void CSelectItem::UpdateControll()
 				ClickColider();
 			}
 		}
+
+		click = false;
+	}
+	if (CInput::GetKeyPress(VK_LBUTTON))
+	{
+		if (!m_EditGameObject) return;
+		if(click == false)
+		{
+			if (m_carsor->Collision(m_EditGameObject) == false) return;
+			click = true;
+		}
+		
+		//カーソルにゲームオブジェクトを吸い付ける
+		D3DXVECTOR3 cpos = m_carsor->GetPosition();
+		m_EditGameObject->SetPosition(cpos);
 	}
 }
 

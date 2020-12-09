@@ -161,6 +161,9 @@
     <ClCompile Include="title.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="saveloadchip.cpp">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameobject.h">
@@ -303,6 +306,9 @@
     </ClInclude>
     <ClInclude Include="Title.h">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="saveloadchip.h">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
