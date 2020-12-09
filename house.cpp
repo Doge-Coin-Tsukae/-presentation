@@ -1,3 +1,6 @@
+//
+//家オブジェクト
+//
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"

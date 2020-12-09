@@ -39,7 +39,7 @@ void CBASE::Init()
 	//当たり判定の設定
 	m_Zone = new CCOLIDER_CIRCLE();
 	m_Zone->Init();
-	m_Zone->SetScale(D3DXVECTOR3(30.0f, 30.0f, 30.0f));
+	m_Zone->SetScale(D3DXVECTOR3(30.0f, 30.0f, 30.0f));		//判定の大きさ
 }
 
 void CBASE::Uninit()
@@ -79,20 +79,12 @@ void CBASE::Update_Colision()
 		m_inPlayer = false;
 	}
 }
-
-void CBASE::Update()
+void CBASE::Update_Gauge()
 {
-	CScene* scene = CManager::GetScene();
-	m_Zone->SetPosition(m_Position);		//座標の設定
-	m_Zone->Update();						//更新処理
-	m_Territory_Invarter = D3DXVECTOR2(0, 0);	//侵入者の値リセット
-
-	Update_Colision();		//当たり判定
-
 	//陣地に両軍の部隊が同じ数の時離脱
 	if (m_Territory_Invarter.x == m_Territory_Invarter.y) { return; }
 	//陣地が友軍の時
-	if(m_territory == FRIENDRY_ZONE)
+	if (m_territory == FRIENDRY_ZONE)
 	{	//友軍の数が多い時離脱
 		if (m_Territory_Invarter.x > m_Territory_Invarter.y) { return; }
 	}
@@ -102,8 +94,10 @@ void CBASE::Update()
 		if (m_Territory_Invarter.x < m_Territory_Invarter.y) { return; }
 	}
 	m_Gauge--;		//勢力ゲージを減らす
-
-
+}
+void CBASE::Update_Territory()
+{
+	CScene* scene = CManager::GetScene();
 	//勢力地が0ではないとき離脱
 	if (m_Gauge > 0) { return; }
 	//テリトリーの支配者
@@ -133,6 +127,16 @@ void CBASE::Update()
 		m_Gauge = 100;				//ゲージ回復
 		break;
 	}
+}
+void CBASE::Update()
+{
+	m_Zone->SetPosition(m_Position);		//座標の設定
+	m_Zone->Update();						//更新処理
+	m_Territory_Invarter = D3DXVECTOR2(0, 0);	//侵入者の値リセット
+
+	Update_Colision();		//当たり判定
+	Update_Gauge();			//ゲージ処理
+	Update_Territory();		//領地の支配者処理
 }
 
 void CBASE::Draw()

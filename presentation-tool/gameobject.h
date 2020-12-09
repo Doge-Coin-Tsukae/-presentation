@@ -12,8 +12,8 @@ public:		//アクセス指定子
 	CGameObject() {}	//コンストラクタ
 	virtual ~CGameObject() {}	//デストラクタ(virtualは必ずつける)
 
-	virtual void Init() {};		//純粋仮想関数
-	virtual void Uninit() = 0;
+	virtual void Init() {};
+	virtual void Uninit() = 0;		//純粋仮想関数
 	virtual void Update() = 0;
 	virtual void Draw() {};
 
@@ -29,6 +29,7 @@ public:		//アクセス指定子
 
 	void SetDestroy() { m_Destroy = true; }
 
+	//オブジェクトの破壊処理
 	bool Destroy()
 	{
 		if (m_Destroy)
@@ -43,7 +44,7 @@ public:		//アクセス指定子
 		}
 	}
 
-	//ImGui
+	//ImGuinに表示させる項目
 	virtual void SetImGui()
 	{
 		ImGui::Text("fugafuga");

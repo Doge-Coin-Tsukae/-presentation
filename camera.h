@@ -10,6 +10,10 @@ private:
 	D3DXMATRIX projectionMatrix;	//プロジェクションマトリクス
 
 	bool m_zoom;
+
+	void BackFront_Player();	//プレイヤーを後ろから見る
+	void Target_Player();	//注視点をプレイヤーの座標にする
+	void Zoom_Player();			//プレイヤーにズームする
 public:
 	CCamera(){}		//コンストラクタ
 	~CCamera(){}	//デストラクタ

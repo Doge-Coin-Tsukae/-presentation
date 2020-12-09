@@ -35,7 +35,18 @@ void CDEADTREE::Uninit()
 }
 void CDEADTREE::Update()
 {
+	Update_Controll();
 
+	angle += 0.0001f;
+
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	m_Position.y = meshField->GetHeight(m_Position);
+	m_lightpos.x = m_Position.x + length*sin(angle);
+	m_lightpos.y = m_Position.y + length*cos(angle);
+}
+void CDEADTREE::Update_Controll()
+{
 	if (CInput::GetKeyPress('W'))
 		length += 0.1f;
 	if (CInput::GetKeyPress('S'))
@@ -50,14 +61,6 @@ void CDEADTREE::Update()
 		m_lightpos.z -= 0.1f;
 	if (CInput::GetKeyPress('E'))
 		m_lightpos.z += 0.1f;
-
-	angle += 0.0001f;
-
-	//メッシュフィールド高さ取得
-	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
-	m_Position.y = meshField->GetHeight(m_Position);
-	m_lightpos.x = m_Position.x + length*sin(angle);
-	m_lightpos.y = m_Position.y + length*cos(angle);
 }
 void CDEADTREE::Draw()
 {

@@ -21,6 +21,8 @@ private:
 	bool		m_inPlayer;				//中にプレイヤーがいるか
 	//ヘルパー関数
 	void Update_Colision();		//当たり判定
+	void Update_Gauge();		//勢力地の更新処理
+	void Update_Territory();	//領地の占領者の更新処理
 public:
 	CBASE() {}
 	~CBASE() {}

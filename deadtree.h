@@ -11,6 +11,7 @@ private:
 	D3DXVECTOR3 m_lightpos = D3DXVECTOR3(0,0,0);
 	float length = 1000.0f;
 	float angle = 1.0f;
+	bool  isShadow;			//âeèÓïÒÇïtÇØÇÈÇ©
 public:
 	CDEADTREE() {}
 	~CDEADTREE() {}
@@ -21,6 +22,7 @@ public:
 	void Init();
 	void Uninit();
 	void Update();
+	void Update_Controll();
 	void Draw();
 
 	void Load(FILE*fp, int line);

@@ -55,25 +55,30 @@ void CBullet::Uninit()
 
 void CBullet::Update()
 {
-	m_Position += m_Dir * 5.0f;
-	DeleteTime -= 0.1f;
+	Update_Varios();
 
+	//時間が0になったら削除
 	if (DeleteTime <=0.0f)
 	{
 		SetDestroy();
 		return;
 	}
-
-	//当たり判定更新
-	m_Zone->Update();
-	m_Zone->SetPosition(m_Position);
-
 	//ヘルパー関数
 	Update_Collision();
 }
 
+void CBullet::Update_Varios()
+{
+	m_Position += m_Dir * 5.0f;
+	DeleteTime -= 0.1f;
+}
+
 void CBullet::Update_Collision()
 {
+	//当たり判定更新
+	m_Zone->Update();
+	m_Zone->SetPosition(m_Position);
+
 	CScene* scene = CManager::GetScene();
 	std::vector<CEnemy*> enemyList = scene->GetGameObjects<CEnemy>(1);
 	std::vector<CBUNKER*> pBunker = scene->GetGameObjects<CBUNKER>(1);

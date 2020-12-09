@@ -10,9 +10,6 @@ private:
 	CWEAPON* m_Weapon;			//所持武器
 
 	TEAM_NUMBER		m_TeamNumber;			//味方か敵かの識別
-
-	//ヘルパー関数
-	void Update_AI();
 public:
 	CEnemy() {}
 	~CEnemy() {}
@@ -25,7 +22,6 @@ public:
 	void Update();
 	void Draw();
 
-	void LookPlayer();		//プレイヤーを見る
 	void Save(FILE* fp);
 	void Load(FILE*fp,int line);
 };

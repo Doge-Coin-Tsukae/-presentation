@@ -13,16 +13,16 @@
 #include "sound.h"
 #include "fade.h"
 #include "input.h"
-#include "human.h"
 
 #include "gameobject.h"
 #include "camera.h"
 #include "meshfield.h"
 #include "model.h"
-#include "colider.h"
-#include "sight.h"
-#include "weapon.h"
+#include "titleeffectmanager.h"
 
+#include "shellexplosion.h"
+
+#include"colider.h"
 #include "bunker.h"
 #include "polygon.h"
 #include "skydome.h"
@@ -42,8 +42,8 @@ void CTitle::Init()
 
 	CDEADTREE::Load();	//枯れ木のモデルを呼び出す
 	CBUNKER::Load();	//バンカーのモデルを呼び出す
-
-	CRenderer::SetDepthEnable(true);
+	CShellExplosion::LoadTexture();
+	//CRenderer::SetDepthEnable(true);
 	AddGameObject<CCamera>(0);
 
 	AddGameObject<CSKYDOME>(1);
@@ -55,30 +55,38 @@ void CTitle::Init()
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(45.0f, 0.0f, -160.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -155.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(35.0f, 0.0f, -135.0f));
-
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -120.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(45.0f, 0.0f, -130.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -175.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(35.0f, 0.0f, -180.0f));
-
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(70.0f, 0.0f, -165.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(75.0f, 0.0f, -125.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(80.0f, 0.0f, -175.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(95.0f, 0.0f, -135.0f));
-
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(70.0f, 0.0f, -120.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(95.0f, 0.0f, -130.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(80.0f, 0.0f, -175.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(65.0f, 0.0f, -160.0f));
-	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(160.0f, 0.0f, -240.0f));
-	AddGameObject<CTITLE2D>(4);
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(95.0f, 0.0f, -150.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(120.0f, 0.0f, -175.0f));
+	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(150.0f, 0.0f, -160.0f));
 
+	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(160.0f, 0.0f, -240.0f));
+	AddGameObject<Title_Effect_Manager>(2);
+	AddGameObject<CTITLE2D>(4);
 	CScene* scene = CManager::GetScene();
 	CBUNKER*  bunker = scene->GetGameObject<CBUNKER>(1);
 	bunker->SetRotation(D3DXVECTOR3(2.5f,0.0f,0.0f));
 
 	//PlaySound(SOUND_BGM_BGM001);
 
+}
+
+void CTitle::Uninit()
+{
+	CDEADTREE::Unload();	//枯れ木のモデルを呼び出す
+	CBUNKER::Unload();	//バンカーのモデルを呼び出す
+	CShellExplosion::UnLoadTexture();
 }
 
 void CTitle::Update()

@@ -31,22 +31,38 @@ void CCamera::Uninit()
 
 void CCamera::Update()
 {
-	//カメラ取得
+	//プレイヤー取得
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
-	if (!pPlayer) return;
+	if (!pPlayer) return;		//プレイヤー情報がないときは処理を行わない
 
-	//プレイヤーを追いかける
+	Target_Player();		//プレイヤーを追いかける
+	BackFront_Player();		//プレイヤーの後ろに回り込むようにする
+	Zoom_Player();			//ズーム
+}
+void CCamera::Target_Player()
+{
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+
 	m_Target = pPlayer->GetPosition();		//注視点をプレイヤーに
 	m_Target.y += 8.0f;						//カメラを少し上に
+}
+void CCamera::BackFront_Player()
+{
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
-	//プレイヤーの後ろに回り込むようにする
 	m_Position.x = m_Target.x + 12.0f *cos(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
 	m_Position.y = m_Target.y + 12.0f *sin(pPlayer->GetRotation().z);
 	m_Position.z = m_Target.z + 12.0f *-sin(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
+}
+void CCamera::Zoom_Player()
+{
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
-	//ズーム
 	if (m_zoom == true)
 	{
 		m_Target.y -= 3.0f;
@@ -59,7 +75,6 @@ void CCamera::Update()
 		m_Position.z = m_Target.z + 4.0f *-sin(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
 	}
 }
-
 void CCamera::Draw()
 {
 	//ビューマトリクス設定

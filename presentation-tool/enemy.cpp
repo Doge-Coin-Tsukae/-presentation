@@ -64,48 +64,6 @@ void CEnemy::Uninit()
 
 void CEnemy::Update()
 {
-	//ヘルパー関数
-	//Update_AI();
-	//プレイヤーに入っているクラスの更新処理
-	//m_Sight->Update();
-	//m_Weapon->Update();
-
-}
-
-void CEnemy::Update_AI()
-{
-	CScene* scene = CManager::GetScene();
-	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
-
-	//当たり判定
-	D3DXVECTOR3 direction = m_Position - pPlayer->GetPosition();
-	float length = D3DXVec3Length(&direction);
-
-	//範囲内になったら接近する
-	if (length < 100.0f)
-	{
-		if (length > 20.0f)
-		{
-			D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
-			m_Position += Velocity / 10;
-
-			LookPlayer();
-		}
-		else
-		{
-			m_Weapon->Shoot(m_Position, m_Sight->GetPosition(), m_TeamNumber);
-		}
-	}
-
-	if (m_Weapon->GetAmmo() <= 0)
-	{
-		m_Weapon->Reload();
-	}
-
-	//メッシュフィールド高さ取得
-	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
-	m_Position.y = meshField->GetHeight(m_Position);
-
 }
 
 void CEnemy::Draw()
@@ -126,17 +84,6 @@ void CEnemy::Draw()
 	CRenderer::SetWorldMatrix(&world);
 
 	m_Model->Draw();
-}
-
-void CEnemy::LookPlayer()
-{
-	CScene* scene = CManager::GetScene();
-	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
-
-	D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
-	D3DXVECTOR3 Velocity2 = GetVector(m_Position,m_Sight->GetPosition());
-	m_Rotation.x += (Velocity.x * Velocity2.x+ Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
-	m_Rotation.x -= 1.0f;
 }
 
 void CEnemy::Save(FILE* fp)
