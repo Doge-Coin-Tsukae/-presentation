@@ -36,12 +36,15 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{(char *)"asset/sound/bgm/bgm000.wav", -1},
 	{(char *)"asset/sound/bgm/bgm001.wav", -1},				// 1.ƒ^ƒCƒgƒ‹BGM
 	{(char *)"asset/sound/bgm/bgm002.wav", -1},
+	{(char *)"asset/sound/bgm/bgm003.wav", -1},
 	//SE
 	{(char *)"asset/sound/se/explosion000.wav", -0},
+	{(char *)"asset/sound/se/explosion001.wav", -0},
 	{(char *)"asset/sound/se/reload.wav", -0},
 	{(char *)"asset/sound/se/reload2.wav", -0},
 	{(char *)"asset/sound/se/Decision.wav", -0},
 	{(char *)"asset/sound/se/death.wav", -0},
+	{(char *)"asset/sound/se/fall.wav", -0},
 };
 
 

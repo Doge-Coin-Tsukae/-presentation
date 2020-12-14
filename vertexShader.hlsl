@@ -82,7 +82,7 @@ void main( in  float4 inPosition		: POSITION0,
 	{
 		float light = 0.5 - 0.5 * dot(Light.Direction.xyz, worldNormal.xyz);
 
-		outDiffuse = inDiffuse * Material.Diffuse * light * Light.Diffuse;
+		outDiffuse = inDiffuse * Material.Diffuse * light * Light.Diffuse/3;// /3‚Å‰æ–ÊˆÃ‚­‚µ‚½
 		outDiffuse += inDiffuse * Material.Ambient * Light.Ambient;
 		outDiffuse += Material.Emission;
 	}

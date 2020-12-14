@@ -148,13 +148,13 @@ void CPlayer::Update()
 	for (CBUNKER* bunker : bunkerList)
 	{
 		//AABB
-		/*if (intersectAABB(m_Colider, bunker->GetColider()))
+		if (intersectAABB(m_Colider, bunker->GetColider()))
 		{
 			m_Velocity = m_Position;
 			m_speed = 0.01f;
-		}*/
+		}
 
-		//OBB
+		//OBB(–¢Š®)
 		D3DXVECTOR3 direction = m_Position - bunker->GetPosition();
 
 		D3DXVECTOR3 obbx, obbz;

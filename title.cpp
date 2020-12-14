@@ -78,12 +78,13 @@ void CTitle::Init()
 	CBUNKER*  bunker = scene->GetGameObject<CBUNKER>(1);
 	bunker->SetRotation(D3DXVECTOR3(2.5f,0.0f,0.0f));
 
-	//PlaySound(SOUND_BGM_BGM001);
+	//PlaySound(SOUND_BGM_BGM003);
 
 }
 
 void CTitle::Uninit()
 {
+	//StopSound(SOUND_BGM_BGM003);
 	CDEADTREE::Unload();	//枯れ木のモデルを呼び出す
 	CBUNKER::Unload();	//バンカーのモデルを呼び出す
 	CShellExplosion::UnLoadTexture();
@@ -96,7 +97,7 @@ void CTitle::Update()
 	if (CInput::GetKeyTrigger(VK_SPACE))
 	{
 		m_Clik = true;
-		//PlaySound(SOUND_SE_CLICK);
+		PlaySound(SOUND_SE_CLICK);
 		CFADE::SetTexture((char*)"asset/texture/fade.png");
 		CFADE::Fade_Start(true, 60, D3DCOLOR());
 	}

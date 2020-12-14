@@ -1,3 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <windows.h>
+#include <tchar.h>
+
+#include <shlobj.h>
+
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
@@ -19,6 +26,9 @@
 #include "base.h"
 #include "load.h"
 
+int __stdcall BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData);
+bool GetDir(HWND hWnd, TCHAR* def_dir, TCHAR* path);
+
 void CLOAD::Uninit()
 {
 
@@ -31,16 +41,58 @@ void CLOAD::Update()
 		Data_Load();
 }
 
+TCHAR* CLOAD::PassAsset(TCHAR path[300])
+{
+	for (int i = 0; i < 300; i++)
+	{
+		if(path[i] == 'a')
+		{
+			if (path[i+1] == 's')
+			{
+				if (path[i+2] == 's')
+				{
+					if (path[i+3] == 'e')
+					{
+						if (path[i+4] == 't')
+						{
+							TCHAR temp[300];
+							for (int j = 0; j < 300; j++)
+							{
+								temp[j] = path[j + i];
+							}
+							return temp;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 void CLOAD::Data_Load()
 {
+	ShowCursor(TRUE);
 	FILE *SaveFile;//ファイルポインタ
 	CScene* scene = CManager::GetScene();	
 
+	TCHAR def_dir[100] , path[300] ;
+
+	_tcscpy_s(def_dir, sizeof(def_dir) / sizeof(TCHAR), _TEXT("D:"));
+	if (GetDir(GetWindow(), def_dir, path) == false)
+		return;
+
+	ShowCursor(FALSE);
 	Data_Destroy();	//ロードする前にそれまでに配置されていたオブジェクトを削除する
+	
+	TCHAR *path2 = NULL;
+	TCHAR temp[300];
+	path2 = PassAsset(path);//ファイルのパスをassetフォルダからにする
+	strcpy(temp, path2);
 
 	//プレイヤーの情報をファイルから読み込む
 	{
-		SaveFile = fopen("asset/savedata/playerdata.txt", "r");
+		strcat(path2,"//playerdata.txt");
+		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)           // オープンに失敗した場合
 			return;
 
@@ -54,7 +106,9 @@ void CLOAD::Data_Load()
 
 	//敵の情報をファイルから読み込む
 	{
-		SaveFile = fopen("asset/savedata/enemydata.txt", "r");
+		strcpy(path2,temp);
+		strcat(path2, "//enemydata.txt");
+		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)           // オープンに失敗した場合
 			return;
 
@@ -71,7 +125,10 @@ void CLOAD::Data_Load()
 
 	//バンカー情報をファイルから読み込む
 	{
-		SaveFile = fopen("asset/savedata/bunkerdata.txt", "r");
+		strcpy(path2, temp);
+		strcat(path2, "//bunkerdata.txt");
+
+		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;
 
@@ -88,7 +145,9 @@ void CLOAD::Data_Load()
 
 	//拠点情報をファイルから読み込む
 	{
-		SaveFile = fopen("asset/savedata/basedata.txt", "r");
+		strcpy(path2, temp);
+		strcat(path2, "//basedata.txt");
+		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;
 
@@ -105,7 +164,9 @@ void CLOAD::Data_Load()
 
 	//木情報をファイルから読み込む
 	{
-		SaveFile = fopen("asset/savedata/treedata.txt", "r");
+		strcpy(path2, temp);
+		strcat(path2, "//treedata.txt");
+		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;
 
@@ -122,7 +183,9 @@ void CLOAD::Data_Load()
 
 	//枯れ木情報をファイルから読み込む
 	{
-		SaveFile = fopen("asset/savedata/deadtreedata.txt", "r");
+		strcpy(path2, temp);
+		strcat(path2, "//deadtreedata.txt");
+		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;
 
@@ -139,7 +202,9 @@ void CLOAD::Data_Load()
 
 	//地形情報をファイルから読み込む
 	{
-		SaveFile = fopen("asset/savedata/field.txt", "r");
+		strcpy(path2, temp);
+		strcat(path2, "//field.txt");
+		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;
 
@@ -186,4 +251,56 @@ void CLOAD::Data_Destroy()
 	{
 		deadtree->SetDestroy();
 	}
+}
+
+bool GetDir(HWND hWnd, TCHAR* def_dir, TCHAR* path) {
+	BROWSEINFO bInfo;
+	LPITEMIDLIST pIDList;
+
+	memset(&bInfo, 0, sizeof(bInfo));
+	bInfo.hwndOwner = hWnd; // ダイアログの親ウインドウのハンドル 
+	bInfo.pidlRoot = NULL; // ルートフォルダをデスクトップフォルダとする 
+	bInfo.pszDisplayName = path; //フォルダ名を受け取るバッファへのポインタ 
+	bInfo.lpszTitle = TEXT("フォルダの選択"); // ツリービューの上部に表示される文字列 
+	bInfo.ulFlags = BIF_RETURNONLYFSDIRS | BIF_EDITBOX | BIF_VALIDATE | BIF_NEWDIALOGSTYLE; // 表示されるフォルダの種類を示すフラグ 
+	bInfo.lpfn = BrowseCallbackProc; // BrowseCallbackProc関数のポインタ 
+	bInfo.lParam = (LPARAM)def_dir;
+	pIDList = SHBrowseForFolder(&bInfo);
+	if (pIDList == NULL) {
+		path[0] = _TEXT('\0');
+		return false; //何も選択されなかった場合 
+	}
+	else {
+		if (!SHGetPathFromIDList(pIDList, path))
+			return false;//変換に失敗 
+		CoTaskMemFree(pIDList);// pIDListのメモリを開放 
+		return true;
+	}
+}
+
+int __stdcall BrowseCallbackProc(HWND hWnd, UINT uMsg, LPARAM lParam, LPARAM lpData) {
+	TCHAR dir[MAX_PATH];
+	ITEMIDLIST *lpid;
+	HWND hEdit;
+
+	switch (uMsg) {
+	case BFFM_INITIALIZED:  //      ダイアログボックス初期化時
+		SendMessage(hWnd, BFFM_SETSELECTION, (WPARAM)TRUE, lpData);     //      コモンダイアログの初期ディレクトリ
+		break;
+	case BFFM_VALIDATEFAILED:       //      無効なフォルダー名が入力された
+		MessageBox(hWnd, (TCHAR*)lParam, _TEXT("無効なフォルダー名が入力されました"), MB_OK);
+		hEdit = FindWindowEx(hWnd, NULL, _TEXT("EDIT"), NULL);     //      エディットボックスのハンドルを取得する
+		SetWindowText(hEdit, _TEXT(""));
+		return 1;       //      ダイアログボックスを閉じない
+		break;
+	case BFFM_IUNKNOWN:
+		break;
+	case BFFM_SELCHANGED:   //      選択フォルダーが変化した場合
+		lpid = (ITEMIDLIST *)lParam;
+		SHGetPathFromIDList(lpid, dir);
+		hEdit = FindWindowEx(hWnd, NULL, _TEXT("EDIT"), NULL);     //      エディットボックスのハンドルを取得する
+		SetWindowText(hEdit, dir);
+		break;
+	}
+	return 0;
 }

@@ -67,6 +67,7 @@ void CEnemy::Init()
 	m_Weapon->Setparent(this);		//武器の親を自分に
 
 	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	m_ModelRot = D3DXVECTOR3(1.6f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.3f, 1.3f, 1.3f);
 	m_TeamNumber = TEAM_ENEMY;		//チーム設定
@@ -158,7 +159,7 @@ void CEnemy::Draw()
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x + m_ModelRot.x, m_Rotation.y - m_ModelRot.y, m_Rotation.z + m_ModelRot.z);
 	//位置マトリクス
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
@@ -177,7 +178,7 @@ void CEnemy::LookPlayer()
 	D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
 	D3DXVECTOR3 Velocity2 = GetVector(m_Position,m_Sight->GetPosition());
 	m_Rotation.x += (Velocity.x * Velocity2.x+ Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
-	//m_Rotation.x -= 0.0f;
+	m_Rotation.x -= 1.0f;
 }
 
 void CEnemy::ChangeAnimation(char* Name)
