@@ -1,15 +1,14 @@
-#define _CRT_SECURE_NO_WARNINGS
-
-#include <windows.h>
-#include <tchar.h>
-
-#include <shlobj.h>
+//
+//データのロード
+//
 
 #include "main.h"
+#include <tchar.h>
 #include "manager.h"
 #include "renderer.h"
 #include "input.h"
 #include "scene.h"
+#include "filewinapi.h"
 
 #include"tree.h"
 #include "meshfield.h"
@@ -26,8 +25,6 @@
 #include "base.h"
 #include "load.h"
 
-int __stdcall BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData);
-bool GetDir(HWND hWnd, TCHAR* def_dir, TCHAR* path);
 
 void CLOAD::Uninit()
 {
@@ -67,6 +64,8 @@ TCHAR* CLOAD::PassAsset(TCHAR path[300])
 			}
 		}
 	}
+	//assetが見つからなかった
+	MessageBox(GetWindow(), "assetフォルダが見つかりません。", "ロード失敗!", MB_ICONSTOP);
 }
 
 void CLOAD::Data_Load()
@@ -87,15 +86,22 @@ void CLOAD::Data_Load()
 	TCHAR *path2 = NULL;
 	TCHAR temp[300];
 	path2 = PassAsset(path);//ファイルのパスをassetフォルダからにする
-	strcpy(temp, path2);
+
+	//パス変更に失敗したら終了
+	if (!path2)
+		return;
+
+	strcpy(temp, path2);	//コピーを作る(後でパスを戻すのに使う)
 
 	//プレイヤーの情報をファイルから読み込む
 	{
 		strcat(path2,"//playerdata.txt");
 		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)           // オープンに失敗した場合
+		{
+			MessageBox(GetWindow(), "プレイヤーのデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
 			return;
-
+		}
 		CPlayer* pPlayer = new CPlayer();
 		pPlayer->Init();
 		pPlayer->Load(SaveFile);
@@ -110,7 +116,10 @@ void CLOAD::Data_Load()
 		strcat(path2, "//enemydata.txt");
 		SaveFile = fopen(path2, "r");
 		if (SaveFile == NULL)           // オープンに失敗した場合
+		{
+			MessageBox(GetWindow(), "敵のデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
 			return;
+		}
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -129,8 +138,11 @@ void CLOAD::Data_Load()
 		strcat(path2, "//bunkerdata.txt");
 
 		SaveFile = fopen(path2, "r");
-		if (SaveFile == NULL)	// オープンに失敗した場合
+		if (SaveFile == NULL)           // オープンに失敗した場合
+		{
+			MessageBox(GetWindow(), "バンカーのデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
 			return;
+		}
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -148,12 +160,15 @@ void CLOAD::Data_Load()
 		strcpy(path2, temp);
 		strcat(path2, "//basedata.txt");
 		SaveFile = fopen(path2, "r");
-		if (SaveFile == NULL)	// オープンに失敗した場合
+		if (SaveFile == NULL)           // オープンに失敗した場合
+		{
+			MessageBox(GetWindow(), "拠点のデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
 			return;
+		}
 
 		for (int i = 0; i < 3; i++)
 		{
-			CBASE* pBase = new CBASE();
+			CBase* pBase = new CBase();
 			pBase->Init();
 			pBase->Load(SaveFile, i);
 			scene->AddArgumentGameObject(pBase, 1);
@@ -167,8 +182,11 @@ void CLOAD::Data_Load()
 		strcpy(path2, temp);
 		strcat(path2, "//treedata.txt");
 		SaveFile = fopen(path2, "r");
-		if (SaveFile == NULL)	// オープンに失敗した場合
+		if (SaveFile == NULL)           // オープンに失敗した場合
+		{
+			MessageBox(GetWindow(), "木のデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
 			return;
+		}
 
 		for (int i = 0; i < 10; i++)
 		{
@@ -186,10 +204,13 @@ void CLOAD::Data_Load()
 		strcpy(path2, temp);
 		strcat(path2, "//deadtreedata.txt");
 		SaveFile = fopen(path2, "r");
-		if (SaveFile == NULL)	// オープンに失敗した場合
+		if (SaveFile == NULL)           // オープンに失敗した場合
+		{
+			MessageBox(GetWindow(), "枯れ木のデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
 			return;
+		}
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 14; i++)
 		{
 			CDEADTREE* pDeadTree = new CDEADTREE();
 			pDeadTree->Init();
@@ -205,8 +226,11 @@ void CLOAD::Data_Load()
 		strcpy(path2, temp);
 		strcat(path2, "//field.txt");
 		SaveFile = fopen(path2, "r");
-		if (SaveFile == NULL)	// オープンに失敗した場合
+		if(SaveFile == NULL)           // オープンに失敗した場合
+		{
+			MessageBox(GetWindow(), "地形のデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
 			return;
+		}
 
 		CMeshField* pMeshField = scene->GetGameObject<CMeshField>(1);
 		
@@ -234,8 +258,8 @@ void CLOAD::Data_Destroy()
 		bunker->SetDestroy();
 	}
 
-	std::vector<CBASE*> baselist = scene->GetGameObjects<CBASE>(1);
-	for (CBASE* base : baselist)
+	std::vector<CBase*> baselist = scene->GetGameObjects<CBase>(1);
+	for (CBase* base : baselist)
 	{
 		base->SetDestroy();
 	}
@@ -251,56 +275,4 @@ void CLOAD::Data_Destroy()
 	{
 		deadtree->SetDestroy();
 	}
-}
-
-bool GetDir(HWND hWnd, TCHAR* def_dir, TCHAR* path) {
-	BROWSEINFO bInfo;
-	LPITEMIDLIST pIDList;
-
-	memset(&bInfo, 0, sizeof(bInfo));
-	bInfo.hwndOwner = hWnd; // ダイアログの親ウインドウのハンドル 
-	bInfo.pidlRoot = NULL; // ルートフォルダをデスクトップフォルダとする 
-	bInfo.pszDisplayName = path; //フォルダ名を受け取るバッファへのポインタ 
-	bInfo.lpszTitle = TEXT("フォルダの選択"); // ツリービューの上部に表示される文字列 
-	bInfo.ulFlags = BIF_RETURNONLYFSDIRS | BIF_EDITBOX | BIF_VALIDATE | BIF_NEWDIALOGSTYLE; // 表示されるフォルダの種類を示すフラグ 
-	bInfo.lpfn = BrowseCallbackProc; // BrowseCallbackProc関数のポインタ 
-	bInfo.lParam = (LPARAM)def_dir;
-	pIDList = SHBrowseForFolder(&bInfo);
-	if (pIDList == NULL) {
-		path[0] = _TEXT('\0');
-		return false; //何も選択されなかった場合 
-	}
-	else {
-		if (!SHGetPathFromIDList(pIDList, path))
-			return false;//変換に失敗 
-		CoTaskMemFree(pIDList);// pIDListのメモリを開放 
-		return true;
-	}
-}
-
-int __stdcall BrowseCallbackProc(HWND hWnd, UINT uMsg, LPARAM lParam, LPARAM lpData) {
-	TCHAR dir[MAX_PATH];
-	ITEMIDLIST *lpid;
-	HWND hEdit;
-
-	switch (uMsg) {
-	case BFFM_INITIALIZED:  //      ダイアログボックス初期化時
-		SendMessage(hWnd, BFFM_SETSELECTION, (WPARAM)TRUE, lpData);     //      コモンダイアログの初期ディレクトリ
-		break;
-	case BFFM_VALIDATEFAILED:       //      無効なフォルダー名が入力された
-		MessageBox(hWnd, (TCHAR*)lParam, _TEXT("無効なフォルダー名が入力されました"), MB_OK);
-		hEdit = FindWindowEx(hWnd, NULL, _TEXT("EDIT"), NULL);     //      エディットボックスのハンドルを取得する
-		SetWindowText(hEdit, _TEXT(""));
-		return 1;       //      ダイアログボックスを閉じない
-		break;
-	case BFFM_IUNKNOWN:
-		break;
-	case BFFM_SELCHANGED:   //      選択フォルダーが変化した場合
-		lpid = (ITEMIDLIST *)lParam;
-		SHGetPathFromIDList(lpid, dir);
-		hEdit = FindWindowEx(hWnd, NULL, _TEXT("EDIT"), NULL);     //      エディットボックスのハンドルを取得する
-		SetWindowText(hEdit, dir);
-		break;
-	}
-	return 0;
 }

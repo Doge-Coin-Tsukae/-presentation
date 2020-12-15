@@ -305,7 +305,7 @@ bool CSelectItem::ClickItemBox()
 		{
 			if (m_chip[h][w]->Colision(pos) == true)
 			{
-				m_pointer->SetPos(D3DXVECTOR2(w,h));	//ポインターの位置をカーソルがさしたところに
+				m_pointer->SetPos(D3DXVECTOR2((float)w, (float)h));	//ポインターの位置をカーソルがさしたところに
 				return true;
 			}
 		}
@@ -348,7 +348,7 @@ void CSelectItem::WorldObject()
 		scene->AddGameObject<CEnemy>(1)->SetPosition(m_carsor->GetPosition());
 		break;
 	case 2:
-		scene->AddGameObject<CBASE>(1)->SetPosition(m_carsor->GetPosition());
+		scene->AddGameObject<CBase>(1)->SetPosition(m_carsor->GetPosition());
 		break;
 	case 3:
 		scene->AddGameObject<CDEADTREE>(1)->SetPosition(m_carsor->GetPosition());

@@ -5,7 +5,6 @@
 #include "manager.h"
 #include "renderer.h"
 #include "input.h"
-#include "gamemaneger.h"
 #include "Title.h"
 #include "Game.h"
 
@@ -18,6 +17,7 @@ void CTitle::Update()
 {
 	CScene::Update();
 
+	//エンターキーでゲーム画面に
 	if (CInput::GetKeyTrigger(VK_RETURN))
 	{
 		CManager::SetScene<CGame>();

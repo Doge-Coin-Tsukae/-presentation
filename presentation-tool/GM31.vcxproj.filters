@@ -83,14 +83,8 @@
     <ClCompile Include="weapon.cpp">
       <Filter>ソース ファイル\gameobject\player</Filter>
     </ClCompile>
-    <ClCompile Include="enemycommander.cpp">
-      <Filter>ソース ファイル\gameobject\player</Filter>
-    </ClCompile>
     <ClCompile Include="skydome.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClCompile>
-    <ClCompile Include="gauge.cpp">
-      <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClCompile>
     <ClCompile Include="colider.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
@@ -100,12 +94,6 @@
     </ClCompile>
     <ClCompile Include="bunker.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClCompile>
-    <ClCompile Include="sound.cpp">
-      <Filter>ソース ファイル\system</Filter>
-    </ClCompile>
-    <ClCompile Include="gamemaneger.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -140,9 +128,6 @@
     <ClCompile Include="base.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClCompile>
-    <ClCompile Include="enemyrespornpoint.cpp">
-      <Filter>ソース ファイル\gameobject\player</Filter>
-    </ClCompile>
     <ClCompile Include="selectpointer.cpp">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClCompile>
@@ -163,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="saveloadchip.cpp">
       <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="filewinapi.cpp">
+      <Filter>ソース ファイル\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,14 +211,8 @@
     <ClInclude Include="weapon.h">
       <Filter>ソース ファイル\gameobject\player</Filter>
     </ClInclude>
-    <ClInclude Include="enemycommander.h">
-      <Filter>ソース ファイル\gameobject\player</Filter>
-    </ClInclude>
     <ClInclude Include="skydome.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClInclude>
-    <ClInclude Include="gauge.h">
-      <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
     <ClInclude Include="colider.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
@@ -238,17 +220,11 @@
     <ClInclude Include="bunker.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
-    <ClInclude Include="sound.h">
-      <Filter>ソース ファイル\system</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="human.h">
       <Filter>ソース ファイル\gameobject\player</Filter>
-    </ClInclude>
-    <ClInclude Include="gamemaneger.h">
-      <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_dx11.h">
       <Filter>ソース ファイル\imgui</Filter>
@@ -283,9 +259,6 @@
     <ClInclude Include="meshfield.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
-    <ClInclude Include="enemyrespornpoint.h">
-      <Filter>ソース ファイル\gameobject\player</Filter>
-    </ClInclude>
     <ClInclude Include="selectpointer.h">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
@@ -309,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="saveloadchip.h">
       <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="filewinapi.h">
+      <Filter>ソース ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

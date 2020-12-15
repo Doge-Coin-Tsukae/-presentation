@@ -7,7 +7,6 @@
 
 #include "input.h"
 #include "scene.h"
-#include "gamemaneger.h"
 #include "Game.h"
 
 #include "gameobject.h"
@@ -25,8 +24,6 @@
 #include "base.h"
 #include "player.h"
 #include "enemy.h"
-#include "enemycommander.h"
-#include "enemyrespornpoint.h"
 #include "bunker.h"
 #include "polygon.h"
 #include "skydome.h"
@@ -34,7 +31,6 @@
 
 #include "tree.h"
 #include "number.h"
-#include "gauge.h"
 #include "carsor.h"
 #include "chip.h"
 #include "modechip.h"
@@ -47,12 +43,8 @@ void CGame::Init()
 	//テクスチャ + モデルロード
 	CBUNKER::Load();
 	CEnemy::Load();
-	CEnemyRespornPoint::Load();
 	CWEAPON::Load();
 	CDEADTREE::Load();
-
-	m_GameManeger = new CGAME_MANEGER;
-	m_GameManeger->Init();
 
 	//使うゲームオブジェクト呼び出し
 	//カメラ0番 3Dモデル1番 2Dモデル番
@@ -63,14 +55,9 @@ void CGame::Init()
 
 	AddGameObject<CCARSOR>(1);
 
-	//AddGameObject<CField>(1);
 	AddGameObject<CMeshField>(1);
 
-	AddGameObject<CENEMY_COMMANDER>(1);
-
-
 	AddGameObject<CSelectItem>(2);
-	//AddGameObject<CPolygon>(2);
 }
 
 void CGame::Uninit()
@@ -78,22 +65,16 @@ void CGame::Uninit()
 	//リストに入っているゲームオブジェクトを削除
 	CScene::Uninit();
 
-	//テクスチャアンロード
+	//テクスチャ + モデルアンロード
 	CDEADTREE::Unload();
 	CWEAPON::UnLoad();
-	CEnemyRespornPoint::Unload();
 	CEnemy::Unload();
 	CBUNKER::Unload();
-
-	m_GameManeger->Uninit();
-	delete m_GameManeger;
 }
 
 void CGame::Update()
 {
 	CScene::Update();	//リストに入っているゲームオブジェクトを呼び出す
-
-	m_GameManeger->Update();
 }
 
 void CGame::Draw()

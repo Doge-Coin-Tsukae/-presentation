@@ -4,8 +4,6 @@
 
 class CGame : public CScene
 {
-private:
-	CGAME_MANEGER* m_GameManeger;
 public:
 	void Init();
 	void Uninit();

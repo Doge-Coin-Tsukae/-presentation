@@ -9,5 +9,5 @@ public:
 	void Update();			//更新処理
 	void Data_Load();		//ファイルからデータをロードする
 	void Data_Destroy();	//ゲームオブジェクトの削除
-	TCHAR* PassAsset(TCHAR path[300]);
+	TCHAR* PassAsset(TCHAR path[300]);		//フルパスから実行ファイルの中にあるAssetフォルダからのパスに変更
 };

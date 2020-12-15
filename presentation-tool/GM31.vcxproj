@@ -163,13 +163,10 @@
     <ClCompile Include="colider.cpp" />
     <ClCompile Include="deadtree.cpp" />
     <ClCompile Include="enemy.cpp" />
-    <ClCompile Include="enemycommander.cpp" />
-    <ClCompile Include="enemyrespornpoint.cpp" />
     <ClCompile Include="field.cpp" />
+    <ClCompile Include="filewinapi.cpp" />
     <ClCompile Include="friend.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="gamemaneger.cpp" />
-    <ClCompile Include="gauge.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_dx11.cpp" />
@@ -193,7 +190,6 @@
     <ClCompile Include="selectpointer.cpp" />
     <ClCompile Include="sight.cpp" />
     <ClCompile Include="skydome.cpp" />
-    <ClCompile Include="sound.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="tree.cpp" />
     <ClCompile Include="Vector.cpp" />
@@ -207,15 +203,12 @@
     <ClInclude Include="chip.h" />
     <ClInclude Include="colider.h" />
     <ClInclude Include="deadtree.h" />
-    <ClInclude Include="enemycommander.h" />
     <ClInclude Include="enemy.h" />
-    <ClInclude Include="enemyrespornpoint.h" />
     <ClInclude Include="field.h" />
+    <ClInclude Include="filewinapi.h" />
     <ClInclude Include="friend.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="gamemaneger.h" />
     <ClInclude Include="gameobject.h" />
-    <ClInclude Include="gauge.h" />
     <ClInclude Include="human.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
@@ -243,7 +236,6 @@
     <ClInclude Include="selectpointer.h" />
     <ClInclude Include="sight.h" />
     <ClInclude Include="skydome.h" />
-    <ClInclude Include="sound.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="Vector.h" />

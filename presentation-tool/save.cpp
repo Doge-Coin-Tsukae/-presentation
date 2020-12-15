@@ -1,4 +1,10 @@
+//
+//データのセーブ
+//
+
 #include "main.h"
+#include <tchar.h>
+#include "filewinapi.h"
 #include "manager.h"
 #include "renderer.h"
 #include "input.h"
@@ -30,14 +36,61 @@ void CSAVE::Update()
 		Data_Save();
 }
 
+
+TCHAR* CSAVE::PassAsset(TCHAR path[300])
+{
+	for (int i = 0; i < 300; i++)
+	{
+		if (path[i] == 'a')
+		{
+			if (path[i + 1] == 's')
+			{
+				if (path[i + 2] == 's')
+				{
+					if (path[i + 3] == 'e')
+					{
+						if (path[i + 4] == 't')
+						{
+							TCHAR temp[300];
+							for (int j = 0; j < 300; j++)
+							{
+								temp[j] = path[j + i];
+							}
+							return temp;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
 void CSAVE::Data_Save()
 {
+	ShowCursor(TRUE);
+
 	FILE *SaveFile;
 	CScene* scene = CManager::GetScene();
 
+
+	TCHAR def_dir[100], path[300];
+
+	_tcscpy_s(def_dir, sizeof(def_dir) / sizeof(TCHAR), _TEXT("D:"));
+	if (GetDir(GetWindow(), def_dir, path) == false)
+		return;
+
+	ShowCursor(FALSE);
+
+	TCHAR *path2 = NULL;
+	TCHAR temp[300];
+	path2 = PassAsset(path);//ファイルのパスをassetフォルダからにする
+	strcpy(temp, path2);
+
 	//プレイヤーの情報をファイルに書き込む
 	{
-		SaveFile = fopen("asset/savedata/playerdata.txt", "w");
+		strcat(path2, "/playerdata.txt");
+		SaveFile = fopen(path2, "w");
 
 		if (SaveFile == NULL)           // オープンに失敗した場合
 			return;                         // 異常終了
@@ -49,7 +102,9 @@ void CSAVE::Data_Save()
 
 	//敵の情報をファイルに書き込む
 	{
-		SaveFile = fopen("asset/savedata/enemydata.txt", "w");
+		strcpy(path2, temp);
+		strcat(path2, "/enemydata.txt");
+		SaveFile = fopen(path2, "w");
 
 		if (SaveFile == NULL)           // オープンに失敗した場合
 			return;                         // 異常終了
@@ -70,7 +125,9 @@ void CSAVE::Data_Save()
 
 	//バンカー情報をファイルに書き込む
 	{
-		SaveFile = fopen("asset/savedata/bunkerdata.txt", "w");
+		strcpy(path2, temp);
+		strcat(path2, "/bunkerdata.txt");
+		SaveFile = fopen(path2, "w");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;				// 異常終了
 		//情報を書き込む
@@ -84,12 +141,14 @@ void CSAVE::Data_Save()
 	}
 	//拠点情報を書き込む
 	{
-		SaveFile = fopen("asset/savedata/basedata.txt", "w");
+		strcpy(path2, temp);
+		strcat(path2, "/basedata.txt");
+		SaveFile = fopen(path2, "w");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;             // 異常終了
 		//情報を書き込む
-		std::vector<CBASE*> baselist = scene->GetGameObjects<CBASE>(1);
-		for (CBASE* base : baselist)
+		std::vector<CBase*> baselist = scene->GetGameObjects<CBase>(1);
+		for (CBase* base : baselist)
 		{
 			base->Save(SaveFile);
 		}
@@ -98,7 +157,9 @@ void CSAVE::Data_Save()
 	}
 	//木情報を書き込む
 	{
-		SaveFile = fopen("asset/savedata/treedata.txt", "w");
+		strcpy(path2, temp);
+		strcat(path2, "/treedata.txt");
+		SaveFile = fopen(path2, "w");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;				// 異常終了
 		//情報を書き込む
@@ -112,7 +173,9 @@ void CSAVE::Data_Save()
 	}
 	//枯れ木情報を書き込む
 	{
-		SaveFile = fopen("asset/savedata/deadtreedata.txt", "w");
+		strcpy(path2, temp);
+		strcat(path2, "/deadtreedata.txt");
+		SaveFile = fopen(path2, "w");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;				// 異常終了
 		//情報を書き込む
@@ -126,7 +189,9 @@ void CSAVE::Data_Save()
 	}
 	//地形情報をファイルに書き込む
 	{
-		SaveFile = fopen("asset/savedata/field.txt", "w");
+		strcpy(path2, temp);
+		strcat(path2, "/field.txt");
+		SaveFile = fopen(path2, "w");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;				// 異常終了
 		CMeshField* pMeshField = scene->GetGameObject<CMeshField>(1);
