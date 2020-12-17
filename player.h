@@ -11,7 +11,7 @@ private:
 	CSIGHT* m_Sight;			//照準
 	CWEAPON* m_Weapon;			//所持武器
 	AABB m_Colider;				//当たり判定(AABB)
-
+	OBB*  m_Obb;
 	D3DXVECTOR3		m_ModelRot;		//モデルの角度(モデルが真っ直ぐにならないから入れた)
 	D3DXVECTOR3		m_Velocity;		//行き先座標
 	TEAM_NUMBER		m_TeamNumber;	//味方か敵かの識別

@@ -58,17 +58,8 @@ void CCamera::Controll_Update()
 	if (CInput::GetKeyPress('C'))
 		m_Velocity.y += 0.1f;
 
-	//ƒJ[ƒ\ƒ‹‚©‚ç‹Ê”ò‚Î‚µ‚½‚¢
-	if (CInput::GetKeyPress('U'))
-	{
-		CCARSOR* carsor = CManager::GetScene()->GetGameObject<CCARSOR>(1);
-	}
-
 	m_Position += m_Velocity;
 	m_Target += m_Velocity;
-
-	//m_Rotation.x += CInput::GetMousedDfference().x / 100;
-	//m_Rotation.z -= CInput::GetMousedDfference().y / 100;
 }
 void CCamera::Draw()
 {

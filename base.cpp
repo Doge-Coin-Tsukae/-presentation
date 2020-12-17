@@ -65,7 +65,6 @@ void CBASE::Update_Colision()
 	if (m_Zone->GetColider(pPlayer->GetPosition()))
 	{
 		m_Territory_Invarter.x++;	//w’n‚Ì¨—Í”‚ð‘‚â‚·(—FŒR)
-		//m_Rotation.x++;				//•ª‚©‚èˆÕ‚­Šø‚ð‰ñ“]‚³‚¹‚é =>‚â‚Á‚Ï‚è‚¢‚ç‚È‚¢
 
 		if (m_inPlayer == false)
 		{

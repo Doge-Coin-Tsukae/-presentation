@@ -51,13 +51,69 @@ inline bool intersectAABB(const AABB& box1, const AABB& box2) {
 }
 
 //OBB
-class OBB
+class OBB : public CGameObject
 {
 private:
-	D3DXVECTOR3 scale;
+
 public:
+	void Init(){}
+	void Update(){}
+	void parent(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scl)
+	{
+		m_Position = pos;
+		m_Rotation = rot;
+		m_Scale = scl;
+	}
+
+	D3DXVECTOR3 GetObbX()
+	{
+		D3DXMATRIX rot, scale, world;
+		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+		world = scale * rot;
+
+		D3DXVECTOR3 vx;
+		vx.x = world._11;
+		vx.y = world._12;
+		vx.z = world._13;
+
+		return vx * 0.5f;
+	}
+
+	//•ª—£Ž²(Z)
+	D3DXVECTOR3 GetObbZ()
+	{
+		D3DXMATRIX rot, scale, world;
+		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+		world = scale * rot;
+
+		D3DXVECTOR3 vz;
+		vz.x = world._31;
+		vz.y = world._32;
+		vz.z = world._33;
+
+		return vz * 0.5f;
+	}
+
+	//•ª—£Ž²(Y)
+	D3DXVECTOR3 GetObbY()
+	{
+		D3DXMATRIX rot, scale, world;
+		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+		world = scale * rot;
+
+		D3DXVECTOR3 vy;
+		vy.x = world._21;
+		vy.y = world._22;
+		vy.z = world._23;
+
+		return vy * 0.5f;
+	}
 	bool intersectOBB(const OBB& box1, const OBB& box2)
 	{
+
 		return false;
 	}
 };

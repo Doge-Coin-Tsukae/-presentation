@@ -8,6 +8,12 @@ private:
 	CModel* m_Model;			//3Dƒ‚ƒfƒ‹ƒNƒ‰ƒX
 	AABB* m_Colider;
 
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(m_Model);
+	}
+
 public:
 	CPlayer(){}
 	~CPlayer(){}

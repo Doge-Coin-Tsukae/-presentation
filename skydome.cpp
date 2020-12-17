@@ -34,6 +34,7 @@ void CSKYDOME::Update()
 	if (!pPlayer) return;
 
 	m_Position = pPlayer->GetPosition();
+	m_Position.y -= 10.0f;
 }
 
 void CSKYDOME::Draw()

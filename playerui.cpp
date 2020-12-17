@@ -8,6 +8,7 @@
 #include "renderer.h"
 #include "manager.h"
 #include "scene.h"
+#include "camera.h"
 #include "polygon.h"
 #include "gauge.h"
 
@@ -58,5 +59,9 @@ void CPLAYERUI::Draw()
 
 	m_HpGauge->Draw();
 
+	CScene* scene = CManager::GetScene();
+	CCamera* pcamera = scene->GetGameObject<CCamera>(0);
+	//ƒJƒƒ‰‚ðzoom‚µ‚Ä‚¢‚éŽž‚Ì‚Ý•\Ž¦
+	if(pcamera->GetZoom())
 	m_Sight->Draw();
 }

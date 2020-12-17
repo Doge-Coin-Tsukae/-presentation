@@ -70,9 +70,9 @@ void CTutorial::Init()
 	//’n–Ê
 	AddGameObject<CMeshField>(1)->flatworld();
 
-	AddGameObject<CPlayer>(1)->SetPosition(D3DXVECTOR3(0.0f, 1.0f,  0.0f));
+	AddGameObject<CPlayer>(1)->SetPosition(D3DXVECTOR3(350.0f, 1.0f,  -200.0f));
 
-	AddGameObject<CBASE>(2)->SetPosition(D3DXVECTOR3(100.0f, 0.0f, 0.0f));
+	AddGameObject<CBASE>(2)->SetPosition(D3DXVECTOR3(300.0f, 0.0f,-200.0f));
 
 	AddGameObject<CWEAPON2D>(4);
 	AddGameObject<CPLAYERUI>(4);

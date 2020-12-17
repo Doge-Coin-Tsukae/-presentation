@@ -7,6 +7,8 @@
 #include "renderer.h"
 #include "Vector.h"
 #include "scene.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "meshfield.h"
 #include "input.h"
 #include "human.h"
@@ -34,11 +36,6 @@ void CPlayer::Init()
 	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
-	//メッシュフィールド高さ取得
-	//CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
-	//m_Position.y = meshField->GetHeight(m_Position);
-
 }
 
 void CPlayer::Uninit()

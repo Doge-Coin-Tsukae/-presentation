@@ -144,6 +144,7 @@ void CTREE::Load(FILE*fp, int line)
 	}
 
 	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
+	m_Position.y += 5.0f;
 	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
 	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
 }

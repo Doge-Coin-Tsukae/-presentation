@@ -37,9 +37,6 @@ void CBUNKER::Update()
 {
 	m_Colider.update(m_Position);
 
-	angle += 0.0001f;
-	m_lightpos.x = m_Position.x + length * sin(angle);
-	m_lightpos.y = m_Position.y + length * cos(angle);
 }
 void CBUNKER::Draw()
 {
@@ -53,19 +50,6 @@ void CBUNKER::Draw()
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
-
-	m_Model->Draw();
-
-	D3DXVECTOR3 light = m_Position - m_lightpos;
-	D3DXMatrixIdentity(&shadow);
-	shadow._21 = -light.x / light.y;
-	shadow._22 = 0.0f;
-	shadow._23 = -light.z / light.y;
-	shadow._42 = 0.5f;	// Zファイティング対策
-
-	modelshadow = world * shadow;
-
-	CRenderer::SetWorldMatrix(&modelshadow);
 
 	m_Model->Draw();
 }

@@ -125,7 +125,7 @@ void CEnemy::Update_AI()
 	//範囲内になったら接近する
 	if (length < 100.0f)
 	{
-		if (length > 20.0f)
+		if (length > 50.0f)
 		{
 			D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
 			m_Position += Velocity / 10;
@@ -150,7 +150,6 @@ void CEnemy::Update_AI()
 
 void CEnemy::Draw()
 {
-	//内部クラスから
 	m_Weapon->Draw();
 	m_Sight->Draw();
 
@@ -159,13 +158,11 @@ void CEnemy::Draw()
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x + m_ModelRot.x, m_Rotation.y - m_ModelRot.y, m_Rotation.z + m_ModelRot.z);
-	//位置マトリクス
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x + m_ModelRot.x, -m_Rotation.z - m_ModelRot.z, m_Rotation.y + m_ModelRot.y);
+	//位置マトリクス6
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
-
-	//m_Model->Draw();
 
 	m_Animodel->Draw();
 }

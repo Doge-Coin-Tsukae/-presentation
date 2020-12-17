@@ -11,7 +11,6 @@
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
-
 #include "input.h"
 #include "scene.h"
 #include "polygon.h"
@@ -34,6 +33,10 @@
 #include "saveloadchip.h"
 #include "selectitem.h"
 
+#define ITEMCHIPX 2
+#define ITEMCHIPY 4
+
+
 enum BOTTONMODE
 {
 	SET,		//İ’u
@@ -51,28 +54,28 @@ void CSelectItem::Init()
 	m_Position = D3DXVECTOR3(800.0f, 40.0f, 0.0f);
 
 	m_under = new CPolygon;
-	m_under->SetSize(300.0f,150.0f);
+	m_under->SetSize(300.0f, 150.0f);
 	m_under->SetTexture((char*)"asset/texture/selectitem/under2.png");
 	m_under->Init(m_Position);
 
 	m_pointer = new CSelectpointer;
 	m_pointer->Init();
-	m_pointer->SetPosition(m_Position = D3DXVECTOR3(m_Position.x+ 3.0f, m_Position.y+ 28.0f, 0.0f));
+	m_pointer->SetPosition(m_Position = D3DXVECTOR3(m_Position.x + 3.0f, m_Position.y + 28.0f, 0.0f));
 
 	//c•ûŒü
-	for (int h = 0; h < 4;h++)
+	for (int h = 0; h < ITEMCHIPY; h++)
 	{
 		//‰¡•ûŒü
-		for (int w = 0; w < 2; w++)
+		for (int w = 0; w < ITEMCHIPX; w++)
 		{
 			m_chip[h][w] = new CChip;
 			m_chip[h][w]->Init();
-			m_chip[h][w]->SetPosition(D3DXVECTOR3(m_Position.x -2 + 75 * w, m_Position.y - 2 + 69 * h, 0.0f));
+			m_chip[h][w]->SetPosition(D3DXVECTOR3(m_Position.x - 2 + 75 * w, m_Position.y - 2 + 69 * h, 0.0f));
 			m_chip[h][w]->SetPolygon((char*)"asset/texture/selectitem/chip2.png",
-				D3DXVECTOR2(73.0f,68.0f),
+				D3DXVECTOR2(73.0f, 68.0f),
 				D3DXVECTOR2(0.5f*w, 0.25f*h), D3DXVECTOR2(0.5f + (0.5f * w), 0.25 + (0.25*h)));
 
-			m_chip[h][w]->Setid((h*2)+ w);
+			m_chip[h][w]->Setid((h * 2) + w);
 		}
 	}
 
@@ -81,7 +84,7 @@ void CSelectItem::Init()
 	{
 		m_modechip[h] = new CMODECHIP;
 		m_modechip[h]->Init();
-		m_modechip[h]->SetPosition(D3DXVECTOR3(m_Position.x-2 + 78 * h, m_Position.y -53, 0.0f));
+		m_modechip[h]->SetPosition(D3DXVECTOR3(m_Position.x - 2 + 78 * h, m_Position.y - 53, 0.0f));
 		m_modechip[h]->SetPolygon((char*)texturename[h],
 			D3DXVECTOR2(70.0f, 25.0f));
 		m_modechip[h]->Setid(h);
@@ -96,7 +99,7 @@ void CSelectItem::Init()
 	m_SaveLoadChip->SetPosition(m_Position);
 	m_SaveLoadChip->Init();
 
-	min = D3DXVECTOR2(0,0);
+	min = D3DXVECTOR2(0, 0);
 	max = D3DXVECTOR2(150.0f, 300.0f);
 	click = false;
 }
@@ -116,10 +119,10 @@ void CSelectItem::Uninit()
 	}
 
 	//c•ûŒü
-	for (int h = 0; h < 4; h++)
+	for (int h = 0; h < ITEMCHIPY; h++)
 	{
 		//‰¡•ûŒü
-		for (int w = 0; w < 2; w++)
+		for (int w = 0; w < ITEMCHIPX; w++)
 		{
 			m_chip[h][w]->Uninit();
 			delete m_chip[h][w];
@@ -134,19 +137,13 @@ void CSelectItem::Uninit()
 
 void CSelectItem::Update()
 {
-	//ãŒÀ‚ğ’²‚×‚é
-	//m_Rotation.z = min(m_Rotation.z, 0.0f);
-	//m_Rotation.z = max(m_Rotation.z, -0.5f);
-	//m_Rotation.z = min(m_Rotation.z, 0.0f);
-	//m_Rotation.z = max(m_Rotation.z, -0.5f);
-
 	m_under->Update();
 	m_pointer->Update();
 	//c•ûŒü
-	for (int h = 0; h < 4; h++)
+	for (int h = 0; h < ITEMCHIPY; h++)
 	{
 		//‰¡•ûŒü
-		for (int w = 0; w < 2; w++)
+		for (int w = 0; w < ITEMCHIPX; w++)
 		{
 			m_chip[h][w]->Update();
 		}
@@ -170,10 +167,10 @@ void CSelectItem::Draw()
 	m_pointer->Draw();
 
 	//c•ûŒü
-	for (int h = 0; h < 3; h++)
+	for (int h = 0; h < ITEMCHIPY; h++)
 	{
 		//‰¡•ûŒü
-		for (int w = 0; w < 2; w++)
+		for (int w = 0; w < ITEMCHIPX; w++)
 		{
 			m_chip[h][w]->Draw();
 		}
@@ -298,10 +295,10 @@ bool CSelectItem::ClickItemBox()
 
 	//ƒ`ƒbƒv‚Ì“–‚½‚è”»’è
 		//c•ûŒü
-	for (int h = 0; h < 4; h++)
+	for (int h = 0; h < ITEMCHIPY; h++)
 	{
 		//‰¡•ûŒü
-		for (int w = 0; w < 2; w++)
+		for (int w = 0; w < ITEMCHIPX; w++)
 		{
 			if (m_chip[h][w]->Colision(pos) == true)
 			{

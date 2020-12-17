@@ -13,7 +13,7 @@
 #include "base.h"
 #include "enemycommander.h"
 
-#define MAX_RESPORNTIME 626;
+#define MAX_RESPORNTIME 280;
 
 void CENEMY_COMMANDER::Init()
 {

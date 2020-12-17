@@ -72,63 +72,12 @@ void CGame::Init()
 
 	AddGameObject<CSKYDOME>(1);		//スカイドーム
 	AddGameObject<CMeshField>(1);	//地面
-	{
-		//for (int i = 0; i < 8; i++)
-		//{
-		//	for (int j = 0; j < 8; j++)
-		//	{
-		//		AddGameObject<CField>(1)->SetPosition(D3DXVECTOR3(-400 + i * 100, 0, -400 + j * 100));
-		//	}
-		//}
-
-		//AddGameObject<CPlayer>(1)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, -200.0f));
-
-		//AddGameObject<CENEMY_COMMANDER>(1);
-
-		//AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(5.0f, 1.0f, 0.0f));
-		//AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(10.0f, 1.0f, 0.0f));
-		//AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f, 0.0f));
-		//AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(5.0f, 1.0f, -100.0f));
-		//AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(10.0f, 1.0f,-100.0f));
-		//AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f,-100.0f));
-
-		//AddGameObject<CFriend>(1)->SetPosition(D3DXVECTOR3(12.0f, 1.0f, -200.0f));
-
-		/*AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(40.0f, 0.0f, -130.0f));
-		AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(-40.0f, 0.0f, -130.0f));
-
-		CScene* scene = CManager::GetScene();
-		std::vector<CBUNKER*> bunkerList = scene->GetGameObjects<CBUNKER>(1);
-		for (CBUNKER* Bunker : bunkerList)
-		{
-			Bunker->SetRotation(D3DXVECTOR3(3.2f,0.0f,0.0f));
-		}
-		AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(40.0f, 0.0f,  30.0f));
-		AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(-40.0f, 0.0f, 30.0f));
-
-		AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(-40.0f, 0.0f, 0.0f));
-		AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(-60.0f, 0.0f, 10.0f));
-		AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(-70.0f, 0.0f, -5.0f));
-		AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(-50.0f, 0.0f, 5.0f));
-		AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3( 30.0f, 0.0f, -50.0f));
-		AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(-30.0f, 0.0f, -60.0f));
-		AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3( 0.0f, 0.0f, -40.0f));
-		AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3( 20.0f, 0.0f,-20.0f));
-
-		AddGameObject<CBASE>(2)->SetPosition(D3DXVECTOR3(0.0f, 0.0f, -70.0f));
-		AddGameObject<CBASE>(2)->SetPosition(D3DXVECTOR3(-50.0f, 0.0f, 90.0f));
-
-		AddGameObject<CTREE>(2)->SetPosition(D3DXVECTOR3(-50.0f, 5.0f, -150.0f));
-		AddGameObject<CTREE>(2)->SetPosition(D3DXVECTOR3(-15.0f, 5.0f, -150.0f));
-		AddGameObject<CTREE>(2)->SetPosition(D3DXVECTOR3(20.0f, 5.0f, -160.0f));
-		AddGameObject<CTREE>(2)->SetPosition(D3DXVECTOR3(-30.0f, 5.0f, -170.0f));
-		AddGameObject<CTREE>(2)->SetPosition(D3DXVECTOR3(30.0f, 5.0f, -180.0f));*/
-	}
 
 	AddGameObject<CWEAPON2D>(4);
 	AddGameObject<CPLAYERUI>(4);
+	AddGameObject<CENEMY_COMMANDER>(4);
 
-	m_Load->Data_Load();
+	m_Load->Data_Load();	//データのロード
 
 	//PlaySound(SOUND_BGM_BGM002);
 

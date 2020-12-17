@@ -88,7 +88,7 @@ void CConquest::VictoryOrDefeatConditions()
 {
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
-	std::vector<CBASE*> baseList = scene->GetGameObjects<CBASE>(1);
+	std::vector<CBASE*> baseList = scene->GetGameObjects<CBASE>(2);
 
 	//ƒŠƒZƒbƒg
 	for (int i = 0; i < 2; i++)

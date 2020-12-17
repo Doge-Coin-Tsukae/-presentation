@@ -60,10 +60,10 @@ void CLOAD::Data_Load()
 
 		for (int i = 0; i < 3; i++)
 		{
-			CEnemy* pEnemy = new CEnemy();
-			pEnemy->Init();
-			pEnemy->Load(SaveFile,i);
-			scene->AddArgumentGameObject(pEnemy, 1);
+			//CEnemy* pEnemy = new CEnemy();
+			//pEnemy->Init();
+			//pEnemy->Load(SaveFile,i);
+			//scene->AddArgumentGameObject(pEnemy, 1);
 		}
 
 		fclose(SaveFile);
@@ -97,7 +97,7 @@ void CLOAD::Data_Load()
 			CBASE* pBase = new CBASE();
 			pBase->Init();
 			pBase->Load(SaveFile, i);
-			scene->AddArgumentGameObject(pBase, 1);
+			scene->AddArgumentGameObject(pBase, 2);
 		}
 
 		fclose(SaveFile);
@@ -114,7 +114,7 @@ void CLOAD::Data_Load()
 			CTREE* pTree = new CTREE();
 			pTree->Init();
 			pTree->Load(SaveFile, i);
-			scene->AddArgumentGameObject(pTree, 1);
+			scene->AddArgumentGameObject(pTree, 3);
 		}
 
 		fclose(SaveFile);
@@ -179,7 +179,7 @@ void CLOAD::Data_Destroy()
 	}
 
 	//リストからピックアップしてデータ削除
-	std::vector<CTREE*> treelist = scene->GetGameObjects<CTREE>(1);
+	std::vector<CTREE*> treelist = scene->GetGameObjects<CTREE>(3);
 	for (CTREE* tree : treelist)
 	{
 		tree->SetDestroy();

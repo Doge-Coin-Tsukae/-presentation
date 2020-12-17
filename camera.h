@@ -25,5 +25,6 @@ public:
 
 	void ZoomCamera() { m_zoom = 1 - m_zoom; }
 
+	bool GetZoom() { return m_zoom; }
 	D3DXMATRIX GetViewMatrix() { return viewMatrix; }
 };

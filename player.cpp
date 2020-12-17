@@ -66,7 +66,7 @@ void CPlayer::Init()
 	m_Colider.Init(m_Position + D3DXVECTOR3(-1.0f, 0.0f, -1.0f), m_Position + D3DXVECTOR3(1.0f, 2.0f, 1.0f), m_Position);
 
 	//メンバ変数の初期処理
-	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	m_Position = D3DXVECTOR3(350.0f, 1.0f, -200.0f);
 	m_Velocity = m_Position;
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_ModelRot = D3DXVECTOR3(1.6f, 0.0f, 0.0f);
@@ -82,14 +82,14 @@ void CPlayer::Init()
 
 	const char* VSfilename[MAXSHADER] = //バーテックスシェーダファイルネーム
 	{
-		"toonVS.cso",	//シェーダー
+		"vertexShader.cso",	//シェーダー
 		"pixelLightingVS.cso",	//シェーダー
 		"vertexLightingVS.cso",	//シェーダー
 		"vertexShader.cso",	//シェーダー
 	};
 	const char* PSfilename[MAXSHADER] = //ピクセルシェーダファイルネーム
 	{
-		"toonPS.cso",	//シェーダー
+		"pixelShader.cso",	//シェーダー
 		"pixelLightingPS.cso",	//シェーダー
 		"vertexLightingPS.cso",	//シェーダー
 		"pixelShader.cso",	//シェーダー
@@ -148,33 +148,38 @@ void CPlayer::Update()
 	for (CBUNKER* bunker : bunkerList)
 	{
 		//AABB
-		if (intersectAABB(m_Colider, bunker->GetColider()))
+		/*if (intersectAABB(m_Colider, bunker->GetColider()))
 		{
 			m_Velocity = m_Position;
 			m_speed = 0.01f;
-		}
+		}*/
 
 		//OBB(未完)
-		D3DXVECTOR3 direction = m_Position - bunker->GetPosition();
+		D3DXVECTOR3 bukerPos = bunker->GetPosition();
+		D3DXVECTOR3 direction = m_Position - bukerPos;
 
-		D3DXVECTOR3 obbx, obbz;
-		float obbLenx, obbLenz;
+		D3DXVECTOR3 obbx, obby, obbz;
+		float obbLenx, obbLeny,obbLenz;
 
 		obbx = bunker->GetObbX();
 		obbLenx = D3DXVec3Length(&obbx);
 		obbx /= obbLenx;
 
+		obby = bunker->GetObbY();
+		obbLeny = D3DXVec3Length(&obby);
+		obby /= obbLeny;
+
 		obbz = bunker->GetObbZ();
 		obbLenz = D3DXVec3Length(&obbz);
 		obbz /= obbLenz;
 
-		float lenX, lenZ;
+		float lenX,lenY, lenZ;
 		lenX = D3DXVec3Dot(&obbx, &direction);
+		lenY = D3DXVec3Dot(&obby, &direction);
 		lenZ = D3DXVec3Dot(&obbz, &direction);
 
-		if (fabs(lenX) < obbLenx && fabs(lenZ) < obbLenz)
+		if (fabs(lenX) < obbLenx && fabs(lenY) < obbLeny && fabs(lenZ) < obbLenz)
 		{
-			//enemy->SetDestroy();
 			m_Velocity = m_Position;
 			m_speed = 0.01f;
 		}
@@ -324,11 +329,11 @@ void CPlayer::Draw()
 	m_Animodel->Draw();
 
 	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
-	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 	//バーテックスシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[MAXSHADER-1], NULL, 0);
+	//CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[MAXSHADER-1], NULL, 0);
 	//ピクセルシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[MAXSHADER-1], NULL, 0);
+	//CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[MAXSHADER-1], NULL, 0);
 }
 
 void CPlayer::Death()
@@ -358,6 +363,7 @@ void CPlayer::ChangeAnimation(char* Name)
 void CPlayer::Load(FILE* fp)
 {
 	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
+	m_Velocity = m_Position;
 	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
 	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
 }

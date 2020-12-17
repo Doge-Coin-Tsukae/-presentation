@@ -31,11 +31,6 @@ void CBUNKER::Init()
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	m_Colider.Init(m_Position + D3DXVECTOR3(-8.0f, 0.0f, -8.0f), m_Position+ D3DXVECTOR3(8.0f, 2.0f, 8.0f), m_Position);
-
-	//メッシュフィールド高さ取得
-	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
-	m_Position.y = meshField->GetHeight(m_Position);
-
 }
 
 void CBUNKER::Uninit()
@@ -44,6 +39,11 @@ void CBUNKER::Uninit()
 void CBUNKER::Update()
 {
 	m_Colider.update(m_Position);
+
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	m_Position.y = meshField->GetHeight(m_Position);
+
 }
 void CBUNKER::Draw()
 {
