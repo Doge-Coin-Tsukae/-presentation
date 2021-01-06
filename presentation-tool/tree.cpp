@@ -1,7 +1,7 @@
 #include "main.h"
 #include "renderer.h"
-#include "manager.h"
 #include "scene.h"
+#include "manager.h"
 #include "meshfield.h"
 #include "tree.h"
 #include "camera.h"
@@ -70,7 +70,7 @@ void CTREE::Update()
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 	m_Position.y = meshField->GetHeight(m_Position);
-	m_Position.y += 1.3f;
+	m_Position.y += 3.0f;
 
 }
 

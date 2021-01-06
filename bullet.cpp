@@ -5,9 +5,9 @@
 //
 //=====================================
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
 #include "scene.h"
+#include "manager.h"
 #include "Vector.h"
 #include "sound.h"
 #include "model.h"
@@ -105,7 +105,7 @@ void CBullet::Update_Collision()
 			if (m_Zone->GetColider(enemy->GetPosition()))
 			{
 				scene->AddGameObject<CExplosion>(2)->SetPosition(m_Position);	//‰æ–Ê‚É•\Ž¦‚³‚¹‚é
-				enemy->SetDestroy();
+				enemy->Death();
 				PlaySound(SOUND_SE_DEATH);
 				SetDestroy();
 				return;

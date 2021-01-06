@@ -48,6 +48,7 @@ public:
 	void Load(const char *FileName);
 	void LoadAnimation(const char *FileName, const char *name);
 	void Unload();
+	void UnloadAnimation();
 	void Update(const char *AnimationName1, const char *AnimationName2, int Frame, float rate);
 	void Draw();
 };

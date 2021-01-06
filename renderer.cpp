@@ -433,7 +433,12 @@ void CRenderer::SetLight( LIGHT Light )
 
 void CRenderer::SetCameraPosition(D3DXVECTOR3 CameraPosition)
 {
-	m_ImmediateContext->UpdateSubresource(m_CameraBuffer, 0, NULL, &D3DXVECTOR4(CameraPosition.x, CameraPosition.y, CameraPosition.z, 1.0f), 0, 0);
+	D3DXVECTOR4 CameraPos;
+	CameraPos.x= CameraPosition.x;
+	CameraPos.y = CameraPosition.y;
+	CameraPos.z= CameraPosition.z;
+	CameraPos.w = 1.0f;
+	m_ImmediateContext->UpdateSubresource(m_CameraBuffer, 0, NULL, &CameraPos, 0, 0);
 }
 
 void CRenderer::SetParameter(D3DXVECTOR4 Parameter)

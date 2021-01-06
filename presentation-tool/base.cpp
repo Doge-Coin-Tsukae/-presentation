@@ -2,8 +2,11 @@
 //拠点オブジェクト(陣取り出来る)
 //
 #include "main.h"
-#include "manager.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "Vector.h"
 #include "meshfield.h"
 #include "game.h"

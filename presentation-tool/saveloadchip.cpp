@@ -1,7 +1,8 @@
+#include<string>
 #include "main.h"
 #include "renderer.h"
-#include "manager.h"
 #include "scene.h"
+#include "manager.h"
 #include "input.h"
 #include "save.h"
 #include "load.h"

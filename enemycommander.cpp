@@ -1,7 +1,7 @@
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
 #include "scene.h"
+#include "manager.h"
 #include "human.h"
 
 #include "model.h"

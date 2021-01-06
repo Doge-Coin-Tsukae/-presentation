@@ -1,9 +1,8 @@
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
-#include "input.h"
 #include "scene.h"
-
+#include "manager.h"
+#include "input.h"
 #include"tree.h"
 #include "meshfield.h"
 #include "human.h"

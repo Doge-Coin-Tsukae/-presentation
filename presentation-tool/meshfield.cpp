@@ -235,6 +235,10 @@ float CMeshField::GetHeight(D3DXVECTOR3 Position)
 	x = Position.x / 5.0f + 10.0f;
 	z = Position.z / -5.0f + 10.0f;
 
+	//ステージ範囲外だったら0.0fを返す
+	if (x < 0 || z < 0)return 0.0f;
+	if (x >= FIELDX-1 || z >= FIELDY-1)  return 0.0f;
+
 	D3DXVECTOR3 pos0, pos1, pos2, pos3;
 
 	pos0 = m_Vertex[x][z].Position;

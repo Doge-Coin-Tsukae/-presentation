@@ -3,12 +3,18 @@
 //
 
 #include "main.h"
+#include <iostream>
 #include <tchar.h>
+#include <string>
+#include <fstream>   // ifstream, ofstream
+#include <sstream>   // istringstream
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "filewinapi.h"
-#include "manager.h"
 #include "renderer.h"
-#include "input.h"
 #include "scene.h"
+#include "manager.h"
+#include "input.h"
 
 #include"tree.h"
 #include "meshfield.h"
@@ -89,113 +95,128 @@ void CSAVE::Data_Save()
 
 	//プレイヤーの情報をファイルに書き込む
 	{
-		strcat(path2, "/playerdata.txt");
-		SaveFile = fopen(path2, "w");
+		//strcat(path2, "/playerdata.txt");
+		//SaveFile = fopen(path2, "w");
 
-		if (SaveFile == NULL)           // オープンに失敗した場合
-			return;                         // 異常終了
+		//if (SaveFile == NULL)           // オープンに失敗した場合
+			//return;                         // 異常終了
 		//プレイヤーの情報を書き出す
 		CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
-		pPlayer->Save(SaveFile);
-		fclose(SaveFile);
+		std::stringstream ss;
+		std::string path ="playerdata.json";
+		{
+			cereal::JSONOutputArchive o_archive(ss);
+			o_archive(cereal::make_nvp("playerdata", *pPlayer));
+			//pPlayer->serialize(o_archive);
+		}
+		std::ofstream outputFile(path, std::ios::out);
+			//書き出す
+		outputFile << ss.str();
+			//閉じる
+		outputFile.close();
+			ss.clear();
+		
+
+		//pPlayer->Save(SaveFile);
+		//fclose(SaveFile);
 	}
 
 	//敵の情報をファイルに書き込む
 	{
-		strcpy(path2, temp);
-		strcat(path2, "/enemydata.txt");
-		SaveFile = fopen(path2, "w");
+		//strcpy(path2, temp);
+		//strcat(path2, "/enemydata.txt");
+		//SaveFile = fopen(path2, "w");
 
-		if (SaveFile == NULL)           // オープンに失敗した場合
-			return;                         // 異常終了
-		//敵の情報を書き出す
+		//if (SaveFile == NULL)           // オープンに失敗した場合
+		//	return;                         // 異常終了
+		////敵の情報を書き出す
 
-		std::vector<CEnemy*> enemylist = scene->GetGameObjects<CEnemy>(1);
+		//std::vector<CEnemy*> enemylist = scene->GetGameObjects<CEnemy>(1);
 
-		//個数を保存する
-		//fprintf(SaveFile, "%d\n");
+		////個数を保存する
+		////fprintf(SaveFile, "%d\n");
 
-		for (CEnemy* enemy : enemylist)
-		{
-			enemy->Save(SaveFile);
-		}
+		//for (CEnemy* enemy : enemylist)
+		//{
+		//	enemy->Save(SaveFile);
+		//}
 
-		fclose(SaveFile);
+		//fclose(SaveFile);
 	}
 
 	//バンカー情報をファイルに書き込む
 	{
-		strcpy(path2, temp);
-		strcat(path2, "/bunkerdata.txt");
-		SaveFile = fopen(path2, "w");
-		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;				// 異常終了
-		//情報を書き込む
-		std::vector<CBUNKER*> bunkerlist = scene->GetGameObjects<CBUNKER>(1);
-		for (CBUNKER* bunker : bunkerlist)
-		{
-			bunker->Save(SaveFile);
-		}
+		//strcpy(path2, temp);
+		//strcat(path2, "/bunkerdata.txt");
+		//SaveFile = fopen(path2, "w");
+		//if (SaveFile == NULL)	// オープンに失敗した場合
+		//	return;				// 異常終了
+		////情報を書き込む
+		//std::vector<CBUNKER*> bunkerlist = scene->GetGameObjects<CBUNKER>(1);
+		//for (CBUNKER* bunker : bunkerlist)
+		//{
+		//	bunker->Save(SaveFile);
+		//}
 
-		fclose(SaveFile);
+		//fclose(SaveFile);
 	}
 	//拠点情報を書き込む
 	{
-		strcpy(path2, temp);
-		strcat(path2, "/basedata.txt");
-		SaveFile = fopen(path2, "w");
-		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;             // 異常終了
-		//情報を書き込む
-		std::vector<CBase*> baselist = scene->GetGameObjects<CBase>(1);
-		for (CBase* base : baselist)
-		{
-			base->Save(SaveFile);
-		}
+		//strcpy(path2, temp);
+		//strcat(path2, "/basedata.txt");
+		//SaveFile = fopen(path2, "w");
+		//if (SaveFile == NULL)	// オープンに失敗した場合
+		//	return;             // 異常終了
+		////情報を書き込む
+		//std::vector<CBase*> baselist = scene->GetGameObjects<CBase>(1);
+		//for (CBase* base : baselist)
+		//{
+		//	base->Save(SaveFile);
+		//}
 
-		fclose(SaveFile);
+		//fclose(SaveFile);
 	}
 	//木情報を書き込む
 	{
-		strcpy(path2, temp);
-		strcat(path2, "/treedata.txt");
-		SaveFile = fopen(path2, "w");
-		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;				// 異常終了
-		//情報を書き込む
-		std::vector<CTREE*> treelist = scene->GetGameObjects<CTREE>(1);
-		for (CTREE* tree : treelist)
-		{
-			tree->Save(SaveFile);
-		}
+		//strcpy(path2, temp);
+		//strcat(path2, "/treedata.txt");
+		//SaveFile = fopen(path2, "w");
+		//if (SaveFile == NULL)	// オープンに失敗した場合
+		//	return;				// 異常終了
+		////情報を書き込む
+		//std::vector<CTREE*> treelist = scene->GetGameObjects<CTREE>(1);
+		//for (CTREE* tree : treelist)
+		//{
+		//	tree->Save(SaveFile);
+		//}
 
-		fclose(SaveFile);
+		//fclose(SaveFile);
 	}
 	//枯れ木情報を書き込む
 	{
-		strcpy(path2, temp);
-		strcat(path2, "/deadtreedata.txt");
-		SaveFile = fopen(path2, "w");
-		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;				// 異常終了
-		//情報を書き込む
-		std::vector<CDEADTREE*> deadtreelist = scene->GetGameObjects<CDEADTREE>(1);
-		for (CDEADTREE* deadtree : deadtreelist)
-		{
-			deadtree->Save(SaveFile);
-		}
+		//strcpy(path2, temp);
+		//strcat(path2, "/deadtreedata.txt");
+		//SaveFile = fopen(path2, "w");
+		//if (SaveFile == NULL)	// オープンに失敗した場合
+		//	return;				// 異常終了
+		////情報を書き込む
+		//std::vector<CDEADTREE*> deadtreelist = scene->GetGameObjects<CDEADTREE>(1);
+		//for (CDEADTREE* deadtree : deadtreelist)
+		//{
+		//	deadtree->Save(SaveFile);
+		//}
 
-		fclose(SaveFile);
+		//fclose(SaveFile);
 	}
 	//地形情報をファイルに書き込む
 	{
-		strcpy(path2, temp);
-		strcat(path2, "/field.txt");
-		SaveFile = fopen(path2, "w");
-		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;				// 異常終了
-		CMeshField* pMeshField = scene->GetGameObject<CMeshField>(1);
-		pMeshField->Save(SaveFile);
-		fclose(SaveFile);
+		//strcpy(path2, temp);
+		//strcat(path2, "/field.txt");
+		//SaveFile = fopen(path2, "w");
+		//if (SaveFile == NULL)	// オープンに失敗した場合
+		//	return;				// 異常終了
+		//CMeshField* pMeshField = scene->GetGameObject<CMeshField>(1);
+		//pMeshField->Save(SaveFile);
+		//fclose(SaveFile);
 	}
 }

@@ -5,11 +5,11 @@
 //
 //=====================================
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "sound.h"
 #include "Vector.h"
-#include "scene.h"
 #include "smoke.h"
 #include "model.h"
 #include "human.h"

@@ -3,13 +3,14 @@
 //****************************************
 
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
-#include "model.h"
 #include "scene.h"
+#include "manager.h"
+#include "model.h"
 
 #include "human.h"
 #include "Vector.h"
+#include "sound.h"
 #include "model.h"
 #include "animationmodel.h"
 #include "sight.h"
@@ -19,7 +20,7 @@
 #include "meshfield.h"
 #include "enemy.h"
 
-//class CAnimationModel* CEnemy::m_Animodel;
+class CAnimationModel* CEnemy::m_Animodel;
 
 #define		ANIMEBLENDSPEED	0.1f
 
@@ -39,17 +40,6 @@ ANIMENAME2 g_aParam2[5] =
 
 void CEnemy::Load()
 {
-	
-}
-
-void CEnemy::Unload()
-{
-
-
-}
-
-void CEnemy::Init()
-{
 	m_Animodel = new CAnimationModel();
 	m_Animodel->Load("asset\\model\\player\\chara.fbx");					//モデルのロード(ボーン付き)
 	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam2[0].pFilename);		//アニメーション
@@ -57,7 +47,18 @@ void CEnemy::Init()
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam2[2].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam2[3].pFilename);
 	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam2[4].pFilename);
+}
 
+void CEnemy::Unload()
+{
+	m_Animodel->Unload();
+	m_Animodel->UnloadAnimation();
+	delete m_Animodel;
+}
+
+void CEnemy::Init()
+{
+	
 	m_Sight = new CSIGHT();
 	m_Sight->Init();
 	m_Sight->Setparent(this);		//照準の親を自分に
@@ -71,6 +72,7 @@ void CEnemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.3f, 1.3f, 1.3f);
 	m_TeamNumber = TEAM_ENEMY;		//チーム設定
+	m_Death = false;
 
 	//アニメーション
 	m_NowAnimationChara = g_aParam2[0].pFilename;
@@ -86,9 +88,6 @@ void CEnemy::Uninit()
 
 	m_Sight->Uninit();
 	delete m_Sight;
-
-	m_Animodel->Unload();
-	delete m_Animodel;
 }
 
 void CEnemy::Update()
@@ -101,7 +100,6 @@ void CEnemy::Update()
 	//プレイヤーに入っているクラスの更新処理
 	m_Sight->Update();
 	m_Weapon->Update();
-	m_Animodel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
 
 	rate += ANIMEBLENDSPEED;
 	m_Frame++;
@@ -146,6 +144,16 @@ void CEnemy::Update_AI()
 	{
 		m_Weapon->Reload();
 	}
+
+	//ちんだ時の処理
+	if (m_Death == true)
+	{
+		m_OldAnimationChara = (char*)"Death";
+		m_NowAnimationChara = (char*)"Death";
+
+		if (m_Frame % 177 == 0)
+			SetDestroy();
+	}
 }
 
 void CEnemy::Draw()
@@ -164,6 +172,7 @@ void CEnemy::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
+	m_Animodel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
 	m_Animodel->Draw();
 }
 
@@ -184,6 +193,14 @@ void CEnemy::ChangeAnimation(char* Name)
 	m_OldAnimationChara = m_NowAnimationChara;		//新しいアニメーションデータを古いアニメーションデータにする
 	m_NowAnimationChara = Name;						//新しいアニメーションデータを入れる
 	rate = 0.0f;									//ブレンド値をリセット
+}
+
+void CEnemy::Death()
+{
+	if (m_Death == true) return;
+	PlaySound(SOUND_SE_DEATH);
+	m_Death = true;
+	m_Frame = 1;
 }
 
 void CEnemy::Load(FILE* fp, int line)

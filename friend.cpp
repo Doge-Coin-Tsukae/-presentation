@@ -3,11 +3,10 @@
 //****************************************
 
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
-#include "model.h"
 #include "scene.h"
-
+#include "manager.h"
+#include "model.h"
 #include "human.h"
 #include "Vector.h"
 #include "model.h"

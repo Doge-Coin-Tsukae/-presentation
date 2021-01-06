@@ -5,8 +5,9 @@
 //
 //=====================================
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "Vector.h"
 #include "gamemaneger.h"
 #include "polygon.h"

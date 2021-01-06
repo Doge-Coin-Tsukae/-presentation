@@ -4,9 +4,9 @@
 //writen by y.okubo
 //
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
 #include "scene.h"
+#include "manager.h"
 #include "Vector.h"
 
 #include "camera.h"
@@ -42,7 +42,10 @@ void CCARSOR::Update()
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 
 	//スクリーン座標からワールド座標に変換
-	CalcScreenToWorld(&ppos,pos.x, pos.y,1.0f,SCREEN_WIDTH,SCREEN_HEIGHT, &camera->GetViewMatrix(),&camera->GetProjectionMatrix());
+	D3DXMATRIX VM, PM;
+	VM = camera->GetViewMatrix();
+	PM = camera->GetProjectionMatrix();
+	CalcScreenToWorld(&ppos,pos.x, pos.y,1.0f,SCREEN_WIDTH,SCREEN_HEIGHT, &VM,&PM);
 
 	//カーソルの座標とカメラの座標でベクトルをとる
 	D3DXVECTOR3 vpos = GetVector(camera->GetPosition(), ppos);	//スクリーンとカメラのベクトル
@@ -55,6 +58,28 @@ void CCARSOR::Update()
 		if (meshField->GetHeight(m_Position) >= m_Position.y)
 		{
 			m_Position.y = meshField->GetHeight(m_Position);
+			break;
+		}
+
+		//四隅だったらその座標で抜ける
+		if (m_Position.x <= (0 - 10) * 5.0f)
+		{
+			m_Position.x = (0 - 10) * 5.0f;
+			break;
+		}
+		if (m_Position.z >= (0 - 10) * -5.0f)
+		{
+			m_Position.z = (0 - 10) * -5.0f;
+			break;
+		}
+		if (m_Position.x >= (300 - 10) * 5.0f)
+		{
+			m_Position.x = (300 - 10) * 5.0f;
+			break;
+		}
+		if (m_Position.z <= (300 - 10) * -5.0f)
+		{
+			m_Position.z = (300 - 10) * -5.0f;
 			break;
 		}
 	}
@@ -99,7 +124,8 @@ D3DXVECTOR3* CCARSOR::CalcScreenToWorld(
 
 	// 逆変換
 	D3DXMATRIX tmp = InvViewport * InvPrj * InvView;
-	D3DXVec3TransformCoord(pout, &D3DXVECTOR3(Sx, Sy, fZ), &tmp);
+	D3DXVECTOR3 pV(Sx,Sy,fZ);
+	D3DXVec3TransformCoord(pout, &pV, &tmp);
 
 	return pout;
 }

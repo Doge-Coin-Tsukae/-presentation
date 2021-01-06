@@ -8,8 +8,9 @@
 #include <vector>
 #include <typeinfo>
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "sound.h"
 #include "fade.h"
 #include "input.h"

@@ -1,7 +1,7 @@
 #include "main.h"
 #include "renderer.h"
-#include "manager.h"
 #include "scene.h"
+#include "manager.h"
 #include "smoke.h"
 #include "camera.h"
 

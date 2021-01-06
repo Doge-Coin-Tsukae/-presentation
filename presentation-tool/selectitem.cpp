@@ -5,9 +5,11 @@
 //---------------------------------
 
 #include "main.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "renderer.h"
-#include "manager.h"
 #include "scene.h"
+#include "manager.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
@@ -19,6 +21,7 @@
 #include "human.h"
 #include "carsor.h"
 #include "colider.h"
+#include "camera.h"
 #include "bunker.h"
 #include "sight.h"
 #include "weapon.h"
@@ -239,6 +242,7 @@ void CSelectItem::UpdateControll()
 
 		click = false;
 	}
+	//押しっぱなしにしたとき、オブジェクトをついてくるようにする
 	if (CInput::GetKeyPress(VK_LBUTTON))
 	{
 		if (!m_EditGameObject) return;
@@ -252,6 +256,20 @@ void CSelectItem::UpdateControll()
 		D3DXVECTOR3 cpos = m_carsor->GetPosition();
 		m_EditGameObject->SetPosition(cpos);
 	}
+
+	//右クリックしたときカメラもついてくるようにする
+	if (CInput::GetKeyPress(VK_RBUTTON))
+	{
+		CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
+		camera->CameraMouseMove();
+	}
+
+	if(CInput::GetKeyPress(VK_MBUTTON))
+	{
+		CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
+		camera->CameraMouseRotate();
+	}
+
 }
 
 bool CSelectItem::ClikEditBox()

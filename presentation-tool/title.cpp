@@ -2,8 +2,9 @@
 #include <vector>
 #include <typeinfo>
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "input.h"
 #include "Title.h"
 #include "Game.h"

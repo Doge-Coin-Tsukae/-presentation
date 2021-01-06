@@ -2,12 +2,11 @@
 //カメラ操作
 //****************************************
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "model.h"
 #include "input.h"
-
-#include "scene.h"
 
 #include "human.h"
 #include "animationmodel.h"
@@ -74,11 +73,16 @@ void CCamera::Zoom_Player()
 		m_Position.y = m_Target.y + 4.0f *sin(pPlayer->GetRotation().z);
 		m_Position.z = m_Target.z + 4.0f *-sin(pPlayer->GetRotation().x)*cos(pPlayer->GetRotation().z);	//座標
 	}
+	else
+	{
+
+	}
 }
 void CCamera::Draw()
 {
 	//ビューマトリクス設定
-	D3DXMatrixLookAtLH(&viewMatrix,&m_Position,&m_Target,&D3DXVECTOR3(0.0f,1.0f,0.0f));
+	D3DXVECTOR3 Draw= D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	D3DXMatrixLookAtLH(&viewMatrix,&m_Position,&m_Target,&Draw);
 
 	CRenderer::SetViewMatrix(&viewMatrix);		//Direct9のSetTransformに近い
 

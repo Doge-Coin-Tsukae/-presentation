@@ -5,11 +5,11 @@
 //
 //=====================================
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "Vector.h"
 #include "sound.h"
-#include "scene.h"
 #include "input.h"
 #include "camera.h"
 #include "polygon.h"
@@ -116,6 +116,7 @@ void CPlayer::Uninit()
 	delete m_Sight;
 
 	m_Animodel->Unload();
+	m_Animodel->UnloadAnimation();
 	delete m_Animodel;
 
 	for (int i = 0; i < MAXSHADER; i++)
@@ -211,13 +212,15 @@ void CPlayer::Update()
 	{
 		m_OldAnimationChara = (char*)"Death";
 		m_NowAnimationChara = (char*)"Death";
+
+		if (m_Frame%177 == 0)
+				m_Frame --;
 	}
 
 	//変数
 	rate+= ANIMEBLENDSPEED;
 	m_Frame++;
-	//if(m_Frame >= 240)
-	//	m_Frame = 0;
+
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 	m_Position.y = meshField->GetHeight(m_Position);
@@ -271,7 +274,7 @@ void CPlayer::Update_Controll()
 	m_Rotation.x += CInput::GetMousedDfference().x / 100;
 	m_Rotation.z -= CInput::GetMousedDfference().y / 100;
 
-	if (m_Velocity.x == m_Position.x)
+	if (m_Velocity.x == m_Position.x && m_Velocity.z == m_Position.z)
 	{
 		m_speed = 0.01f;
 		if(m_Weapon->GetNextShoot() == false)
@@ -342,6 +345,7 @@ void CPlayer::Death()
 	PlaySound(SOUND_SE_DEATH);
 	m_Death = true;
 	m_Hp = 0;
+	m_Frame = 1;
 }
 
 void CPlayer::Damage()

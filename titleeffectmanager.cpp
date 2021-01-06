@@ -1,10 +1,10 @@
 //タイトル画面のエフェクトマネージャ
 
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
-#include "sound.h"
 #include "scene.h"
+#include "manager.h"
+#include "sound.h"
 #include "shellexplosion.h"
 #include "titleeffectmanager.h"
 

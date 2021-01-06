@@ -4,10 +4,12 @@
 
 #include "main.h"
 #include <tchar.h>
-#include "manager.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "renderer.h"
-#include "input.h"
 #include "scene.h"
+#include "manager.h"
+#include "input.h"
 #include "filewinapi.h"
 
 #include"tree.h"
@@ -66,6 +68,7 @@ TCHAR* CLOAD::PassAsset(TCHAR path[300])
 	}
 	//assetが見つからなかった
 	MessageBox(GetWindow(), "assetフォルダが見つかりません。", "ロード失敗!", MB_ICONSTOP);
+	return NULL;
 }
 
 void CLOAD::Data_Load()
@@ -95,19 +98,23 @@ void CLOAD::Data_Load()
 
 	//プレイヤーの情報をファイルから読み込む
 	{
-		strcat(path2,"//playerdata.txt");
-		SaveFile = fopen(path2, "r");
-		if (SaveFile == NULL)           // オープンに失敗した場合
-		{
-			MessageBox(GetWindow(), "プレイヤーのデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
-			return;
-		}
+		//strcat(path2,"//playerdata.txt");
+		//SaveFile = fopen(path2, "r");
+		//if (SaveFile == NULL)           // オープンに失敗した場合
+		//{
+		//	MessageBox(GetWindow(), "プレイヤーのデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
+		//	return;
+		//}
+		std::stringstream ss;
 		CPlayer* pPlayer = new CPlayer();
-		pPlayer->Init();
-		pPlayer->Load(SaveFile);
+
+		cereal::JSONInputArchive i_archive(ss);
+		i_archive(cereal::make_nvp("playerdata.json", *pPlayer));
+		//pPlayer->Init();
+		//pPlayer->Load(SaveFile);
 		scene->AddArgumentGameObject(pPlayer,1);
 
-		fclose(SaveFile);
+		//fclose(SaveFile);
 	}
 
 	//敵の情報をファイルから読み込む

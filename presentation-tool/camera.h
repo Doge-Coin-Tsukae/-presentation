@@ -11,6 +11,8 @@ private:
 	D3DXMATRIX projectionMatrix;	//プロジェクションマトリクス
 
 	float			m_speed;	//足の速さ
+	float			anglex;
+	float			anglez;
 public:
 	CCamera(){}		//コンストラクタ
 	~CCamera(){}	//デストラクタ
@@ -23,4 +25,6 @@ public:
 
 	D3DXMATRIX GetViewMatrix() { return viewMatrix; }
 	D3DXMATRIX GetProjectionMatrix() { return projectionMatrix; }
+	void CameraMouseMove();
+	void CameraMouseRotate();
 };

@@ -3,12 +3,12 @@
 //****************************************
 
 #include "main.h"
-#include "manager.h"
-#include "renderer.h"
-#include "Vector.h"
-#include "scene.h"
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
+#include "renderer.h"
+#include "scene.h"
+#include "manager.h"
+#include "Vector.h"
 #include "meshfield.h"
 #include "input.h"
 #include "human.h"

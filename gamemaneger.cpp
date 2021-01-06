@@ -5,12 +5,12 @@
 //
 //=====================================
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "input.h"
 #include "sound.h"
 #include "fade.h"
-#include "scene.h"
 #include "title.h"
 #include "human.h"
 

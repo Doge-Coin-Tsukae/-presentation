@@ -204,7 +204,10 @@ void CAnimationModel::Unload()
 
 	aiReleaseImport(m_Scene);
 }
-
+void CAnimationModel::UnloadAnimation()
+{
+	m_Animation.clear();
+}
 void CAnimationModel::Update(const char *AnimationName1, const char *AnimationName2, int Frame, float rate)
 {
 	if (!m_Animation[AnimationName1]->HasAnimations())

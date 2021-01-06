@@ -7,8 +7,8 @@
 
 #include "main.h"
 #include "renderer.h"
-#include "manager.h"
 #include "scene.h"
+#include "manager.h"
 #include "polygon.h"
 #include "human.h"
 #include "animationmodel.h"

@@ -2,8 +2,8 @@
 
 #include "main.h"
 #include "renderer.h"
-#include "manager.h"
 #include "scene.h"
+#include "manager.h"
 #include "shellexplosion.h"
 #include "camera.h"
 

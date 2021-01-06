@@ -1,8 +1,8 @@
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
-#include "model.h"
 #include "scene.h"
+#include "manager.h"
+#include "model.h"
 
 #include "colider.h"
 #include "bunker.h"

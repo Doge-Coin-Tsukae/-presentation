@@ -1,9 +1,9 @@
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
 #include "input.h"
 #include "model.h"
-#include "scene.h"
 
 #include "meshfield.h"
 #include "colider.h"
