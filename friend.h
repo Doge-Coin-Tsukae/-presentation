@@ -6,7 +6,7 @@ class CFriend : public CGameObject	//継承(インヘリタンス)
 {
 private:
 	static CAnimationModel* m_Animodel;	//3Dアニメーションモデルクラス
-	//static CModel* m_Model;			//3Dモデルクラス
+	D3DXVECTOR3		m_ModelRot;
 	CSIGHT* m_Sight;			//照準
 	CWEAPON* m_Weapon;			//所持武器
 
@@ -33,6 +33,6 @@ public:
 	void Update();
 	void Draw();
 
-	void LookPlayer();		//プレイヤーを見る
+	void LookEnemy(CEnemy *enemy);		//プレイヤーを見る
 	void Death();
 };

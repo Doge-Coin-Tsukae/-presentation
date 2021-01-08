@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "manager.h"
 #include "polygon.h"
+#include "light.h"
 #include "gauge.h"
 #include "model.h"
 #include "colider.h"
@@ -37,6 +38,7 @@ void CCAPTUREUI::Update()
 {
 	Line->Update();
 	DeleteTime--;
+
 	//ŽžŠÔ‚ª0‚É‚È‚Á‚½‚Æ‚«
 	if (DeleteTime <= 0)
 	{
@@ -75,9 +77,9 @@ void CCAPTUREGAUGE::Update()
 
 void CCAPTUREGAUGE::Draw()
 {
-	LIGHT light;
-	light.Enable = false;
-	CRenderer::SetLight(light);
+	CScene* scene = CManager::GetScene();
+	CLight* pLight = scene->GetGameObject<CLight>(0);
+	pLight->DisbleLight();
 
 	m_Gauge->Draw();
 }

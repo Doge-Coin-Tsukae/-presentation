@@ -17,6 +17,7 @@
 
 #include "gameobject.h"
 #include "camera.h"
+#include"light.h"
 #include "meshfield.h"
 #include "model.h"
 #include "titleeffectmanager.h"
@@ -46,6 +47,7 @@ void CTitle::Init()
 	CShellExplosion::LoadTexture();
 	//CRenderer::SetDepthEnable(true);
 	AddGameObject<CCamera>(0);
+	AddGameObject<CLight>(0);
 
 	AddGameObject<CSKYDOME>(1);
 

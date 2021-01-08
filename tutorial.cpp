@@ -20,6 +20,7 @@
 
 #include "gameobject.h"
 #include "camera.h"
+#include "light.h"
 #include "field.h"
 #include "meshfield.h"
 #include "human.h"
@@ -64,6 +65,7 @@ void CTutorial::Init()
 	//使うゲームオブジェクト呼び出し
 	//カメラ0番 3Dモデル1番 3Dモデル(当たり判定のやつ)2番 2Dモデル3番
 	AddGameObject<CCamera>(0);
+	AddGameObject<CLight>(0);
 
 	AddGameObject<CSKYDOME>(1);
 

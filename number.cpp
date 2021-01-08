@@ -2,6 +2,7 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include "light.h"
 #include "number.h"
 #include "camera.h"
 
@@ -67,9 +68,9 @@ void CNUMBER::Update()
 
 void CNUMBER::Draw()
 {
-	LIGHT light;
-	light.Enable = false;
-	CRenderer::SetLight(light);
+	CScene* scene = CManager::GetScene();
+	CLight* pLight = scene->GetGameObject<CLight>(0);
+	pLight->DisbleLight();
 
 	float x = m_number % 5 * (1.0f / 5);
 	float y = m_number / 5 * (1.0f / 5);

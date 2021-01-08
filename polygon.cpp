@@ -6,6 +6,9 @@
 //=====================================
 #include "main.h"
 #include "renderer.h"
+#include "scene.h"
+#include "manager.h"
+#include "light.h"
 #include "polygon.h"
 
 void CPolygon::Init(D3DXVECTOR3 Pos)
@@ -63,9 +66,9 @@ void CPolygon::Update()
 
 void CPolygon::Draw()
 {
-	LIGHT light;
-	light.Enable = false;
-	CRenderer::SetLight(light);
+	CScene* scene = CManager::GetScene();
+	CLight* pLight = scene->GetGameObject<CLight>(0);
+	pLight->DisbleLight();
 
 	//マトリクス設定
 	CRenderer::SetWorldViewProjection2D();
@@ -153,9 +156,9 @@ void CMovePolygon::Update()
 
 void CMovePolygon::Draw()
 {
-	LIGHT light;
-	light.Enable = false;
-	CRenderer::SetLight(light);
+	CScene* scene = CManager::GetScene();
+	CLight* pLight = scene->GetGameObject<CLight>(0);
+	pLight->DisbleLight();
 
 	D3D11_MAPPED_SUBRESOURCE msr;
 	CRenderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);

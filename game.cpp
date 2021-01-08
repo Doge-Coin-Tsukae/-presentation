@@ -21,6 +21,7 @@
 
 #include "gameobject.h"
 #include "load.h"
+#include "light.h"
 #include "camera.h"
 #include "field.h"
 #include "meshfield.h"
@@ -69,11 +70,12 @@ void CGame::Init()
 
 	//使うゲームオブジェクト呼び出し
 	//カメラ0番 3Dモデル1番 3Dモデル(当たり判定のやつ)2番 ビルボード(煙)の3番 2Dモデル4番
+	AddGameObject<CLight>(0);
 	AddGameObject<CCamera>(0);		//カメラ
 
 	AddGameObject<CSKYDOME>(1);		//スカイドーム
 	AddGameObject<CMeshField>(1);	//地面
-
+	AddGameObject<CFriend>(2)->SetPosition(D3DXVECTOR3(-24.002819 ,81.119370 ,- 152.281982));
 	AddGameObject<CWEAPON2D>(4);
 	AddGameObject<CPLAYERUI>(4);
 	AddGameObject<CENEMY_COMMANDER>(4);
@@ -95,6 +97,7 @@ void CGame::Uninit()
 	CDEADTREE::Unload();
 	CSMOKE::Unload();
 	CWEAPON::UnLoad();
+	CFriend::Unload();
 	CEnemy::Unload();
 	CBUNKER::Unload();
 	CBullet::Unload();

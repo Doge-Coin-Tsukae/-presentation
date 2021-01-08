@@ -28,18 +28,19 @@
 
 #define		NORMALSPEED 0.25f
 #define		SLOWSPEED	0.05f
-#define		ANIMEBLENDSPEED	0.1f
+#define		ANIMEBLENDSPEED	0.05f
 
 typedef struct
 {
 	char *pFilename;	// ファイル名
 } ANIMENAME;
 
-ANIMENAME g_aParam[5] =
+ANIMENAME g_aParam[6] =
 {
 	{(char *)"idle"},				// 待機
 	{(char *)"ready"},				// 構える
 	{(char *)"run"},				// 走る
+	{(char *)"readyrun"},
 	{(char *)"fire"},				//発射
 	{(char *)"Death"},
 };
@@ -52,8 +53,10 @@ void CPlayer::Init()
 	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam[0].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[1].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam[2].pFilename);		//アニメーション
-	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam[3].pFilename);
-	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam[4].pFilename);
+	m_Animodel->LoadAnimation("asset\\model\\player\\readyrunning.fbx", g_aParam[3].pFilename);
+	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam[4].pFilename);
+	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam[5].pFilename);
+	
 
 	m_Sight = new CSIGHT();
 	m_Sight->Init();
@@ -235,28 +238,40 @@ void CPlayer::Update_Controll()
 		m_Velocity.x -= sin(m_Rotation.x)*m_speed;
 		m_Velocity.z -= cos(m_Rotation.x)*m_speed;
 		m_speed += 0.01f;
-		ChangeAnimation((char*)"run");
+		if(m_ready)
+			ChangeAnimation((char*)"readyrun");
+		else
+			ChangeAnimation((char*)"run");
 	}
 	if (CInput::GetKeyPress('D'))
 	{
 		m_Velocity.x += sin(m_Rotation.x)*m_speed;
 		m_Velocity.z += cos(m_Rotation.x)*m_speed;
 		m_speed += 0.01f;
-		ChangeAnimation((char*)"run");
+		if (m_ready)
+			ChangeAnimation((char*)"readyrun");
+		else
+			ChangeAnimation((char*)"run");
 	}
 	if (CInput::GetKeyPress('W'))
 	{
 		m_Velocity.z += sin(m_Rotation.x)*m_speed;
 		m_Velocity.x -= cos(m_Rotation.x)*m_speed;
 		m_speed += 0.01f;
-		ChangeAnimation((char*)"run");
+		if (m_ready)
+			ChangeAnimation((char*)"readyrun");
+		else
+			ChangeAnimation((char*)"run");
 	}
 	if (CInput::GetKeyPress('S'))
 	{
 		m_Velocity.z -= sin(m_Rotation.x)*m_speed;
 		m_Velocity.x += cos(m_Rotation.x)*m_speed;
 		m_speed += 0.01f;
-		ChangeAnimation((char*)"run");
+				if(m_ready)
+			ChangeAnimation((char*)"readyrun");
+		else
+			ChangeAnimation((char*)"run");
 	}
 	if (CInput::GetKeyPress('Q'))
 		m_Rotation.x -= 0.1f;

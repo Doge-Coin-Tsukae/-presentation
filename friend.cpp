@@ -15,9 +15,9 @@
 #include "weapon.h"
 #include "colider.h"
 #include "player.h"
+#include "enemy.h"
 #include "friend.h"
 
-//class CModel* CEnemy::m_Model;
 class CAnimationModel* CFriend::m_Animodel;
 
 #define		ANIMEBLENDSPEED	0.1f
@@ -45,18 +45,12 @@ void CFriend::Load()
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam2[2].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam2[3].pFilename);
 	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam2[4].pFilename);
-	//m_Model = new CModel();
-	//m_Model->Load("asset\\model\\plauyer1.obj");
 }
 
 void CFriend::Unload()
 {
-	//m_Model->Unload();
-	//delete m_Model;
-
 	m_Animodel->Unload();
 	delete m_Animodel;
-
 }
 
 void CFriend::Init()
@@ -70,9 +64,10 @@ void CFriend::Init()
 	m_Weapon->Setparent(this);		//武器の親を自分に
 
 	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	m_ModelRot = D3DXVECTOR3(1.6f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.3f, 1.3f, 1.3f);
-	m_TeamNumber = TEAM_ENEMY;		//チーム設定
+	m_TeamNumber = TEAM_FRIENDRY;		//チーム設定
 
 	//アニメーション
 	m_NowAnimationChara = g_aParam2[0].pFilename;
@@ -92,40 +87,54 @@ void CFriend::Uninit()
 
 void CFriend::Update()
 {
+	rate = std::min(rate, 1.0f);
+	rate = std::max(rate, 0.0f);
+
 	//ヘルパー関数
 	Update_AI();
 	//プレイヤーに入っているクラスの更新処理
 	m_Sight->Update();
 	m_Weapon->Update();
-	m_Animodel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
 
-	//rate += ANIMEBLENDSPEED;
-	m_Frame++;
+	rate += ANIMEBLENDSPEED;
+	m_Frame+=2;
 }
 
 void CFriend::Update_AI()
 {
 	CScene* scene = CManager::GetScene();
-	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+	std::vector<CEnemy*> enemyList = scene->GetGameObjects<CEnemy>(1);
+	CEnemy* NearEnemy=nullptr;		//自分に一番近い敵
+	float nearlength,enemylength;
 
-	//当たり判定
-	D3DXVECTOR3 direction = m_Position - pPlayer->GetPosition();
-	float length = D3DXVec3Length(&direction);
 
-	LookPlayer();
+	for (CEnemy* enemy : enemyList)
+	{
+		D3DXVECTOR3 direction = m_Position - enemy->GetPosition();
+		enemylength = D3DXVec3Length(&direction);
+
+		if (NearEnemy == nullptr || nearlength > enemylength)
+		{
+			NearEnemy = enemy;
+			nearlength = enemylength;
+		}
+	}
+
+	LookEnemy(NearEnemy);
 
 	//範囲内になったら接近する
-	if (length < 100.0f)
+	if (nearlength < 100.0f)
 	{
-		if (length > 20.0f)
+		if (nearlength > 20.0f)
 		{
-			D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
+			D3DXVECTOR3 Velocity = GetVector(m_Position, NearEnemy->GetPosition());
 			m_Position += Velocity / 10;
 			ChangeAnimation((char*)"run");
 		}
 		else
 		{
-			m_Weapon->Shoot(m_Sight->GetPosition(), m_TeamNumber);
+			D3DXVECTOR3 pos(0, 1.5f, 0);
+			m_Weapon->Shoot(pos+m_Sight->GetPosition(), m_TeamNumber);
 			ChangeAnimation((char*)"fire");
 		}
 	}
@@ -151,22 +160,21 @@ void CFriend::Draw()
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
-	//位置マトリクス
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x + m_ModelRot.x, -m_Rotation.z - m_ModelRot.z, m_Rotation.y + m_ModelRot.y);
+	//位置マトリクス6
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
-	//m_Model->Draw();
+	m_Animodel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
 	m_Animodel->Draw();
 }
 
-void CFriend::LookPlayer()
+void CFriend::LookEnemy(CEnemy* enemy)
 {
-	CScene* scene = CManager::GetScene();
-	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+	if (enemy == nullptr)return;
 
-	D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
+	D3DXVECTOR3 Velocity = GetVector(m_Position, enemy->GetPosition());
 	D3DXVECTOR3 Velocity2 = GetVector(m_Position, m_Sight->GetPosition());
 	m_Rotation.x += (Velocity.x * Velocity2.x + Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
 	m_Rotation.x -= 1.0f;

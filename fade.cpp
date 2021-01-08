@@ -8,6 +8,7 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include "light.h"
 #include "fade.h"
 
 ID3D11Buffer*				CFADE::m_VertexBuffer;
@@ -95,9 +96,9 @@ void CFADE::Update()
 void CFADE::Draw()
 {
 	if (!m_bIsFade) return;
-	LIGHT light;
-	light.Enable = false;
-	CRenderer::SetLight(light);
+	CScene* scene = CManager::GetScene();
+	CLight* pLight = scene->GetGameObject<CLight>(0);
+	pLight->DisbleLight();
 
 	//マトリクス設定
 	CRenderer::SetWorldViewProjection2D();

@@ -9,6 +9,7 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include"light.h"
 #include "polygon.h"
 #include "human.h"
 #include "animationmodel.h"
@@ -51,9 +52,9 @@ void CGAUGE::Update()
 
 void CGAUGE::Draw()
 {
-	LIGHT light;
-	light.Enable = false;
-	CRenderer::SetLight(light);
+	CScene* scene = CManager::GetScene();
+	CLight* pLight = scene->GetGameObject<CLight>(0);
+	pLight->DisbleLight();
 
 	Lower->Draw();
 	Gauge->Draw();
