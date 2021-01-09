@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include <tchar.h>
+#include <fstream>
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
 #include "renderer.h"
@@ -105,11 +106,18 @@ void CLOAD::Data_Load()
 		//	MessageBox(GetWindow(), "プレイヤーのデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
 		//	return;
 		//}
-		std::stringstream ss;
 		CPlayer* pPlayer = new CPlayer();
+		pPlayer->Init();
+		std::string ss ="playerdata.json";
+		std::stringstream stream;
+		//ファイル入力ストリーム作成
+		std::ifstream inputFile(ss, std::ios::in);
+		//入力データを全部文字列streamに投げる
+		stream << inputFile.rdbuf();
+		//jsonをロード
+		cereal::JSONInputArchive jsonInputArchive(stream);
 
-		cereal::JSONInputArchive i_archive(ss);
-		i_archive(cereal::make_nvp("playerdata.json", *pPlayer));
+		jsonInputArchive(cereal::make_nvp("playerdata", *pPlayer));
 		//pPlayer->Init();
 		//pPlayer->Load(SaveFile);
 		scene->AddArgumentGameObject(pPlayer,1);
