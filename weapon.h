@@ -5,13 +5,19 @@
 class CWEAPON : public CGameObject	//継承(インヘリタンス)
 {
 private:
-	static CModel* m_Model;			//3Dモデルクラス
+	//static CModel* m_Model;			//3Dモデルクラス
+	static CAnimationModel* m_AniModel;
 	CGameObject* m_parent;		//親のアドレスを入れる
 
 	int Ammo;		//弾数
 	int MaxAmmo;	//最大数
 	int ReloadTime;	//装填時間
 	int NextShootTime;//弾込め時間
+
+	char* m_OldAnimationChara;	//アニメーションの名前の旧名
+	char* m_NowAnimationChara;	//現在のアニメーションの名前
+	float		m_Frame = 0;			//アニメーションのフレーム
+	float	rate = 0;				//アニメーションブレンドのレート
 
 	bool isReload;	//装填中か
 	bool isNextShoot;	//弾を込めてるか

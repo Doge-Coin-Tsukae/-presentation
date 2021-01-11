@@ -95,11 +95,6 @@ void CSAVE::Data_Save()
 
 	//プレイヤーの情報をファイルに書き込む
 	{
-		//strcat(path2, "/playerdata.txt");
-		//SaveFile = fopen(path2, "w");
-
-		//if (SaveFile == NULL)           // オープンに失敗した場合
-			//return;                         // 異常終了
 		//プレイヤーの情報を書き出す
 		CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 		std::stringstream ss;
@@ -107,18 +102,13 @@ void CSAVE::Data_Save()
 		{
 			cereal::JSONOutputArchive o_archive(ss);
 			o_archive(cereal::make_nvp("playerdata", *pPlayer));
-			//pPlayer->serialize(o_archive);
 		}
 		std::ofstream outputFile(path, std::ios::out);
 			//書き出す
 		outputFile << ss.str();
 			//閉じる
 		outputFile.close();
-			ss.clear();
-		
-
-		//pPlayer->Save(SaveFile);
-		//fclose(SaveFile);
+		ss.clear();
 	}
 
 	//敵の情報をファイルに書き込む
@@ -129,18 +119,28 @@ void CSAVE::Data_Save()
 
 		//if (SaveFile == NULL)           // オープンに失敗した場合
 		//	return;                         // 異常終了
-		////敵の情報を書き出す
+		//敵の情報を書き出す
 
-		//std::vector<CEnemy*> enemylist = scene->GetGameObjects<CEnemy>(1);
+		std::vector<CEnemy*> enemylist = scene->GetGameObjects<CEnemy>(1);
 
-		////個数を保存する
-		////fprintf(SaveFile, "%d\n");
+		//個数を保存する
+		//fprintf(SaveFile, "%d\n");
 
-		//for (CEnemy* enemy : enemylist)
-		//{
-		//	enemy->Save(SaveFile);
-		//}
+		std::stringstream ss;
+		std::string path = "enemydata.json";
 
+		int i = 0;
+		cereal::JSONOutputArchive o_archive(ss);
+		for (CEnemy* enemy : enemylist)
+		{
+			o_archive(cereal::make_nvp("enemydata", *enemy));
+		}
+		std::ofstream outputFile(path, std::ios::out);
+		//書き出す
+		outputFile << ss.str();
+		//閉じる
+		outputFile.close();
+		ss.clear();
 		//fclose(SaveFile);
 	}
 

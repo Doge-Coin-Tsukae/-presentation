@@ -286,6 +286,9 @@
     <ClInclude Include="filewinapi.h">
       <Filter>ソース ファイル\system</Filter>
     </ClInclude>
+    <ClInclude Include="cereal.h">
+      <Filter>ソース ファイル\system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="vertexShader.hlsl">

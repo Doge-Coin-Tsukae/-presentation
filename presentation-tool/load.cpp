@@ -99,13 +99,6 @@ void CLOAD::Data_Load()
 
 	//プレイヤーの情報をファイルから読み込む
 	{
-		//strcat(path2,"//playerdata.txt");
-		//SaveFile = fopen(path2, "r");
-		//if (SaveFile == NULL)           // オープンに失敗した場合
-		//{
-		//	MessageBox(GetWindow(), "プレイヤーのデータが見つかりません", "ロード失敗!", MB_ICONWARNING);
-		//	return;
-		//}
 		CPlayer* pPlayer = new CPlayer();
 		pPlayer->Init();
 		std::string ss ="playerdata.json";
@@ -118,11 +111,7 @@ void CLOAD::Data_Load()
 		cereal::JSONInputArchive jsonInputArchive(stream);
 
 		jsonInputArchive(cereal::make_nvp("playerdata", *pPlayer));
-		//pPlayer->Init();
-		//pPlayer->Load(SaveFile);
 		scene->AddArgumentGameObject(pPlayer,1);
-
-		//fclose(SaveFile);
 	}
 
 	//敵の情報をファイルから読み込む

@@ -11,7 +11,6 @@
 #include "human.h"
 #include "Vector.h"
 #include "sound.h"
-#include "model.h"
 #include "animationmodel.h"
 #include "sight.h"
 #include "weapon.h"

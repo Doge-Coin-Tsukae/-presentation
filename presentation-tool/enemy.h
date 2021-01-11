@@ -11,6 +11,14 @@ private:
 
 	TEAM_NUMBER		m_TeamNumber;			//–¡•û‚©“G‚©‚ÌŽ¯•Ê
 public:
+
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(CEREAL_NVP(m_Position),
+			CEREAL_NVP(m_Rotation),
+			CEREAL_NVP(m_Scale));
+	}
 	CEnemy() {}
 	~CEnemy() {}
 

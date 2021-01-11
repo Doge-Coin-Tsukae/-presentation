@@ -216,13 +216,13 @@ void CPlayer::Update()
 		m_OldAnimationChara = (char*)"Death";
 		m_NowAnimationChara = (char*)"Death";
 
-		if (m_Frame%177 == 0)
+		if (m_Frame/177 == 1)
 				m_Frame --;
 	}
 
 	//変数
 	rate+= ANIMEBLENDSPEED;
-	m_Frame++;
+	m_Frame+=0.5f;
 
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);

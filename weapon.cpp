@@ -12,24 +12,51 @@
 #include "Vector.h"
 #include "smoke.h"
 #include "model.h"
+#include "animationmodel.h"
 #include "human.h"
 #include "colider.h"
 #include "weapon.h"
 #include "bullet.h"
 
 #define RELOADTIME 240
+#define		ANIMEBLENDSPEED	0.1f
 
-class CModel* CWEAPON::m_Model;
+//class CModel* CWEAPON::m_Model;
+class CAnimationModel* CWEAPON::m_AniModel;
+
+typedef struct
+{
+	char* pFilename;	// ファイル名
+} ANIMENAME;
+
+ANIMENAME g_aParam3[6] =
+{
+	{(char*)"idle"},				// 待機
+	{(char*)"ready"},				// 構える
+	{(char*)"run"},				// 走る
+	{(char*)"readyrun"},
+	{(char*)"fire"},				//発射
+	{(char*)"Death"},
+};
 
 void CWEAPON::Load()
 {
-	m_Model = new CModel();
-	m_Model->Load("asset\\model\\rifl.obj");
+	//m_Model = new CModel();
+	//m_Model->Load("asset\\model\\rifl.obj");
+
+	m_AniModel = new CAnimationModel();
+	m_AniModel->Load("asset\\model\\weapon\\rifle.fbx");					//モデルのロード(ボーン付き)
+	m_AniModel->LoadAnimation("asset\\model\\weapon\\rifle_idle.fbx", g_aParam3[0].pFilename);
+	m_AniModel->LoadAnimation("asset\\model\\weapon\\rifle_idle.fbx", g_aParam3[1].pFilename);
 }
 void CWEAPON::UnLoad()
 {
-	m_Model->Unload();
-	delete m_Model;
+	m_AniModel->Unload();
+	m_AniModel->UnloadAnimation();
+	delete m_AniModel;
+
+	//m_Model->Unload();
+	//delete m_Model;
 }
 void CWEAPON::Init()
 {
@@ -43,6 +70,12 @@ void CWEAPON::Init()
 	isNextShoot = false;
 	ReloadTime = 0;
 	NextShootTime = 0;
+
+	//アニメーション
+	m_NowAnimationChara = g_aParam3[0].pFilename;
+	m_OldAnimationChara = g_aParam3[1].pFilename;
+	m_Frame = 0;
+	rate = 0;
 }
 void CWEAPON::Uninit()
 {
@@ -50,13 +83,17 @@ void CWEAPON::Uninit()
 }
 void CWEAPON::Update()
 {
+	rate = std::min(rate, 1.0f);
+	rate = std::max(rate, 0.0f);
+
 	//座標の更新
 	m_Position = m_parent->GetPosition();
 	m_Position.x = m_Position.x - 1.0f * cos(m_parent->GetRotation().x)*cos(m_parent->GetRotation().z);	//座標
-	m_Position.y += 2.8f;
 	m_Position.z = m_Position.z - 1.0f *-sin(m_parent->GetRotation().x)*cos(m_parent->GetRotation().z);	//座標
 	m_Rotation = m_parent->GetRotation();
-	m_Rotation.x += 0.3f;
+
+	rate += ANIMEBLENDSPEED;
+	m_Frame+=0.5f;
 
 	//装填中
 	if (isReload == true)
@@ -96,7 +133,10 @@ void CWEAPON::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
-	m_Model->Draw();
+	//m_Model->Draw();
+
+	m_AniModel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
+	m_AniModel->Draw();
 }
 
 void CWEAPON::Shoot(D3DXVECTOR3 SPos, TEAM_NUMBER SetTeamNumber)
@@ -111,8 +151,10 @@ void CWEAPON::Shoot(D3DXVECTOR3 SPos, TEAM_NUMBER SetTeamNumber)
 		Ammo -= 1;		//弾の消費
 		NextShoot();	//次の弾発射
 
+		D3DXVECTOR3 Pos = m_Position;
+		Pos.y += 2.8f;
 		CScene* scene = CManager::GetScene();
-		scene->AddGameObject<CBullet>(1)->Set(m_Position, SPos, SetTeamNumber);	//弾の発射
+		scene->AddGameObject<CBullet>(1)->Set(Pos, SPos, SetTeamNumber);	//弾の発射
 		scene->AddGameObject<CSMOKE>(3)->SetPosition(m_Position);	//煙
 		PlaySound(SOUND_SE_SE001);
 	}

@@ -200,6 +200,7 @@
     <ClInclude Include="bunker.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="carsor.h" />
+    <ClInclude Include="cereal.h" />
     <ClInclude Include="chip.h" />
     <ClInclude Include="colider.h" />
     <ClInclude Include="deadtree.h" />
