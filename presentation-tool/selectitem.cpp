@@ -270,6 +270,11 @@ void CSelectItem::UpdateControll()
 		camera->CameraMouseRotate();
 	}
 
+	if (CInput::GetKeyTrigger(VK_DELETE))
+	{
+		if (!m_EditGameObject) return;
+		m_EditGameObject->SetDestroy();
+	}
 }
 
 bool CSelectItem::ClikEditBox()

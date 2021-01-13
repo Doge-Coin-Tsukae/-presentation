@@ -14,7 +14,7 @@ private:
 
 	char*	m_OldAnimationChara;	//アニメーションの名前の旧名
 	char*	m_NowAnimationChara;	//現在のアニメーションの名前
-	int		m_Frame = 0;			//アニメーションのフレーム
+	float		m_Frame = 0;			//アニメーションのフレーム
 	float	rate = 0;				//アニメーションブレンドのレート
 
 	//ヘルパー関数

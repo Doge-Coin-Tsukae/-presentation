@@ -97,7 +97,7 @@ void CFriend::Update()
 	m_Weapon->Update();
 
 	rate += ANIMEBLENDSPEED;
-	m_Frame+=2;
+	m_Frame+=0.3f;
 }
 
 void CFriend::Update_AI()

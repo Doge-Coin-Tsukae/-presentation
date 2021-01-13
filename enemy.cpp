@@ -3,6 +3,8 @@
 //****************************************
 
 #include "main.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
@@ -101,7 +103,7 @@ void CEnemy::Update()
 	m_Weapon->Update();
 
 	rate += ANIMEBLENDSPEED;
-	m_Frame++;
+	m_Frame+=0.3f;
 
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
@@ -150,9 +152,11 @@ void CEnemy::Update_AI()
 		m_OldAnimationChara = (char*)"Death";
 		m_NowAnimationChara = (char*)"Death";
 
-		if (m_Frame % 177 == 0)
+		m_Frame += 0.7f;
+		if (m_Frame > 177)
 			SetDestroy();
 	}
+
 }
 
 void CEnemy::Draw()

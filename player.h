@@ -38,6 +38,14 @@ public:
 	CPlayer(){}
 	~CPlayer(){}
 
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(CEREAL_NVP(m_Position),
+			CEREAL_NVP(m_Rotation),
+			CEREAL_NVP(m_Scale));
+	}
+
 	void Init();
 	void Uninit();
 	void Update();
@@ -47,6 +55,7 @@ public:
 	void Damage();		//ダメージ
 	void ChangeAnimation(char* Name);		//アニメーション変更
 
+	void ResetVelocity() { m_Velocity = m_Position; }
 	CWEAPON* GetWeapon(){return m_Weapon;}
 	bool	 isDeath() { return m_Death; }
 	int Getm_Hp() { return m_Hp; }

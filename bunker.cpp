@@ -1,9 +1,11 @@
 #include "main.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
 #include "model.h"
-
+#include "meshfield.h"
 #include "colider.h"
 #include "bunker.h"
 
@@ -36,6 +38,10 @@ void CBUNKER::Uninit()
 void CBUNKER::Update()
 {
 	m_Colider.update(m_Position);
+
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	m_Position.y = meshField->GetHeight(m_Position);
 
 }
 void CBUNKER::Draw()

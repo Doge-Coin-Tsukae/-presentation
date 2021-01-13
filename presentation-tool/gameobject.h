@@ -2,6 +2,7 @@
 
 #include "cereal/cereal.hpp"
 
+//シリアライズ(D3DXVECTOR3をシリアライズするとき)
 template<class Archive>
 void serialize(Archive& archive, D3DXVECTOR3& vector)
 {
@@ -56,8 +57,8 @@ public:		//アクセス指定子
 	//ImGuinに表示させる項目
 	virtual void SetImGui()
 	{
-		ImGui::Text("fugafuga");
-		ImGui::SliderFloat("fugafuga",&m_Rotation.x,0,1);
+		ImGui::Text("SetMode");
+		ImGui::SliderFloat("rotation",&m_Rotation.x,0,10);
 		ImGui::Checkbox("delete",&m_Destroy);
 	}
 

@@ -5,6 +5,8 @@
 //
 //=====================================
 #include "main.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"

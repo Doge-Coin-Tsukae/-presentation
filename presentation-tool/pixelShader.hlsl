@@ -41,4 +41,6 @@ void main( in  float4 inPosition		: POSITION0,
 
 	outDiffuse *= inDiffuse;
 
+	if (outDiffuse.a < 0.1)
+		discard;	
 }

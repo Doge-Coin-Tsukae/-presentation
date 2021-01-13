@@ -98,7 +98,8 @@ void CSAVE::Data_Save()
 		//プレイヤーの情報を書き出す
 		CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 		std::stringstream ss;
-		std::string path ="playerdata.json";
+		std::string path = path2;
+		path += "/playerdata.json";
 		{
 			cereal::JSONOutputArchive o_archive(ss);
 			o_archive(cereal::make_nvp("playerdata", *pPlayer));
@@ -113,35 +114,42 @@ void CSAVE::Data_Save()
 
 	//敵の情報をファイルに書き込む
 	{
-		//strcpy(path2, temp);
-		//strcat(path2, "/enemydata.txt");
-		//SaveFile = fopen(path2, "w");
-
-		//if (SaveFile == NULL)           // オープンに失敗した場合
-		//	return;                         // 異常終了
-		//敵の情報を書き出す
-
 		std::vector<CEnemy*> enemylist = scene->GetGameObjects<CEnemy>(1);
-
-		//個数を保存する
-		//fprintf(SaveFile, "%d\n");
-
+		
 		std::stringstream ss;
-		std::string path = "enemydata.json";
+		std::string filename = path2;
+		filename += "/enemydata.json";
 
-		int i = 0;
-		cereal::JSONOutputArchive o_archive(ss);
-		for (CEnemy* enemy : enemylist)
+		int  i = 1;
+		std::string moji = "enemydata";
+		std::string tmp;
+		//データを書き込む準備(括弧で囲わないとファイルが正常に作成されない)
 		{
-			o_archive(cereal::make_nvp("enemydata", *enemy));
+			cereal::JSONOutputArchive o_archive(ss);
+
+			//敵の総数を計測
+			for (CEnemy* enemy : enemylist)
+			{
+				i++;
+			}
+			o_archive(cereal::make_nvp("totalenemy", i));		//敵の総数を書き込む
+			i = 1;
+
+			//敵の情報を書き込む
+			for (CEnemy* enemy : enemylist)
+			{
+				tmp = moji;
+				tmp += i;
+				o_archive(cereal::make_nvp(tmp, *enemy));
+				i++;
+			}
 		}
-		std::ofstream outputFile(path, std::ios::out);
+		std::ofstream outputFile(filename, std::ios::out);
 		//書き出す
 		outputFile << ss.str();
 		//閉じる
 		outputFile.close();
 		ss.clear();
-		//fclose(SaveFile);
 	}
 
 	//バンカー情報をファイルに書き込む
@@ -159,6 +167,43 @@ void CSAVE::Data_Save()
 		//}
 
 		//fclose(SaveFile);
+
+		std::vector<CBUNKER*> bunkerlist = scene->GetGameObjects<CBUNKER>(1);
+
+		std::stringstream ss;
+		std::string filename = path2;
+		filename += "/bunkerdata.json";
+
+		{
+			int  i = 1;
+			std::string moji = "bunkerdata";
+			std::string tmp;
+
+			cereal::JSONOutputArchive o_archive(ss);
+
+			//敵の総数を計測
+			for (CBUNKER* bunker : bunkerlist)
+			{
+				i++;
+			}
+			o_archive(cereal::make_nvp("totalbunker", i));		//建物の総数を書き込む
+			i = 1;
+
+			for (CBUNKER* bunker : bunkerlist)
+			{
+				tmp = moji;
+				tmp += i;
+				o_archive(cereal::make_nvp(tmp, *bunker));
+				i++;
+			}
+		}
+
+		std::ofstream outputFile(filename, std::ios::out);
+		//書き出す
+		outputFile << ss.str();
+		//閉じる
+		outputFile.close();
+		ss.clear();
 	}
 	//拠点情報を書き込む
 	{
@@ -175,6 +220,39 @@ void CSAVE::Data_Save()
 		//}
 
 		//fclose(SaveFile);
+		std::vector<CBase*> baselist = scene->GetGameObjects<CBase>(1);
+
+		std::stringstream ss;
+		std::string filename = path2;
+		filename += "/basedata.json";
+
+		{
+			int  i = 1;
+			std::string moji = "basedata";
+			std::string tmp;
+			cereal::JSONOutputArchive o_archive(ss);
+			//敵の総数を計測
+			for (CBase* base : baselist)
+			{
+				i++;
+			}
+			o_archive(cereal::make_nvp("totalbase", i));		//基地の総数を書き込む
+			i = 1;
+
+			for (CBase* base : baselist)
+			{
+				tmp = moji;
+				tmp += i;
+				o_archive(cereal::make_nvp(tmp, *base));
+				i++;
+			}
+		}
+		std::ofstream outputFile(filename, std::ios::out);
+		//書き出す
+		outputFile << ss.str();
+		//閉じる
+		outputFile.close();
+		ss.clear();
 	}
 	//木情報を書き込む
 	{
@@ -191,6 +269,39 @@ void CSAVE::Data_Save()
 		//}
 
 		//fclose(SaveFile);
+		std::vector<CTREE*> treelist = scene->GetGameObjects<CTREE>(1);
+
+		std::stringstream ss;
+		std::string filename = path2;
+		filename += "/treedata.json";
+
+		{
+			int  i = 1;
+			std::string moji = "treedata";
+			std::string tmp;
+			cereal::JSONOutputArchive o_archive(ss);
+			for (CTREE* tree : treelist)
+			{
+				i++;
+			}
+			o_archive(cereal::make_nvp("totaltree", i));		//木の総数を書き込む
+			i = 1;
+
+			for (CTREE* tree : treelist)
+			{
+				tmp = moji;
+				tmp += i;
+				o_archive(cereal::make_nvp(tmp, *tree));
+				i++;
+			}
+		}
+
+		std::ofstream outputFile(filename, std::ios::out);
+		//書き出す
+		outputFile << ss.str();
+		//閉じる
+		outputFile.close();
+		ss.clear();
 	}
 	//枯れ木情報を書き込む
 	{
@@ -207,6 +318,38 @@ void CSAVE::Data_Save()
 		//}
 
 		//fclose(SaveFile);
+		std::vector<CDEADTREE*> deadtreelist = scene->GetGameObjects<CDEADTREE>(1);
+
+		std::stringstream ss;
+		std::string filename = path2;
+		filename += "/deadtreedata.json";
+		{
+			int  i = 1;
+			std::string moji = "deadtreedata";
+			std::string tmp;
+			cereal::JSONOutputArchive o_archive(ss);
+
+			for (CDEADTREE* deadtree : deadtreelist)
+			{
+				i++;
+			}
+			o_archive(cereal::make_nvp("totaldeadtree", i));		//木の総数を書き込む
+			i = 1;
+			for (CDEADTREE* deadtree : deadtreelist)
+			{
+				tmp = moji;
+				tmp += i;
+				o_archive(cereal::make_nvp(tmp, *deadtree));
+				i++;
+			}
+		}
+
+		std::ofstream outputFile(filename, std::ios::out);
+		//書き出す
+		outputFile << ss.str();
+		//閉じる
+		outputFile.close();
+		ss.clear();
 	}
 	//地形情報をファイルに書き込む
 	{

@@ -5,6 +5,8 @@
 //
 //=====================================
 #include "main.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
@@ -20,6 +22,7 @@
 #include "weapon.h"
 #include "colider.h"
 #include "player.h"
+#include "meshfield.h"
 #include "base.h"
 #include "captureui.h"
 
@@ -137,6 +140,10 @@ void CBASE::Update()
 	Update_Colision();		//当たり判定
 	Update_Gauge();			//ゲージ処理
 	Update_Territory();		//領地の支配者処理
+
+		//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	m_Position.y = meshField->GetHeight(m_Position);
 }
 
 void CBASE::Draw()

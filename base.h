@@ -19,6 +19,8 @@ private:
 
 	int			m_Gauge;				//拠点勢力地
 	bool		m_inPlayer;				//中にプレイヤーがいるか
+
+
 	//ヘルパー関数
 	void Update_Colision();		//当たり判定
 	void Update_Gauge();		//勢力地の更新処理
@@ -26,6 +28,15 @@ private:
 public:
 	CBASE() {}
 	~CBASE() {}
+
+
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(CEREAL_NVP(m_Position),
+			CEREAL_NVP(m_Rotation),
+			CEREAL_NVP(m_Scale));
+	}
 
 	void Init();
 	void Uninit();

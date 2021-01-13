@@ -63,8 +63,6 @@ void CGame::Init()
 	CDEADTREE::Load();	//枯れ木のモデルを呼び出す
 	CSMOKE::Load();		//煙の画像を呼び出す
 
-	CLOAD *m_Load = new CLOAD;
-
 	m_GameManeger = new CGAME_MANEGER;
 	m_GameManeger->Init(GAME_RULE_CONQUEST);
 
@@ -73,14 +71,14 @@ void CGame::Init()
 	AddGameObject<CLight>(0);
 	AddGameObject<CCamera>(0);		//カメラ
 
+	AddGameObject<CLOAD>(0)->Data_Load();	//データのロード
+
 	AddGameObject<CSKYDOME>(1);		//スカイドーム
 	AddGameObject<CMeshField>(1);	//地面
-	AddGameObject<CFriend>(2)->SetPosition(D3DXVECTOR3(-24.002819 ,81.119370 ,- 152.281982));
+	AddGameObject<CFriend>(1)->SetPosition(D3DXVECTOR3(-24.002819 ,81.119370 ,- 152.281982));
 	AddGameObject<CWEAPON2D>(4);
 	AddGameObject<CPLAYERUI>(4);
 	AddGameObject<CENEMY_COMMANDER>(4);
-
-	m_Load->Data_Load();	//データのロード
 
 	//PlaySound(SOUND_BGM_BGM002);
 
