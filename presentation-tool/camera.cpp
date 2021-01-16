@@ -96,3 +96,8 @@ void CCamera::CameraMouseRotate()
 	anglex += CInput::GetMousedDfference().x / 100;
 	anglez += CInput::GetMousedDfference().y / 100;
 }
+
+void CCamera::ZoomCamera()
+{
+
+}

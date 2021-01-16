@@ -187,10 +187,12 @@
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="rifle.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="shellexplosion.cpp" />
     <ClCompile Include="sight.cpp" />
     <ClCompile Include="skydome.cpp" />
+    <ClCompile Include="smg.cpp" />
     <ClCompile Include="smoke.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="title.cpp" />
@@ -239,11 +241,13 @@
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="Result.h" />
+    <ClInclude Include="rifle.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="shellexplosion.h" />
     <ClInclude Include="sight.h" />
     <ClInclude Include="skydome.h" />
+    <ClInclude Include="smg.h" />
     <ClInclude Include="smoke.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="Title.h" />

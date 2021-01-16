@@ -16,6 +16,7 @@
 #include "animationmodel.h"
 #include "sight.h"
 #include "weapon.h"
+#include "rifle.h"
 #include "colider.h"
 #include "player.h"
 #include "meshfield.h"
@@ -64,7 +65,7 @@ void CEnemy::Init()
 	m_Sight->Init();
 	m_Sight->Setparent(this);		//Æ€‚Ìe‚ğ©•ª‚É
 
-	m_Weapon = new CWEAPON();
+	m_Weapon = new Crifle();
 	m_Weapon->Init();
 	m_Weapon->Setparent(this);		//•Ší‚Ìe‚ğ©•ª‚É
 

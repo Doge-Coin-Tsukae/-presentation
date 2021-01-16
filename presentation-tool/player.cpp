@@ -8,6 +8,7 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include "camera.h"
 #include "Vector.h"
 #include "meshfield.h"
 #include "input.h"
@@ -54,7 +55,6 @@ void CPlayer::Update()
 void CPlayer::Draw()
 {
 	//マトリクス設定
-	D3DXMATRIX world, scale, rot, trans;	
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
@@ -94,7 +94,20 @@ void CPlayer::Load(FILE* fp)
 
 void CPlayer::SetImGui()
 {
-	ImGui::Text("fugafuga");
-	ImGui::SliderFloat("Angle", &m_Rotation.x, 0, 3.5f);
-	ImGui::Checkbox("Delete", &m_Destroy);
+	CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
+	D3DXVECTOR3 camerapos = camera->GetPosition();
+	POINT pos;
+	GetCursorPos(&pos);
+	ScreenToClient(GetWindow(), &pos);
+
+	float cameralength = D3DXVec3Dot(&m_Position, &camerapos);
+	ImGui::Text("SetMode");
+	ImGui::SliderFloat("rotation", &m_Rotation.x, 0, 10);
+	ImGui::Checkbox("delete", &m_Destroy);
+	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+	ImGuizmo::DecomposeMatrixToComponents(world, matrixTranslation, matrixRotation, matrixScale);
+	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, world);
+	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, SCREEN_WIDTH, SCREEN_HEIGHT);
+	ImGuizmo::Manipulate(camera->GetViewMatrix(), camera->GetProjectionMatrix(), ImGuizmo::ROTATE, ImGuizmo::LOCAL, &world._11);
+	ImGuizmo::ViewManipulate(camera->GetViewMatrix(), cameralength,ImVec2(ImGui::GetWindowPos().x -128, ImGui::GetWindowPos().y), ImVec2(128,128), 0x10101010);
 }

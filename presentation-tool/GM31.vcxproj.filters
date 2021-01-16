@@ -33,6 +33,9 @@
     <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{aadb8739-6f93-4af4-9062-9c9b9358f58f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\imguizmo">
+      <UniqueIdentifier>{8275f19b-8a8f-497d-8e01-3f05b54f5829}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -151,6 +154,18 @@
     </ClCompile>
     <ClCompile Include="filewinapi.cpp">
       <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo.cpp">
+      <Filter>ソース ファイル\imguizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ImSequencer.cpp">
+      <Filter>ソース ファイル\imguizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ImCurveEdit.cpp">
+      <Filter>ソース ファイル\imguizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGradient.cpp">
+      <Filter>ソース ファイル\imguizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,6 +303,21 @@
     </ClInclude>
     <ClInclude Include="cereal.h">
       <Filter>ソース ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="ImCurveEdit.h">
+      <Filter>ソース ファイル\imguizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGradient.h">
+      <Filter>ソース ファイル\imguizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuizmo.h">
+      <Filter>ソース ファイル\imguizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ImSequencer.h">
+      <Filter>ソース ファイル\imguizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ImZoomSlider.h">
+      <Filter>ソース ファイル\imguizmo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

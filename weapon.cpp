@@ -19,7 +19,7 @@
 #include "bullet.h"
 
 #define RELOADTIME 240
-#define		ANIMEBLENDSPEED	0.1f
+#define	ANIMEBLENDSPEED	0.1f
 
 //class CModel* CWEAPON::m_Model;
 class CAnimationModel* CWEAPON::m_AniModel;
@@ -54,9 +54,6 @@ void CWEAPON::UnLoad()
 	m_AniModel->Unload();
 	m_AniModel->UnloadAnimation();
 	delete m_AniModel;
-
-	//m_Model->Unload();
-	//delete m_Model;
 }
 void CWEAPON::Init()
 {
@@ -112,7 +109,7 @@ void CWEAPON::Update()
 	{
 		if (NextShootTime <= 0)
 		{
-			PlaySound(SOUND_SE_RELOAD);
+			//PlaySound(SOUND_SE_RELOAD);
 			isNextShoot = false;
 			NextShootTime = 0;
 			return;
@@ -133,19 +130,18 @@ void CWEAPON::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
-	//m_Model->Draw();
-
 	m_AniModel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
 	m_AniModel->Draw();
 }
 
 void CWEAPON::Shoot(D3DXVECTOR3 SPos, TEAM_NUMBER SetTeamNumber)
 {
+	//弾が0になったとき
 	if (Ammo <= 0) 
 	{ 
 		Reload();		//今回に限りオートリロード
 		return; 
-	}	//弾が0になったとき
+	}
 	if (isNextShoot == false)
 	{
 		Ammo -= 1;		//弾の消費
@@ -162,7 +158,7 @@ void CWEAPON::Shoot(D3DXVECTOR3 SPos, TEAM_NUMBER SetTeamNumber)
 
 void CWEAPON::NextShoot()
 {
-	NextShootTime = 80;		//次、弾発射できるまでの時間をセット(武器によって変える)
+	NextShootTime = MaxNextShootTime;		//次、弾発射できるまでの時間をセット(武器によって変える)
 	isNextShoot = true;		//フラグを建てる
 }
 
@@ -170,7 +166,7 @@ void CWEAPON::Reload()
 {
 	if (isReload == true) return;
 	Ammo = 0;
-	ReloadTime = RELOADTIME;		//装填が終わる時間をセット(武器によって変える)
+	ReloadTime = MaxReloadTime;		//装填が終わる時間をセット(武器によって変える)
 	isReload = true;				//フラグを建てる
 	PlaySound(SOUND_SE_RELOAD2);	//リロード音
 }

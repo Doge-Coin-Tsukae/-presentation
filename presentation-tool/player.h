@@ -8,7 +8,7 @@ private:
 	CModel* m_Model;			//3Dƒ‚ƒfƒ‹ƒNƒ‰ƒX
 	AABB* m_Colider;
 
-
+	D3DXMATRIX  scale, rot, trans, world;
 
 public:
 

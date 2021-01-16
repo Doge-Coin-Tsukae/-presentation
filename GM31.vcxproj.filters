@@ -33,14 +33,14 @@
     <Filter Include="ソース ファイル\system\sound">
       <UniqueIdentifier>{cc7a614c-851e-48ec-be55-c7be8af417da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\gameobject\player\weapon">
-      <UniqueIdentifier>{5df68657-247c-4871-b49f-acc4e7166904}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\system\model">
       <UniqueIdentifier>{54db40e2-e0d3-4e1a-9b56-5da6c5ea6535}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Manager">
       <UniqueIdentifier>{46010bd0-31ab-4810-ab94-2ef6b616fa8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameobject\weapon">
+      <UniqueIdentifier>{f79b2c71-a92a-4c32-8045-05e3e6a9a58a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +149,6 @@
     <ClCompile Include="house.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClCompile>
-    <ClCompile Include="weapon.cpp">
-      <Filter>ソース ファイル\gameobject\player\weapon</Filter>
-    </ClCompile>
     <ClCompile Include="light.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
@@ -187,6 +184,15 @@
     </ClCompile>
     <ClCompile Include="load.cpp">
       <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
+    <ClCompile Include="smg.cpp">
+      <Filter>ソース ファイル\gameobject\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.cpp">
+      <Filter>ソース ファイル\gameobject\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="rifle.cpp">
+      <Filter>ソース ファイル\gameobject\weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,9 +307,6 @@
     <ClInclude Include="house.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
-    <ClInclude Include="weapon.h">
-      <Filter>ソース ファイル\gameobject\player\weapon</Filter>
-    </ClInclude>
     <ClInclude Include="light.h">
       <Filter>ソース ファイル\system</Filter>
     </ClInclude>
@@ -342,6 +345,15 @@
     </ClInclude>
     <ClInclude Include="load.h">
       <Filter>ソース ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="smg.h">
+      <Filter>ソース ファイル\gameobject\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>ソース ファイル\gameobject\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="rifle.h">
+      <Filter>ソース ファイル\gameobject\weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
