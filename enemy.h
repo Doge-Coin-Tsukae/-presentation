@@ -18,6 +18,10 @@ private:
 	float	rate = 0;				//アニメーションブレンドのレート
 	bool	m_Death;		//死亡フラグ
 
+	ID3D11VertexShader* m_VertexShader[2];		//頂点シェーダ
+	ID3D11PixelShader* m_PixelShader[2];		//ピクセルシェーダ
+	ID3D11InputLayout* m_VertexLayout;
+
 	//ヘルパー関数
 	void Update_AI();
 

@@ -52,6 +52,9 @@ struct LIGHT
 	D3DXVECTOR4	Direction;
 	D3DXCOLOR	Diffuse;
 	D3DXCOLOR	Ambient;
+
+	D3DXMATRIX ViewMatrix;//’Ç‰Á
+	D3DXMATRIX ProjectionMatrix;//’Ç‰Á
 };
 
 

@@ -52,6 +52,9 @@ struct LIGHT
 	D3DXVECTOR4	Direction;
 	D3DXCOLOR	Diffuse;
 	D3DXCOLOR	Ambient;
+
+	D3DXMATRIX ViewMatrix;			//ビューマトリクス
+	D3DXMATRIX ProjectionMatrix;	//プロジェクションマトリクス
 };
 
 
@@ -88,7 +91,8 @@ private:
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
 
-
+	static ID3D11DepthStencilView* m_ShadowDepthStencilView;
+	static ID3D11ShaderResourceView* m_ShadowDepthShaderResourceView;
 
 
 public:
@@ -114,4 +118,10 @@ public:
 
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
+
+	static void BeginDepth();//追加
+	static ID3D11ShaderResourceView* GetShadowDepthTexture() //追加
+	{
+		return m_ShadowDepthShaderResourceView;
+	}
 };

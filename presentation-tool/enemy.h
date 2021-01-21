@@ -10,6 +10,8 @@ private:
 	CWEAPON* m_Weapon;			//Š•Ší
 
 	TEAM_NUMBER		m_TeamNumber;			//–¡•û‚©“G‚©‚Ì¯•Ê
+	int m_Weapontype = WEAPON_RIFLE;		//•Ší‚Ì”Ô†
+
 public:
 
 	template<class Archive>
@@ -17,7 +19,8 @@ public:
 	{
 		archive(CEREAL_NVP(m_Position),
 			CEREAL_NVP(m_Rotation),
-			CEREAL_NVP(m_Scale));
+			CEREAL_NVP(m_Scale),
+			CEREAL_NVP(m_Weapontype));
 	}
 	CEnemy() {}
 	~CEnemy() {}
@@ -32,4 +35,6 @@ public:
 
 	void Save(FILE* fp);
 	void Load(FILE*fp,int line);
+
+	void SetImGui();
 };

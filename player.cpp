@@ -89,14 +89,14 @@ void CPlayer::Init()
 
 	const char* VSfilename[MAXSHADER] = //バーテックスシェーダファイルネーム
 	{
-		"vertexShader.cso",	//シェーダー
+		"shadowMappingVS.cso",	//シェーダー
 		"pixelLightingVS.cso",	//シェーダー
 		"vertexLightingVS.cso",	//シェーダー
 		"vertexShader.cso",	//シェーダー
 	};
 	const char* PSfilename[MAXSHADER] = //ピクセルシェーダファイルネーム
 	{
-		"pixelShader.cso",	//シェーダー
+		"shadowMappingPS.cso",	//シェーダー
 		"pixelLightingPS.cso",	//シェーダー
 		"vertexLightingPS.cso",	//シェーダー
 		"pixelShader.cso",	//シェーダー
@@ -335,7 +335,6 @@ void CPlayer::Draw()
 	CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[shaderNo], NULL, 0);
 
 	m_Weapon->Draw();
-	m_Sight->Draw();
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;	
@@ -348,14 +347,17 @@ void CPlayer::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
+	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
+	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
+	
 	m_Animodel->Draw();
 
 	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
-	//CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 	//バーテックスシェーダーオブジェクトのセット
-	//CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[MAXSHADER-1], NULL, 0);
+	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[MAXSHADER-1], NULL, 0);
 	//ピクセルシェーダーオブジェクトのセット
-	//CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[MAXSHADER-1], NULL, 0);
+	CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[MAXSHADER-1], NULL, 0);
 }
 
 void CPlayer::Death()

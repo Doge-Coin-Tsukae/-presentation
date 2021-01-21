@@ -2,7 +2,6 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
-#include "light.h"
 #include "explosion.h"
 #include "camera.h"
 
@@ -78,9 +77,6 @@ void CExplosion::Update()
 
 void CExplosion::Draw()
 {
-	CScene* scene = CManager::GetScene();
-	CLight* pLight = scene->GetGameObject<CLight>(0);
-	pLight->DisbleLight();
 
 	float x = m_Count % 4 * (1.0f / 4);
 	float y = m_Count / 4 * (1.0f / 4);

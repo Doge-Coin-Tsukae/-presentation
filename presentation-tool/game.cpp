@@ -40,6 +40,7 @@
 #include "modechip.h"
 #include "selectpointer.h"
 #include "saveloadchip.h"
+#include "triangle.h"
 #include "selectitem.h"
 
 void CGame::Init()

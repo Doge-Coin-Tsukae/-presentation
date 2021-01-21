@@ -9,6 +9,8 @@ private:
 	AABB* m_Colider;
 
 	D3DXMATRIX  scale, rot, trans, world;
+	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+	int m_Weapontype = WEAPON_RIFLE;		//ïêäÌÇÃéÌóﬁ
 
 public:
 
@@ -17,7 +19,8 @@ public:
 	{
 		archive(CEREAL_NVP(m_Position),
 			    CEREAL_NVP(m_Rotation),
-			    CEREAL_NVP(m_Scale) );
+			    CEREAL_NVP(m_Scale), 
+				CEREAL_NVP(m_Weapontype));
 	}
 
 	CPlayer(){}

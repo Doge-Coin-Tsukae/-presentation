@@ -13,6 +13,11 @@ private:
 	ID3D11Buffer*				m_IndexBuffer = nullptr;
 	ID3D11ShaderResourceView*	m_Texture[2];
 
+
+	ID3D11VertexShader* m_VertexShader[2];		//頂点シェーダ
+	ID3D11PixelShader* m_PixelShader[2];		//ピクセルシェーダ
+	ID3D11InputLayout* m_VertexLayout;
+
 	VERTEX_3D					m_Vertex[FIELDX][FIELDY];
 
 	int seed,oldseed;

@@ -34,6 +34,7 @@
 #include "selectpointer.h"
 #include "modechip.h"
 #include "saveloadchip.h"
+#include "triangle.h"
 #include "selectitem.h"
 
 #define ITEMCHIPX 2
@@ -102,6 +103,9 @@ void CSelectItem::Init()
 	m_SaveLoadChip->SetPosition(m_Position);
 	m_SaveLoadChip->Init();
 
+	m_Triangle = new CTriangle;
+	m_Triangle->Init();
+
 	min = D3DXVECTOR2(0, 0);
 	max = D3DXVECTOR2(150.0f, 300.0f);
 	click = false;
@@ -160,12 +164,21 @@ void CSelectItem::Update()
 
 	m_carsor->Update();
 	m_SaveLoadChip->Update();
+	m_Triangle->Update();
+
+	if (m_EditGameObject != nullptr)
+	{
+		D3DXVECTOR3 Tpos(m_EditGameObject->GetPosition().x, m_EditGameObject->GetPosition().y + 3.5f, m_EditGameObject->GetPosition().z);
+		m_Triangle->SetPosition(Tpos);//現在クリックしているゲームオブジェクトに逆三角形のオブジェクトを出す
+	}
 	UpdateControll();
-	
+
 }
 
 void CSelectItem::Draw()
 {
+	m_Triangle->Draw();
+
 	m_under->Draw();
 	m_pointer->Draw();
 
@@ -204,15 +217,18 @@ void CSelectItem::Draw()
 	//編集モードの時に配置する
 	if (NowMode == EDIT)
 	{
+
 		//IMGUI
 
 		ImGui::SetNextWindowSize(ImVec2(220, 100));
 		ImGui::Begin("EDIT_MODE");
-		if(m_EditGameObject !=nullptr)m_EditGameObject->SetImGui();		//現在クリックしているゲームオブジェクトの編集画面を出す
+
+		if (m_EditGameObject != nullptr)
+		{
+			m_EditGameObject->SetImGui();		//現在クリックしているゲームオブジェクトの編集画面を出す
+		}
 		ImGui::End();
 	}
-
-
 }
 
 void CSelectItem::UpdateControll()

@@ -150,6 +150,11 @@ void CMeshField::Init()
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
+	CRenderer::CreateVertexShader(&m_VertexShader[0], &m_VertexLayout, "shadowMappingVS.cso");
+	CRenderer::CreatePixelShader(&m_PixelShader[0], "shadowMappingPS.cso");
+	CRenderer::CreateVertexShader(&m_VertexShader[1], &m_VertexLayout, "vertexShader.cso");
+	CRenderer::CreatePixelShader(&m_PixelShader[1], "pixelShader.cso");
 }
 
 void CMeshField::Uninit()
@@ -273,6 +278,12 @@ void CMeshField::UpdateSeed()
 }
 void CMeshField::Draw()
 {
+	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
+	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//バーテックスシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[0], NULL, 0);
+	//ピクセルシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->PSSetShader(m_PixelShader[0], NULL, 0);
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
@@ -302,12 +313,23 @@ void CMeshField::Draw()
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[1]);
 
+	//シャドウバッファをセット
+	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
+	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
+
+
 	//プリミティブトポロジ設定
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//ポリゴン描画
 	CRenderer::GetDeviceContext()->DrawIndexed((FIELDX * 2) * FIELDY - 2, 0, 0);
 
+	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
+	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//バーテックスシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[1], NULL, 0);
+	//ピクセルシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->PSSetShader(m_PixelShader[1], NULL, 0);
 }
 
 void CMeshField::TextureMixed()

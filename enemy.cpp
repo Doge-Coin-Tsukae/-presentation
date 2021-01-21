@@ -81,6 +81,11 @@ void CEnemy::Init()
 	m_OldAnimationChara = g_aParam2[1].pFilename;
 	m_Frame = 0;
 	rate = 0;
+
+	CRenderer::CreateVertexShader(&m_VertexShader[0],&m_VertexLayout, "shadowMappingVS.cso");
+	CRenderer::CreatePixelShader(&m_PixelShader[0], "shadowMappingPS.cso");
+	CRenderer::CreateVertexShader(&m_VertexShader[1], &m_VertexLayout, "vertexShader.cso");
+	CRenderer::CreatePixelShader(&m_PixelShader[1], "pixelShader.cso");
 }
 
 void CEnemy::Uninit()
@@ -162,8 +167,15 @@ void CEnemy::Update_AI()
 
 void CEnemy::Draw()
 {
+	
+	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
+	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//バーテックスシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[0], NULL, 0);
+	//ピクセルシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->PSSetShader(m_PixelShader[0], NULL, 0);
+
 	m_Weapon->Draw();
-	m_Sight->Draw();
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
@@ -176,8 +188,18 @@ void CEnemy::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
+	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
+	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
+
 	m_Animodel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
 	m_Animodel->Draw();
+
+	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
+	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//バーテックスシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[1], NULL, 0);
+	//ピクセルシェーダーオブジェクトのセット
+	CRenderer::GetDeviceContext()->PSSetShader(m_PixelShader[1], NULL, 0);
 }
 
 void CEnemy::LookPlayer()

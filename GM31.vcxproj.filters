@@ -65,9 +65,6 @@
     <ClCompile Include="friend.cpp">
       <Filter>ソース ファイル\gameobject\player</Filter>
     </ClCompile>
-    <ClCompile Include="field.cpp">
-      <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClCompile>
     <ClCompile Include="bullet.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClCompile>
@@ -143,14 +140,8 @@
     <ClCompile Include="smoke.cpp">
       <Filter>ソース ファイル\gameobject\billboard</Filter>
     </ClCompile>
-    <ClCompile Include="shadow.cpp">
-      <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClCompile>
     <ClCompile Include="house.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClCompile>
-    <ClCompile Include="light.cpp">
-      <Filter>ソース ファイル\system</Filter>
     </ClCompile>
     <ClCompile Include="deadtree.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
@@ -204,9 +195,6 @@
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>ソース ファイル\gameobject\player</Filter>
-    </ClInclude>
-    <ClInclude Include="field.h">
-      <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
     <ClInclude Include="bullet.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
@@ -301,14 +289,8 @@
     <ClInclude Include="smoke.h">
       <Filter>ソース ファイル\gameobject\billboard</Filter>
     </ClInclude>
-    <ClInclude Include="shadow.h">
-      <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClInclude>
     <ClInclude Include="house.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>ソース ファイル\system</Filter>
     </ClInclude>
     <ClInclude Include="gameobject.h">
       <Filter>ソース ファイル\system</Filter>
@@ -394,12 +376,6 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="toonVS.hlsl">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="shadowps.hlsl">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="shadowvs.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

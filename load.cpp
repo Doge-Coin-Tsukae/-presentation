@@ -63,37 +63,6 @@ void CLOAD::Data_Load()
 		inputFile.close();
 	}
 
-	//プレイヤーの情報をファイルから読み込む
-	//{
-	//	SaveFile = fopen("asset/savedata/playerdata.txt", "r");
-	//	if (SaveFile == NULL)           // オープンに失敗した場合
-	//		return;
-
-	//	CPlayer* pPlayer = new CPlayer();
-	//	pPlayer->Init();
-	//	pPlayer->Load(SaveFile);
-	//	scene->AddArgumentGameObject(pPlayer,1);
-
-	//	fclose(SaveFile);
-	//}
-
-	//敵の情報をファイルから読み込む
-	//{
-	//	SaveFile = fopen("asset/savedata/enemydata.txt", "r");
-	//	if (SaveFile == NULL)           // オープンに失敗した場合
-	//		return;
-
-	//	for (int i = 0; i < 3; i++)
-	//	{
-	//		CEnemy* pEnemy = new CEnemy();
-	//		pEnemy->Init();
-	//		pEnemy->Load(SaveFile,i);
-	//		scene->AddArgumentGameObject(pEnemy, 1);
-	//	}
-
-	//	fclose(SaveFile);
-	//}
-
 	{
 		int totalnumber = 0;	//敵の総数
 		std::string moji = "enemydata";		//jsonの敵データ
@@ -128,23 +97,6 @@ void CLOAD::Data_Load()
 		tmp.clear();
 	}
 
-	//バンカー情報をファイルから読み込む
-	//{
-	//	SaveFile = fopen("asset/savedata/bunkerdata.txt", "r");
-	//	if (SaveFile == NULL)	// オープンに失敗した場合
-	//		return;
-
-	//	for (int i = 0; i < 3; i++)
-	//	{
-	//		CBUNKER* pBunker = new CBUNKER();
-	//		pBunker->Init();
-	//		pBunker->Load(SaveFile, i);
-	//		scene->AddArgumentGameObject(pBunker, 1);
-	//	}
-
-	//	fclose(SaveFile);
-	//}
-
 	{
 		int totalnumber = 0;	//敵の総数
 		std::string moji = "bunkerdata";		//jsonの敵データ
@@ -175,23 +127,6 @@ void CLOAD::Data_Load()
 
 		inputFile.close();
 	}
-
-	//拠点情報をファイルから読み込む
-	//{
-	//	SaveFile = fopen("asset/savedata/basedata.txt", "r");
-	//	if (SaveFile == NULL)	// オープンに失敗した場合
-	//		return;
-
-	//	for (int i = 0; i < 3; i++)
-	//	{
-	//		CBASE* pBase = new CBASE();
-	//		pBase->Init();
-	//		pBase->Load(SaveFile, i);
-	//		scene->AddArgumentGameObject(pBase, 2);
-	//	}
-
-	//	fclose(SaveFile);
-	//}
 
 	{
 		int totalnumber = 0;	//敵の総数
@@ -224,23 +159,6 @@ void CLOAD::Data_Load()
 		inputFile.close();
 	}
 
-	//木情報をファイルから読み込む
-	//{
-	//	SaveFile = fopen("asset/savedata/treedata.txt", "r");
-	//	if (SaveFile == NULL)	// オープンに失敗した場合
-	//		return;
-
-	//	for (int i = 0; i < 10; i++)
-	//	{
-	//		CTREE* pTree = new CTREE();
-	//		pTree->Init();
-	//		pTree->Load(SaveFile, i);
-	//		scene->AddArgumentGameObject(pTree, 3);
-	//	}
-
-	//	fclose(SaveFile);
-	//}
-
 	{
 		int totalnumber = 0;	//敵の総数
 		std::string moji = "treedata";		//jsonの敵データ
@@ -271,23 +189,6 @@ void CLOAD::Data_Load()
 
 		inputFile.close();
 	}
-
-	//枯れ木情報をファイルから読み込む
-	//{
-	//	SaveFile = fopen("asset/savedata/deadtreedata.txt", "r");
-	//	if (SaveFile == NULL)	// オープンに失敗した場合
-	//		return;
-
-	//	for (int i = 0; i < 10; i++)
-	//	{
-	//		CDEADTREE* pDeadTree = new CDEADTREE();
-	//		pDeadTree->Init();
-	//		pDeadTree->Load(SaveFile, i);
-	//		scene->AddArgumentGameObject(pDeadTree, 1);
-	//	}
-
-	//	fclose(SaveFile);
-	//}
 
 	{
 		int totalnumber = 0;	//敵の総数

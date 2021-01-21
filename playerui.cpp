@@ -8,7 +8,6 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
-#include "light.h"
 #include "camera.h"
 #include "polygon.h"
 #include "gauge.h"
@@ -55,8 +54,6 @@ void CPLAYERUI::Update()
 void CPLAYERUI::Draw()
 {
 	CScene* scene = CManager::GetScene();
-	CLight* pLight = scene->GetGameObject<CLight>(0);
-	pLight->DisbleLight();
 
 	m_HpGauge->Draw();
 

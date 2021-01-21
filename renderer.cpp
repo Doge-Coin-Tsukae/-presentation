@@ -28,9 +28,8 @@ ID3D11Buffer*			CRenderer::m_ParameterBuffer = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateEnable = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
 
-
-
-
+ID3D11DepthStencilView* CRenderer::m_ShadowDepthStencilView = NULL;//追加
+ID3D11ShaderResourceView* CRenderer::m_ShadowDepthShaderResourceView = NULL;//追加
 
 void CRenderer::Init()
 {
@@ -100,6 +99,37 @@ void CRenderer::Init()
 
 	m_ImmediateContext->OMSetRenderTargets( 1, &m_RenderTargetView, m_DepthStencilView );
 
+	{//このカッコごと打ち込んでOK
+//シャドウバッファ用テクスチャー作成
+		ID3D11Texture2D* depthTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(td));
+		td.Width = sd.BufferDesc.Width;
+		td.Height = sd.BufferDesc.Height;
+		td.MipLevels = 1;
+		td.ArraySize = 1;
+		td.Format = DXGI_FORMAT_R32_TYPELESS;//R要素のみ使用するテクスチャ画像とする
+		td.SampleDesc = sd.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		td.CPUAccessFlags = 0;
+		td.MiscFlags = 0;
+		m_D3DDevice->CreateTexture2D(&td, NULL, &depthTexture);
+		//ステンシルターゲット作成
+		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+		ZeroMemory(&dsvd, sizeof(dsvd));
+		dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		dsvd.Flags = 0;
+		m_D3DDevice->CreateDepthStencilView(depthTexture, &dsvd, &m_ShadowDepthStencilView);
+		//シェーダーリソースビュー作成
+		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+		SRVDesc.Format = DXGI_FORMAT_R32_FLOAT;
+		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		SRVDesc.Texture2D.MipLevels = 1;
+		m_D3DDevice->CreateShaderResourceView(depthTexture, &SRVDesc,
+			&m_ShadowDepthShaderResourceView);
+	}//ここまで
 
 	// ビューポート設定
 	D3D11_VIEWPORT vp;
@@ -347,6 +377,8 @@ void CRenderer::Uninit()
 
 void CRenderer::Begin()
 {
+	m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);//追加
+
 	// バックバッファクリア
 	float ClearColor[4] = { 0.0f, 0.5f, 0.0f, 1.0f };		//背景を変える
 	m_ImmediateContext->ClearRenderTargetView( m_RenderTargetView, ClearColor );
@@ -426,6 +458,8 @@ void CRenderer::SetMaterial( MATERIAL Material )
 
 void CRenderer::SetLight( LIGHT Light )
 {
+	D3DXMatrixTranspose(&Light.ViewMatrix, &Light.ViewMatrix);//追加
+	D3DXMatrixTranspose(&Light.ProjectionMatrix, &Light.ProjectionMatrix);//追加
 
 	m_ImmediateContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 
@@ -499,4 +533,12 @@ void CRenderer::CreatePixelShader(ID3D11PixelShader** PixelShader, const char* F
 	m_D3DDevice->CreatePixelShader(buffer, fsize, NULL, PixelShader);
 
 	delete[] buffer;
+}
+
+void CRenderer::BeginDepth() //新規関数追加
+{
+	//シャドウバッファを深度バッファに設定し、内容を1で塗りつぶす
+	m_ImmediateContext->OMSetRenderTargets(0, NULL, m_ShadowDepthStencilView);
+	m_ImmediateContext->ClearDepthStencilView(m_ShadowDepthStencilView,
+		D3D11_CLEAR_DEPTH, 1.0f, 0);
 }

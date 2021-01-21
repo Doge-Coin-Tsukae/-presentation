@@ -13,6 +13,7 @@ private:
 	CMODECHIP *m_modechip[2];	//編集モードを切替ボタン
 	CCARSOR *m_carsor;			//カーソル
 	CSaveLoadChip *m_SaveLoadChip;
+	CTriangle* m_Triangle;
 
 	D3DXVECTOR2 min;
 	D3DXVECTOR2 max;

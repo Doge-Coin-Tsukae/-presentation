@@ -9,7 +9,6 @@
 #include "scene.h"
 #include "manager.h"
 #include "polygon.h"
-#include "light.h"
 #include "gauge.h"
 #include "model.h"
 #include "colider.h"
@@ -77,9 +76,5 @@ void CCAPTUREGAUGE::Update()
 
 void CCAPTUREGAUGE::Draw()
 {
-	CScene* scene = CManager::GetScene();
-	CLight* pLight = scene->GetGameObject<CLight>(0);
-	pLight->DisbleLight();
-
 	m_Gauge->Draw();
 }

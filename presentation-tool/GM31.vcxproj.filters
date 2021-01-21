@@ -53,9 +53,6 @@
     <ClCompile Include="input.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
-    <ClCompile Include="light.cpp">
-      <Filter>ソース ファイル\gameobject</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>ソース ファイル\gameobject\player</Filter>
     </ClCompile>
@@ -167,12 +164,12 @@
     <ClCompile Include="ImGradient.cpp">
       <Filter>ソース ファイル\imguizmo</Filter>
     </ClCompile>
+    <ClCompile Include="triangle.cpp">
+      <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameobject.h">
-      <Filter>ソース ファイル\gameobject</Filter>
-    </ClInclude>
-    <ClInclude Include="light.h">
       <Filter>ソース ファイル\gameobject</Filter>
     </ClInclude>
     <ClInclude Include="scene.h">
@@ -318,6 +315,9 @@
     </ClInclude>
     <ClInclude Include="ImZoomSlider.h">
       <Filter>ソース ファイル\imguizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle.h">
+      <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

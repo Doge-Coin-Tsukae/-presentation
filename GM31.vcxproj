@@ -168,14 +168,12 @@
     <ClCompile Include="enemycommander.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fade.cpp" />
-    <ClCompile Include="field.cpp" />
     <ClCompile Include="friend.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamemaneger.cpp" />
     <ClCompile Include="gauge.cpp" />
     <ClCompile Include="house.cpp" />
     <ClCompile Include="input.cpp" />
-    <ClCompile Include="light.cpp" />
     <ClCompile Include="load.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
@@ -188,7 +186,6 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="rifle.cpp" />
-    <ClCompile Include="shadow.cpp" />
     <ClCompile Include="shellexplosion.cpp" />
     <ClCompile Include="sight.cpp" />
     <ClCompile Include="skydome.cpp" />
@@ -220,7 +217,6 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="explosion.h" />
     <ClInclude Include="fade.h" />
-    <ClInclude Include="field.h" />
     <ClInclude Include="friend.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="gamemaneger.h" />
@@ -229,7 +225,6 @@
     <ClInclude Include="house.h" />
     <ClInclude Include="human.h" />
     <ClInclude Include="input.h" />
-    <ClInclude Include="light.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
@@ -243,7 +238,6 @@
     <ClInclude Include="Result.h" />
     <ClInclude Include="rifle.h" />
     <ClInclude Include="scene.h" />
-    <ClInclude Include="shadow.h" />
     <ClInclude Include="shellexplosion.h" />
     <ClInclude Include="sight.h" />
     <ClInclude Include="skydome.h" />
@@ -305,26 +299,6 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
-    <FxCompile Include="shadowps.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
-    <FxCompile Include="shadowvs.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
