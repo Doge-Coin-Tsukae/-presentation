@@ -20,12 +20,14 @@
 #include "meshfield.h"
 #include "human.h"
 #include "model.h"
+#include "animationmodel.h"
 #include "carsor.h"
 #include "colider.h"
 #include "sight.h"
 #include "weapon.h"
 #include "player.h"
 #include "enemy.h"
+#include "friend.h"
 #include "deadtree.h"
 #include "bunker.h"
 #include "base.h"
@@ -152,22 +154,48 @@ void CSAVE::Data_Save()
 		ss.clear();
 	}
 
+	//味方情報をファイルに書き込む
+	{
+		std::vector<CFriend*> friendlist = scene->GetGameObjects<CFriend>(1);
+
+		std::stringstream ss;
+		std::string filename = path2;
+		filename += "/frienddata.json";
+
+		int  i = 1;
+		std::string moji = "frienddata";
+		std::string tmp;
+		//データを書き込む準備(括弧で囲わないとファイルが正常に作成されない)
+		{
+			cereal::JSONOutputArchive o_archive(ss);
+
+			//敵の総数を計測
+			for (CFriend* friends : friendlist)
+			{
+				i++;
+			}
+			o_archive(cereal::make_nvp("totalfriend", i));		//敵の総数を書き込む
+			i = 1;
+
+			//敵の情報を書き込む
+			for (CFriend* friends : friendlist)
+			{
+				tmp = moji;
+				tmp += i;
+				o_archive(cereal::make_nvp(tmp, *friends));
+				i++;
+			}
+		}
+		std::ofstream outputFile(filename, std::ios::out);
+		//書き出す
+		outputFile << ss.str();
+		//閉じる
+		outputFile.close();
+		ss.clear();
+	}
+
 	//バンカー情報をファイルに書き込む
 	{
-		//strcpy(path2, temp);
-		//strcat(path2, "/bunkerdata.txt");
-		//SaveFile = fopen(path2, "w");
-		//if (SaveFile == NULL)	// オープンに失敗した場合
-		//	return;				// 異常終了
-		////情報を書き込む
-		//std::vector<CBUNKER*> bunkerlist = scene->GetGameObjects<CBUNKER>(1);
-		//for (CBUNKER* bunker : bunkerlist)
-		//{
-		//	bunker->Save(SaveFile);
-		//}
-
-		//fclose(SaveFile);
-
 		std::vector<CBUNKER*> bunkerlist = scene->GetGameObjects<CBUNKER>(1);
 
 		std::stringstream ss;
@@ -207,19 +235,6 @@ void CSAVE::Data_Save()
 	}
 	//拠点情報を書き込む
 	{
-		//strcpy(path2, temp);
-		//strcat(path2, "/basedata.txt");
-		//SaveFile = fopen(path2, "w");
-		//if (SaveFile == NULL)	// オープンに失敗した場合
-		//	return;             // 異常終了
-		////情報を書き込む
-		//std::vector<CBase*> baselist = scene->GetGameObjects<CBase>(1);
-		//for (CBase* base : baselist)
-		//{
-		//	base->Save(SaveFile);
-		//}
-
-		//fclose(SaveFile);
 		std::vector<CBase*> baselist = scene->GetGameObjects<CBase>(1);
 
 		std::stringstream ss;
@@ -256,19 +271,6 @@ void CSAVE::Data_Save()
 	}
 	//木情報を書き込む
 	{
-		//strcpy(path2, temp);
-		//strcat(path2, "/treedata.txt");
-		//SaveFile = fopen(path2, "w");
-		//if (SaveFile == NULL)	// オープンに失敗した場合
-		//	return;				// 異常終了
-		////情報を書き込む
-		//std::vector<CTREE*> treelist = scene->GetGameObjects<CTREE>(1);
-		//for (CTREE* tree : treelist)
-		//{
-		//	tree->Save(SaveFile);
-		//}
-
-		//fclose(SaveFile);
 		std::vector<CTREE*> treelist = scene->GetGameObjects<CTREE>(1);
 
 		std::stringstream ss;
@@ -305,19 +307,6 @@ void CSAVE::Data_Save()
 	}
 	//枯れ木情報を書き込む
 	{
-		//strcpy(path2, temp);
-		//strcat(path2, "/deadtreedata.txt");
-		//SaveFile = fopen(path2, "w");
-		//if (SaveFile == NULL)	// オープンに失敗した場合
-		//	return;				// 異常終了
-		////情報を書き込む
-		//std::vector<CDEADTREE*> deadtreelist = scene->GetGameObjects<CDEADTREE>(1);
-		//for (CDEADTREE* deadtree : deadtreelist)
-		//{
-		//	deadtree->Save(SaveFile);
-		//}
-
-		//fclose(SaveFile);
 		std::vector<CDEADTREE*> deadtreelist = scene->GetGameObjects<CDEADTREE>(1);
 
 		std::stringstream ss;

@@ -65,6 +65,10 @@ void CPolygon::Update()
 
 void CPolygon::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	CScene* scene = CManager::GetScene();
 
 	//マトリクス設定
@@ -82,10 +86,10 @@ void CPolygon::Draw()
 	CRenderer::SetMaterial(material);
 
 	//テクスチャ設定
-	//CRenderer::GetDeviceContext()->PSSetShaderResources(0,1,&m_Texture);
+	CRenderer::GetDeviceContext()->PSSetShaderResources(0,1,&m_Texture);
 
-	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
-	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &shadowDepthTexture);//-追加
+	//ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
+	//CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &shadowDepthTexture);//-追加
 
 	//プリミティブトポロジ設定
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
@@ -156,6 +160,10 @@ void CMovePolygon::Update()
 
 void CMovePolygon::Draw()
 {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	CScene* scene = CManager::GetScene();
 
 	D3D11_MAPPED_SUBRESOURCE msr;

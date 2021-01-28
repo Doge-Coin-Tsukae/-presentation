@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "manager.h"
 #include "model.h"
+#include "camera.h"
 #include "human.h"
 #include "Vector.h"
 #include "model.h"
@@ -128,7 +129,7 @@ void CFriend::Update_AI()
 	{
 		if (nearlength > 20.0f)
 		{
-			D3DXVECTOR3 Velocity = GetVector(m_Position, NearEnemy->GetPosition());
+			D3DXVECTOR3 Velocity = GetNorm(m_Position, NearEnemy->GetPosition());
 			m_Position += Velocity / 10;
 			ChangeAnimation((char*)"run");
 		}
@@ -152,6 +153,12 @@ void CFriend::Update_AI()
 
 void CFriend::Draw()
 {
+	CScene* scene = CManager::GetScene();
+	CCamera* camera = scene->GetGameObject <CCamera>(0);
+
+	if (!camera->CheckView(m_Position))
+		return;
+
 	//“à•”ƒNƒ‰ƒX‚©‚ç
 	m_Weapon->Draw();
 	m_Sight->Draw();
@@ -175,8 +182,8 @@ void CFriend::LookEnemy(CEnemy* enemy)
 {
 	if (enemy == nullptr)return;
 
-	D3DXVECTOR3 Velocity = GetVector(m_Position, enemy->GetPosition());
-	D3DXVECTOR3 Velocity2 = GetVector(m_Position, m_Sight->GetPosition());
+	D3DXVECTOR3 Velocity = GetNorm(m_Position, enemy->GetPosition());
+	D3DXVECTOR3 Velocity2 = GetNorm(m_Position, m_Sight->GetPosition());
 	m_Rotation.x += (Velocity.x * Velocity2.x + Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
 	m_Rotation.x -= 1.0f;
 }

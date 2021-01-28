@@ -9,7 +9,7 @@
 #include "scene.h"
 #include "manager.h"
 #include "model.h"
-
+#include "animationmodel.h"
 #include "meshfield.h"
 #include "camera.h"
 #include "human.h"
@@ -22,17 +22,18 @@
 #include "enemy.h"
 
 class CModel* CEnemy::m_Model;
+class CAnimationModel* CEnemy::m_AnimationModel;
 
 void CEnemy::Load()
 {
-	m_Model = new CModel();
-	m_Model->Load("asset\\model\\yokoari.obj");
+	m_AnimationModel = new CAnimationModel();
+	m_AnimationModel->Load("asset/model/player/chara2.fbx");
 }
 
 void CEnemy::Unload()
 {
-	m_Model->Unload();
-	delete m_Model;
+	m_AnimationModel->Unload();
+	delete m_AnimationModel;
 }
 
 void CEnemy::Init()
@@ -87,7 +88,7 @@ void CEnemy::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
-	m_Model->Draw();
+	m_AnimationModel->Draw();
 }
 
 void CEnemy::Save(FILE* fp)
@@ -129,7 +130,7 @@ void CEnemy::SetImGui()
 	float cameralength = D3DXVec3Dot(&m_Position, &camerapos);
 	const char* listbox_items[] = { "Rifle", "SMG" };
 
-	ImGui::Text("SetMode");
+	ImGui::Text("EnemyNPC");
 	ImGui::SliderFloat("rotation", &m_Rotation.x, 0, 10);
 	ImGui::ListBox("weaponbox", &m_Weapontype, listbox_items, IM_ARRAYSIZE(listbox_items), 2);
 	ImGui::Checkbox("delete", &m_Destroy);

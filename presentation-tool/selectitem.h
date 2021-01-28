@@ -21,12 +21,14 @@ private:
 	int NowMode;			//現在の編集モード
 
 	bool click;
+	bool isEnemy;			//設置キャラは敵NPCなのか?
 
 	bool ClickItemBox();	//アイテムボタンをクリックしたとき
 	bool ClikEditBox();		//編集ボタンをクリックしたとき
 	void ClickColider();
 	void WorldObject();		//ワールド座標にオブジェクトを配置する
 	void UpdateControll();	//input処理
+	void ImGuiSetMode();
 public:
 	void Init();
 	void Uninit();

@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animationmodel.cpp" />
     <ClCompile Include="base.cpp" />
     <ClCompile Include="bunker.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animationmodel.h" />
     <ClInclude Include="base.h" />
     <ClInclude Include="bunker.h" />
     <ClInclude Include="camera.h" />

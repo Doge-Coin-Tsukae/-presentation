@@ -77,6 +77,11 @@ void CExplosion::Update()
 
 void CExplosion::Draw()
 {
+	CScene* scene = CManager::GetScene();
+	CCamera* camera = scene->GetGameObject <CCamera>(0);
+
+	if (!camera->CheckView(m_Position))
+		return;
 
 	float x = m_Count % 4 * (1.0f / 4);
 	float y = m_Count / 4 * (1.0f / 4);
@@ -107,7 +112,6 @@ void CExplosion::Draw()
 
 	CRenderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
-	CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
 	D3DXMATRIX view = camera->GetViewMatrix();
 	D3DXMATRIX invView;
 	D3DXMatrixInverse(&invView, NULL, &view);	//ãtçsóÒ

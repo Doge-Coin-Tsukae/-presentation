@@ -14,6 +14,7 @@
 #include "input.h"
 #include "human.h"
 #include "model.h"
+#include "animationmodel.h"
 #include "sight.h"
 #include "weapon.h"
 #include "colider.h"
@@ -26,8 +27,11 @@
 void CPlayer::Init()
 {
 	//キャラモデル
-	m_Model = new CModel();
-	m_Model->Load("asset\\model\\ningen.obj");
+	//m_Model = new CModel();
+	//m_Model->Load("asset\\model\\ningen.obj");
+
+	m_AnimationModel = new CAnimationModel();
+	m_AnimationModel->Load("asset/model/player/chara.fbx");
 
 	//当たり判定
 	m_Colider = new AABB;
@@ -37,16 +41,25 @@ void CPlayer::Init()
 	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
+	m_AnimationModeltype = 0;
+	m_AnimationModeltype = m_AnimationModeltypeold;
 }
 
 void CPlayer::Uninit()
 {
-	m_Model->Unload();
-	delete m_Model;
+	m_AnimationModel->Unload();
+	delete m_AnimationModel;
 }
 
 void CPlayer::Update()
 {
+	//ImGuiでスケールいじっても同じ大きさを保つ
+	m_Scale.y = m_Scale.x;
+	m_Scale.z = m_Scale.x;
+
+	UpdateAnimationModel();
+
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 	m_Position.y = meshField->GetHeight(m_Position);	//メッシュフィールドの高さにプレイヤーを合わせる
@@ -64,7 +77,8 @@ void CPlayer::Draw()
 	CRenderer::SetWorldMatrix(&world);
 	ImGuizmo::DecomposeMatrixToComponents(world, matrixTranslation, matrixRotation, matrixScale);
 
-	m_Model->Draw();
+	//m_Model->Draw();
+	m_AnimationModel->Draw();
 }
 
 void CPlayer::Save(FILE* fp)
@@ -102,13 +116,34 @@ void CPlayer::SetImGui()
 
 	float cameralength = D3DXVec3Dot(&m_Position, &camerapos);
 	const char* listbox_items[] = { "Rifle", "SMG" };
-
-	ImGui::Text("SetMode");
+	const char* listbox_animodels[] = { "chara1","chara2" };
+	ImGui::Text("Player");
 	ImGui::SliderFloat("rotation", &m_Rotation.x, 0, 10);
-	ImGui::ListBox("weaponbox",&m_Weapontype, listbox_items, IM_ARRAYSIZE(listbox_items), 2);
+	ImGui::SliderFloat("scale", &m_Scale.x, 0.1, 10);
+	ImGui::ListBox("CharactorModel",&m_AnimationModeltype, listbox_animodels,IM_ARRAYSIZE(listbox_animodels),1);
+	ImGui::ListBox("Weapon",&m_Weapontype, listbox_items, IM_ARRAYSIZE(listbox_items), 2);
 	ImGui::Checkbox("delete", &m_Destroy);
+	ImGui::End();
+
 	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, SCREEN_WIDTH, SCREEN_HEIGHT);
-	ImGuizmo::Manipulate(camera->GetViewMatrix(), camera->GetProjectionMatrix(), ImGuizmo::ROTATE, ImGuizmo::LOCAL, &world._11);
+	ImGuizmo::Manipulate(camera->GetViewMatrix(), camera->GetProjectionMatrix(), ImGuizmo::ROTATE, ImGuizmo::LOCAL, world);
 	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, world);
 	ImGuizmo::ViewManipulate(camera->GetViewMatrix(), cameralength,ImVec2(ImGui::GetWindowPos().x -128, ImGui::GetWindowPos().y), ImVec2(128,128), 0x10101010);
+}
+
+void CPlayer::UpdateAnimationModel()
+{
+	//
+	if (m_AnimationModeltype == m_AnimationModeltypeold) return;
+
+	switch (m_AnimationModeltype)
+	{
+	case 0:
+		m_AnimationModel->Load("asset/model/player/chara.fbx");
+		break;
+	case 1:
+		m_AnimationModel->Load("asset/model/player/chara2.fbx");
+		break;
+	}
+	m_AnimationModeltypeold = m_AnimationModeltype;
 }

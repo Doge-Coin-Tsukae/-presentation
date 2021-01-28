@@ -72,6 +72,12 @@ void CTREE::Update()
 
 void CTREE::Draw()
 {
+	CScene* scene = CManager::GetScene();
+	CCamera* camera = scene->GetGameObject <CCamera>(0);
+
+	if (!camera->CheckView(m_Position))
+		return;
+
 	D3D11_MAPPED_SUBRESOURCE msr;
 	CRenderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
@@ -99,7 +105,6 @@ void CTREE::Draw()
 
 	CRenderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
-	CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
 	D3DXMATRIX view = camera->GetViewMatrix();
 	D3DXMATRIX invView;
 	D3DXMatrixInverse(&invView, NULL, &view);	//ãtçsóÒ

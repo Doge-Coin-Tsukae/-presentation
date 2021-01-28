@@ -6,6 +6,7 @@
 #include "manager.h"
 #include "input.h"
 #include "human.h"
+#include "animationmodel.h"
 #include "model.h"
 #include "sight.h"
 #include "weapon.h"

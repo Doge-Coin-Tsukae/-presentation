@@ -48,7 +48,7 @@ void CCARSOR::Update()
 	CalcScreenToWorld(&ppos,pos.x, pos.y,1.0f,SCREEN_WIDTH,SCREEN_HEIGHT, &VM,&PM);
 
 	//カーソルの座標とカメラの座標でベクトルをとる
-	D3DXVECTOR3 vpos = GetVector(camera->GetPosition(), ppos);	//スクリーンとカメラのベクトル
+	D3DXVECTOR3 vpos = GetNorm(camera->GetPosition(), ppos);	//スクリーンとカメラのベクトル
 	m_Position = camera->GetPosition();	
 
 	while (1)

@@ -167,6 +167,9 @@
     <ClCompile Include="triangle.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClCompile>
+    <ClCompile Include="animationmodel.cpp">
+      <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameobject.h">
@@ -318,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="triangle.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClInclude>
+    <ClInclude Include="animationmodel.h">
+      <Filter>ソース ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

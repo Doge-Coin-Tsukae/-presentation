@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include "camera.h"
 #include "input.h"
 #include "model.h"
 
@@ -66,6 +67,12 @@ void CDEADTREE::Update_Controll()
 }
 void CDEADTREE::Draw()
 {
+	CScene* scene = CManager::GetScene();
+	CCamera* camera = scene->GetGameObject <CCamera>(0);
+
+	if (!camera->CheckView(m_Position))
+		return;
+
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans, shadow, modelshadow;
 	//拡大縮小のマトリクス

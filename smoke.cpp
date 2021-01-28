@@ -86,6 +86,12 @@ void CSMOKE::Update()
 
 void CSMOKE::Draw()
 {
+	CScene* scene = CManager::GetScene();
+	CCamera* camera = scene->GetGameObject <CCamera>(0);
+
+	if (!camera->CheckView(m_Position))
+		return;
+
 	LIGHT light;
 	light.Enable = false;
 	CRenderer::SetLight(light);
@@ -116,7 +122,6 @@ void CSMOKE::Draw()
 
 	CRenderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
-	CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
 	D3DXMATRIX view = camera->GetViewMatrix();
 	D3DXMATRIX invView;
 	D3DXMatrixInverse(&invView, NULL, &view);	//ãtçsóÒ

@@ -22,7 +22,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-
+	bool CheckView(D3DXVECTOR3 Position);
 	void ZoomCamera() { m_zoom = 1 - m_zoom; }
 
 	bool GetZoom() { return m_zoom; }

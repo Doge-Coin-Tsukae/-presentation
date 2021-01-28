@@ -11,6 +11,7 @@
 #include "Vector.h"
 #include "sound.h"
 #include "model.h"
+#include "camera.h"
 #include "explosion.h"
 #include "human.h"
 #include "animationmodel.h"
@@ -127,6 +128,12 @@ void CBullet::Update_Collision()
 
 void CBullet::Draw()
 {
+	CScene* scene = CManager::GetScene();
+	CCamera* camera = scene->GetGameObject <CCamera>(0);
+
+	if (!camera->CheckView(m_Position))
+		return;
+
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	//拡大縮小のマトリクス
@@ -144,6 +151,6 @@ void CBullet::Draw()
 void  CBullet::Set(D3DXVECTOR3 SetPos, D3DXVECTOR3 SetSight,TEAM_NUMBER SetNUMBER)
 {
 	m_Position = SetPos;
-	m_Dir = GetVector(SetPos,SetSight);
+	m_Dir = GetNorm(SetPos,SetSight);
 	m_TeamNumber = SetNUMBER;
 }

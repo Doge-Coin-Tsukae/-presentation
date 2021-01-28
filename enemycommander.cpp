@@ -39,7 +39,7 @@ void CENEMY_COMMANDER::Update()
 				posbase.y += 1.0f;
 				posbase.z += rand() % 40 + -rand() % 10;
 
-				scene->AddGameObject<CEnemy>(1)->SetPosition(posbase);
+				//scene->AddGameObject<CEnemy>(1)->SetPosition(posbase);
 			}
 		}
 		resporn_timer = MAX_RESPORNTIME;

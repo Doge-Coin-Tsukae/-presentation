@@ -54,6 +54,7 @@ void CTutorial::Init()
 
 	//テクスチャ + モデルロード
 	CBullet::Load();	//弾のモデルを呼び出す
+	CBUNKER::Load();	//バンカーのモデルを呼び出す
 	CWEAPON::Load();	//銃のモデルを呼び出す
 	CSMOKE::Load();		//煙の画像を呼び出す
 
@@ -70,7 +71,6 @@ void CTutorial::Init()
 	AddGameObject<CMeshField>(1)->flatworld();
 
 	AddGameObject<CPlayer>(1)->SetPosition(D3DXVECTOR3(350.0f, 1.0f,  -200.0f));
-
 	AddGameObject<CBASE>(2)->SetPosition(D3DXVECTOR3(300.0f, 0.0f,-200.0f));
 
 	AddGameObject<CWEAPON2D>(4);
@@ -90,6 +90,7 @@ void CTutorial::Uninit()
 	CSMOKE::Unload();
 	CWEAPON::UnLoad();
 	CBullet::Unload();
+	CBUNKER::Unload();	//バンカーのモデルを呼び出す
 
 	m_GameManeger->Uninit();
 	delete m_GameManeger;

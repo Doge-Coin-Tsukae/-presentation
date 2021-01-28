@@ -17,12 +17,14 @@
 #include "meshfield.h"
 #include "human.h"
 #include "model.h"
+#include "animationmodel.h"
 #include "carsor.h"
 #include "colider.h"
 #include "sight.h"
 #include "weapon.h"
 #include "player.h"
 #include "enemy.h"
+#include "friend.h"
 #include "deadtree.h"
 #include "bunker.h"
 #include "base.h"
@@ -146,6 +148,43 @@ void CLOAD::Data_Load()
 			tmp += i;
 			jsonInputArchive(cereal::make_nvp(tmp, *pEnemy));
 			scene->AddArgumentGameObject(pEnemy, 1);
+		}
+
+		inputFile.close();
+		moji.clear();
+		path.clear();
+		stream.clear();
+	}
+
+	//味方情報をファイルから読み込む
+	{
+
+		int totalnumber = 0;	//敵の総数
+		std::string moji = "frienddata";		//jsonの敵データ
+		std::string tmp;					//jsonの敵データの作業ファイル
+
+		std::string path = path2;
+		path += "/frienddata.json";
+		std::stringstream stream;
+
+		//ファイル入力ストリーム作成
+		std::ifstream inputFile(path, std::ios::in);
+		//入力データを全部文字列streamに投げる
+		stream << inputFile.rdbuf();
+
+		//jsonをロード
+		cereal::JSONInputArchive jsonInputArchive(stream);
+		jsonInputArchive(cereal::make_nvp("totalfriend", totalnumber));
+
+		for (int i = 1; i < totalnumber; i++)
+		{
+			CFriend* pFrined = new CFriend;
+			pFrined->Init();
+
+			tmp = moji;
+			tmp += i;
+			jsonInputArchive(cereal::make_nvp(tmp, *pFrined));
+			scene->AddArgumentGameObject(pFrined, 1);
 		}
 
 		inputFile.close();

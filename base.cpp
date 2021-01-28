@@ -11,6 +11,7 @@
 #include "scene.h"
 #include "manager.h"
 #include "Vector.h"
+#include "camera.h"
 #include "gamemaneger.h"
 #include "polygon.h"
 #include "gauge.h"
@@ -148,6 +149,12 @@ void CBASE::Update()
 
 void CBASE::Draw()
 {
+	CScene* scene = CManager::GetScene();
+	CCamera* camera = scene->GetGameObject <CCamera>(0);
+
+	if (!camera->CheckView(m_Position))
+		return;
+
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	//拡大縮小のマトリクス

@@ -21,6 +21,7 @@
 #include "meshfield.h"
 #include "human.h"
 #include "model.h"
+#include "animationmodel.h"
 #include "carsor.h"
 #include "colider.h"
 #include "sight.h"
@@ -28,6 +29,7 @@
 #include "base.h"
 #include "player.h"
 #include "enemy.h"
+#include "friend.h"
 #include "bunker.h"
 #include "polygon.h"
 #include "skydome.h"
@@ -48,6 +50,7 @@ void CGame::Init()
 	//テクスチャ + モデルロード
 	CBUNKER::Load();
 	CEnemy::Load();
+	CFriend::Load();
 	CWEAPON::Load();
 	CDEADTREE::Load();
 
@@ -72,7 +75,8 @@ void CGame::Uninit()
 
 	//テクスチャ + モデルアンロード
 	CDEADTREE::Unload();
-	CWEAPON::UnLoad();
+	CWEAPON::Unload();
+	CFriend::Unload();
 	CEnemy::Unload();
 	CBUNKER::Unload();
 }

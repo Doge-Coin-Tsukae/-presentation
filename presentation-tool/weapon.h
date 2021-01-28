@@ -23,7 +23,7 @@ public:
 	~CWEAPON() {}
 
 	static void Load();
-	static void UnLoad();
+	static void Unload();
 	void Init();
 	void Uninit();
 	void Update();

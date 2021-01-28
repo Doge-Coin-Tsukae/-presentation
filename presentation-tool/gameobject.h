@@ -62,6 +62,10 @@ public:		//アクセス指定子
 		ImGui::Checkbox("delete",&m_Destroy);
 	}
 
+	virtual void SetGizmo()
+	{
+
+	}
 	virtual void Load(){}	//データのロード
 	virtual void Save(){}	//データのセーブ
 };

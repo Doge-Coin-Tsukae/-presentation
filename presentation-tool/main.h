@@ -1,6 +1,7 @@
 #pragma once
 
 #define _CRT_SECURE_NO_WARNINGS
+#define NOMINMAX
 #include <stdio.h>
 #include <windows.h>
 #include <assert.h>

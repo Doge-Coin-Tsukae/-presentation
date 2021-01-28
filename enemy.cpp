@@ -13,6 +13,7 @@
 #include "human.h"
 #include "Vector.h"
 #include "sound.h"
+#include "camera.h"
 #include "animationmodel.h"
 #include "sight.h"
 #include "weapon.h"
@@ -132,7 +133,7 @@ void CEnemy::Update_AI()
 	{
 		if (length > 50.0f)
 		{
-			D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
+			D3DXVECTOR3 Velocity = GetNorm(m_Position, pPlayer->GetPosition());
 			m_Position += Velocity / 10;
 			ChangeAnimation((char*)"run");
 		}
@@ -168,6 +169,12 @@ void CEnemy::Update_AI()
 void CEnemy::Draw()
 {
 	
+	CScene* scene = CManager::GetScene();
+	CCamera* camera = scene->GetGameObject <CCamera>(0);
+
+	if (!camera->CheckView(m_Position))
+		return;
+
 	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
 	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 	//バーテックスシェーダーオブジェクトのセット
@@ -207,8 +214,8 @@ void CEnemy::LookPlayer()
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
-	D3DXVECTOR3 Velocity = GetVector(m_Position, pPlayer->GetPosition());
-	D3DXVECTOR3 Velocity2 = GetVector(m_Position,m_Sight->GetPosition());
+	D3DXVECTOR3 Velocity = GetNorm(m_Position, pPlayer->GetPosition());
+	D3DXVECTOR3 Velocity2 = GetNorm(m_Position,m_Sight->GetPosition());
 	m_Rotation.x += (Velocity.x * Velocity2.x+ Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
 	m_Rotation.x -= 1.0f;
 }

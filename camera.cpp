@@ -5,6 +5,7 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include "Vector.h"
 #include "model.h"
 #include "input.h"
 
@@ -91,4 +92,68 @@ void CCamera::Draw()
 
 	CRenderer::SetProjectionMatrix(&projectionMatrix);
 	CRenderer::SetCameraPosition(m_Position);
+}
+
+bool CCamera::CheckView(D3DXVECTOR3 Position)
+{
+	D3DXMATRIX vp, invvp;
+
+	vp = viewMatrix * projectionMatrix;
+	D3DXMatrixInverse(&invvp, NULL, &vp);
+
+	D3DXVECTOR3 vpos[4];
+	D3DXVECTOR3 wpos[4];
+
+	vpos[0] = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
+	vpos[1] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	vpos[2] = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);
+	vpos[3] = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
+
+	D3DXVec3TransformCoord(&wpos[0], &vpos[0], &invvp);
+	D3DXVec3TransformCoord(&wpos[1], &vpos[1], &invvp);
+	D3DXVec3TransformCoord(&wpos[2], &vpos[2], &invvp);
+	D3DXVec3TransformCoord(&wpos[3], &vpos[3], &invvp);
+	//éãêçë‰ÇÃ4ì_ÇÃç¿ïWÇ™ãÅÇ‹ÇÈ
+
+	if (GetVector(m_Position, Position) >= 200.0f)return false;
+
+	D3DXVECTOR3 v, v1, v2, n;
+
+	v = Position - m_Position;
+
+	//ç∂
+	v1 = wpos[0] - m_Position;
+	v2 = wpos[2] - m_Position;
+	D3DXVec3Cross(&n, &v1, &v2);
+
+	if (D3DXVec3Dot(&n, &v) < 0.0f)
+		return false;
+
+	//âE
+	v1 = wpos[1] - m_Position;
+	v2 = wpos[3] - m_Position;
+	D3DXVec3Cross(&n, &v1, &v2);
+
+	if (D3DXVec3Dot(&n, &v) > 0.0f)
+		return false;
+
+	//è„
+	v1 = wpos[0] - m_Position;
+	v2 = wpos[1] - m_Position;
+	D3DXVec3Cross(&n, &v1, &v2);
+
+	if (D3DXVec3Dot(&n, &v) > 0.0f)
+		return false;
+
+	//â∫
+	v1 = wpos[2] - m_Position;
+	v2 = wpos[3] - m_Position;
+	D3DXVec3Cross(&n, &v1, &v2);
+
+	if (D3DXVec3Dot(&n, &v) < 0.0f)
+		return false;
+
+
+	return true;
+
 }

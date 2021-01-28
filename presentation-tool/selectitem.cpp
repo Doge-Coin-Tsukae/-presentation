@@ -10,6 +10,7 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include "Vector.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
@@ -18,6 +19,7 @@
 #include "polygon.h"
 #include "chip.h"
 #include "model.h"
+#include "animationmodel.h"
 #include "human.h"
 #include "carsor.h"
 #include "colider.h"
@@ -27,6 +29,7 @@
 #include "weapon.h"
 #include "player.h"
 #include "enemy.h"
+#include "friend.h"
 #include "base.h"
 #include "deadtree.h"
 #include "tree.h"
@@ -109,6 +112,7 @@ void CSelectItem::Init()
 	min = D3DXVECTOR2(0, 0);
 	max = D3DXVECTOR2(150.0f, 300.0f);
 	click = false;
+	isEnemy = false;
 }
 
 void CSelectItem::Uninit()
@@ -205,12 +209,7 @@ void CSelectItem::Draw()
 	if (NowMode == SET)
 	{
 		//IMGUI
-
-		ImGui::SetNextWindowSize(ImVec2(220, 100));
-		ImGui::Begin("SET_MODE");
-		ImGui::SliderFloat("rotation.X", &m_Rotation.x, 0.0f, 1.0f);
-		ImGui::Text("fugafuga");
-		ImGui::End();
+		ImGuiSetMode();
 
 	}
 
@@ -220,7 +219,7 @@ void CSelectItem::Draw()
 
 		//IMGUI
 
-		ImGui::SetNextWindowSize(ImVec2(220, 100));
+		ImGui::SetNextWindowSize(ImVec2(220, 200));
 		ImGui::Begin("EDIT_MODE");
 
 		if (m_EditGameObject != nullptr)
@@ -239,7 +238,7 @@ void CSelectItem::UpdateControll()
 	if (CInput::GetKeyTrigger(VK_LEFT))  m_pointer->move_left();
 	if (CInput::GetKeyTrigger(VK_RIGHT)) m_pointer->move_right();
 
-	//右クリックした時の動き
+	//左クリックした時の動き
 	if (CInput::GetKeyTrigger(VK_LBUTTON))
 	{
 		//アイテムボックスをクリックしてなかったらワールドにオブジェクト配置
@@ -268,9 +267,30 @@ void CSelectItem::UpdateControll()
 			click = true;
 		}
 		
-		//カーソルにゲームオブジェクトを吸い付ける
-		D3DXVECTOR3 cpos = m_carsor->GetPosition();
-		m_EditGameObject->SetPosition(cpos);
+		//シフトキーを押していたら角度をいじる
+		if (CInput::GetKeyPress(VK_SHIFT))
+		{
+			D3DXVECTOR3 editrot = m_EditGameObject->GetRotation();
+
+			D3DXVECTOR3 editobjectforwardpos = m_EditGameObject->GetPosition();
+			editobjectforwardpos.x = editobjectforwardpos.x - 5.0f * cos(m_EditGameObject->GetRotation().x) * cos(m_EditGameObject->GetRotation().z *1.2f);	//座標
+			editobjectforwardpos.y = (editobjectforwardpos.y + 1.0f) - 8.0f * sin(m_EditGameObject->GetRotation().z);
+			editobjectforwardpos.z = editobjectforwardpos.z - 5.0f * -sin(m_EditGameObject->GetRotation().x) * cos(m_EditGameObject->GetRotation().z);	//座標
+
+
+			D3DXVECTOR3 Velocity = GetNorm(m_carsor->GetPosition(), m_EditGameObject->GetPosition());
+			D3DXVECTOR3 Velocity2 = GetNorm(m_EditGameObject->GetPosition(), editobjectforwardpos);
+
+			editrot.x += (Velocity.x * Velocity2.x + Velocity.z * Velocity2.z) / (sqrt((Velocity.x * Velocity.x) + (Velocity.z * Velocity.z)) * sqrt((Velocity2.x * Velocity2.x) + (Velocity2.z * Velocity2.z)));
+			m_EditGameObject->SetRotation(editrot);
+
+		}
+		else
+		{
+			//カーソルにゲームオブジェクトを吸い付ける
+			D3DXVECTOR3 cpos = m_carsor->GetPosition();
+			m_EditGameObject->SetPosition(cpos);
+		}
 	}
 
 	//右クリックしたときカメラもついてくるようにする
@@ -374,14 +394,21 @@ void CSelectItem::ClickColider()
 void CSelectItem::WorldObject()
 {
 	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
+	//選択したオブジェクトで配置オブジェクト変更
 	switch (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId())
 	{
 	case 0:
+		//個数制限(プレイヤーは一人しか存在しない)
+		if (pPlayer)pPlayer->SetDestroy();
 		scene->AddGameObject<CPlayer>(1)->SetPosition(m_carsor->GetPosition());
 		break;
 	case 1:
-		scene->AddGameObject<CEnemy>(1)->SetPosition(m_carsor->GetPosition());
+		if(isEnemy == true) 
+			scene->AddGameObject<CEnemy>(1)->SetPosition(m_carsor->GetPosition());
+		else
+			scene->AddGameObject<CFriend>(1)->SetPosition(m_carsor->GetPosition());
 		break;
 	case 2:
 		scene->AddGameObject<CBase>(1)->SetPosition(m_carsor->GetPosition());
@@ -396,7 +423,40 @@ void CSelectItem::WorldObject()
 		scene->AddGameObject<CBUNKER>(1)->SetPosition(m_carsor->GetPosition());
 		break;
 	default:
-		scene->AddGameObject<CPlayer>(1)->SetPosition(m_carsor->GetPosition());
 		break;
 	}
+
+}
+
+void CSelectItem::ImGuiSetMode()
+{
+	ImGui::SetNextWindowSize(ImVec2(220, 200));
+	ImGui::Begin("SET_MODE");
+
+	switch (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId())
+	{
+	case 0:		//プレイヤー
+
+		break;
+	case 1:		//敵
+		ImGui::Checkbox("Enemy", &isEnemy);
+		break;
+	case 2:		//拠点
+
+		break;
+	case 3:		//枯れ木
+
+		break;
+	case 4:		//木
+
+		break;
+	case 5:		//建物
+
+		break;
+	default:	//それ以外
+		break;
+	}
+
+	
+	ImGui::End();
 }

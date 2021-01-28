@@ -17,7 +17,7 @@ void CWEAPON::Load()
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\rifl.obj");
 }
-void CWEAPON::UnLoad()
+void CWEAPON::Unload()
 {
 	m_Model->Unload();
 	delete m_Model;

@@ -53,7 +53,7 @@ void CPlayer::Init()
 {
 	//クラスの初期処理
 	m_Animodel = new CAnimationModel();
-	m_Animodel->Load("asset\\model\\player\\chara.fbx");					//モデルのロード(ボーン付き)
+	m_Animodel->Load("asset\\model\\player\\chara2.fbx");					//モデルのロード(ボーン付き)
 	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam[0].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[1].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam[2].pFilename);		//アニメーション
