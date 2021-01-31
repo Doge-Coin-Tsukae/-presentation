@@ -24,14 +24,23 @@
 #define		NORMALSPEED 0.5f		//通常時のスピード
 #define		SLOWSPEED	0.1f		//攻撃した際のスピード
 
+typedef struct
+{
+	char* pFilename;	// ファイル名
+} ANIMENAME2;
+
+ANIMENAME2 g_aParam[1] =
+{
+	{(char*)"ready"},				// 構える
+};
+
 void CPlayer::Init()
 {
 	//キャラモデル
-	//m_Model = new CModel();
-	//m_Model->Load("asset\\model\\ningen.obj");
-
+	m_Modelpass = "asset/model/player/chara.fbx";
 	m_AnimationModel = new CAnimationModel();
-	m_AnimationModel->Load("asset/model/player/chara.fbx");
+	m_AnimationModel->Load(m_Modelpass.c_str());
+	m_AnimationModel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[0].pFilename);		//アニメーション
 
 	//当たり判定
 	m_Colider = new AABB;
@@ -49,6 +58,7 @@ void CPlayer::Init()
 void CPlayer::Uninit()
 {
 	m_AnimationModel->Unload();
+	m_AnimationModel->UnloadAnimation();
 	delete m_AnimationModel;
 }
 
@@ -59,6 +69,7 @@ void CPlayer::Update()
 	m_Scale.z = m_Scale.x;
 
 	UpdateAnimationModel();
+	m_AnimationModel->Update(g_aParam[0].pFilename, g_aParam[0].pFilename, 0, 1);
 
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
@@ -127,8 +138,8 @@ void CPlayer::SetImGui()
 
 	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, SCREEN_WIDTH, SCREEN_HEIGHT);
 	ImGuizmo::Manipulate(camera->GetViewMatrix(), camera->GetProjectionMatrix(), ImGuizmo::ROTATE, ImGuizmo::LOCAL, world);
-	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, world);
-	ImGuizmo::ViewManipulate(camera->GetViewMatrix(), cameralength,ImVec2(ImGui::GetWindowPos().x -128, ImGui::GetWindowPos().y), ImVec2(128,128), 0x10101010);
+	//ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, world);
+	//ImGuizmo::ViewManipulate(camera->GetViewMatrix(), cameralength,ImVec2(ImGui::GetWindowPos().x -128, ImGui::GetWindowPos().y), ImVec2(128,128), 0x10101010);
 }
 
 void CPlayer::UpdateAnimationModel()
@@ -136,14 +147,22 @@ void CPlayer::UpdateAnimationModel()
 	//
 	if (m_AnimationModeltype == m_AnimationModeltypeold) return;
 
+	m_AnimationModel->Unload();
+	delete m_AnimationModel;
+	m_AnimationModel = new CAnimationModel();
+
 	switch (m_AnimationModeltype)
 	{
 	case 0:
-		m_AnimationModel->Load("asset/model/player/chara.fbx");
+		m_Modelpass = "asset/model/player/chara.fbx";
+		m_AnimationModel->Load(m_Modelpass.c_str());
 		break;
 	case 1:
-		m_AnimationModel->Load("asset/model/player/chara2.fbx");
+		m_Modelpass = "asset/model/player/chara2.fbx";
+		m_AnimationModel->Load(m_Modelpass.c_str());
 		break;
 	}
+
+	m_AnimationModel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[0].pFilename);
 	m_AnimationModeltypeold = m_AnimationModeltype;
 }

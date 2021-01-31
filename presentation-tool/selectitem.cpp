@@ -232,7 +232,7 @@ void CSelectItem::Draw()
 
 void CSelectItem::UpdateControll()
 {
-	//カーソル動かす
+	//カメラ動かす
 	if (CInput::GetKeyTrigger(VK_UP))	 m_pointer->move_up();
 	if (CInput::GetKeyTrigger(VK_DOWN))  m_pointer->move_down();
 	if (CInput::GetKeyTrigger(VK_LEFT))  m_pointer->move_left();
@@ -267,7 +267,7 @@ void CSelectItem::UpdateControll()
 			click = true;
 		}
 		
-		//シフトキーを押していたら角度をいじる
+		//シフトキーを押していたらモデルの角度をいじる
 		if (CInput::GetKeyPress(VK_SHIFT))
 		{
 			D3DXVECTOR3 editrot = m_EditGameObject->GetRotation();
@@ -300,12 +300,14 @@ void CSelectItem::UpdateControll()
 		camera->CameraMouseMove();
 	}
 
+	//ホイールを押したらカメラぐるぐるする
 	if(CInput::GetKeyPress(VK_MBUTTON))
 	{
 		CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
 		camera->CameraMouseRotate();
 	}
 
+	//デリートキーで選択しているオブジェクト削除
 	if (CInput::GetKeyTrigger(VK_DELETE))
 	{
 		if (!m_EditGameObject) return;
@@ -396,6 +398,7 @@ void CSelectItem::WorldObject()
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
+	//オブジェクトの設置をおこなう
 	//選択したオブジェクトで配置オブジェクト変更
 	switch (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId())
 	{
@@ -433,25 +436,32 @@ void CSelectItem::ImGuiSetMode()
 	ImGui::SetNextWindowSize(ImVec2(220, 200));
 	ImGui::Begin("SET_MODE");
 
+	//共通する物
+
+	ImGui::SliderFloat("rotation", &m_Rotation.x, 0, 10);
+	ImGui::SliderFloat("scale", &m_Scale.x, 0, 10);
+
 	switch (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId())
 	{
 	case 0:		//プレイヤー
-
+		//モデル変更をここでおこないたい
 		break;
 	case 1:		//敵
 		ImGui::Checkbox("Enemy", &isEnemy);
 		break;
 	case 2:		//拠点
-
+		//判定の円の大きさを変更したい
 		break;
 	case 3:		//枯れ木
-
+		//複数配置を行いたい
+		//円を表示してその範囲内で乱数配置を行いたい
 		break;
 	case 4:		//木
-
+		//複数配置を行いたい
+		//円を表示してその範囲内で乱数配置を行いたい
 		break;
 	case 5:		//建物
-
+		//モデル変更をおこないたい
 		break;
 	default:	//それ以外
 		break;

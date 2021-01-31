@@ -95,6 +95,11 @@ void CFADE::Update()
 void CFADE::Draw()
 {
 	if (!m_bIsFade) return;
+
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
+
 	//マトリクス設定
 	CRenderer::SetWorldViewProjection2D();
 
@@ -117,6 +122,9 @@ void CFADE::Draw()
 
 	//ポリゴン描画
 	CRenderer::GetDeviceContext()->Draw(4, 0);
+
+	light.Enable = true;
+	CRenderer::SetLight(light);
 }
 void CFADE::Fade_Start(bool bOut, int frame, D3DCOLOR color)
 {

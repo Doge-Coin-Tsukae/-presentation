@@ -44,7 +44,7 @@ void CTitle::Init()
 	CDEADTREE::Load();	//枯れ木のモデルを呼び出す
 	CBUNKER::Load();	//バンカーのモデルを呼び出す
 	CShellExplosion::LoadTexture();
-	//CRenderer::SetDepthEnable(true);
+
 	AddGameObject<CCamera>(0);
 
 	AddGameObject<CSKYDOME>(1);

@@ -14,8 +14,6 @@ CScene* CManager::m_Scene = NULL;
 
 void CManager::Init()
 {
-	//ShowCursor(FALSE);	//ƒJ[ƒ\ƒ‹‚ğÁ‚·
-
 	CRenderer::Init();
 	CInput::Init();
 

@@ -5,15 +5,16 @@
 class CPlayer : public CGameObject	//継承(インヘリタンス)
 {
 private:
-	CModel* m_Model;			//3Dモデルクラス
-	CAnimationModel* m_AnimationModel;
+	CAnimationModel* m_AnimationModel;		//3Dモデルクラス
 	AABB* m_Colider;
+
 
 	D3DXMATRIX  scale, rot, trans, world;
 	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 
 	int m_AnimationModeltype;				//ImGUIで使うアニメーションモデル
 	int m_AnimationModeltypeold;			//ImGUIでアニメーションモデルが変更になったか調べる
+	std::string m_Modelpass;							//モデルのパス
 
 	int m_Weapontype = WEAPON_RIFLE;		//武器の種類
 
@@ -26,7 +27,8 @@ public:
 		archive(CEREAL_NVP(m_Position),
 			    CEREAL_NVP(m_Rotation),
 			    CEREAL_NVP(m_Scale), 
-				CEREAL_NVP(m_Weapontype));
+				CEREAL_NVP(m_Weapontype),
+				CEREAL_NVP(m_Modelpass));
 	}
 
 	CPlayer(){}

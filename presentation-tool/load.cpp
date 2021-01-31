@@ -76,7 +76,6 @@ TCHAR* CLOAD::PassAsset(TCHAR path[300])
 
 void CLOAD::Data_Load()
 {
-	ShowCursor(TRUE);
 	FILE *SaveFile;//ファイルポインタ
 	CScene* scene = CManager::GetScene();	
 

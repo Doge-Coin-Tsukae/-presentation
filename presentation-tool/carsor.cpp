@@ -21,7 +21,6 @@ void CCARSOR::Init()
 
 	m_Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 
-	ShowCursor(FALSE);
 }
 
 void CCARSOR::Uninit()

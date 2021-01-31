@@ -1,11 +1,13 @@
 //****************************************
-//“G
+//–¡•ûNPC
 //****************************************
 
 #include "main.h"
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "model.h"
 #include "camera.h"
 #include "human.h"

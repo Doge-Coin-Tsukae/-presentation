@@ -10,3 +10,5 @@ enum WEAPON_TYPE {
 	WEAPON_RIFLE,
 	WEAPON_SMG,
 };
+
+

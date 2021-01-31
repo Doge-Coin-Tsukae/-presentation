@@ -2,7 +2,7 @@
 
 #include "gameobject.h"
 
-#define MAXSHADER  4
+#define MAXSHADER  1
 
 class CPlayer : public CGameObject	//継承(インヘリタンス)
 {
@@ -24,6 +24,9 @@ private:
 	float m_Frame = 0;				//アニメーションのフレーム
 	float rate = 0;					//アニメーションブレンドのレート
 
+	//ロード
+	int m_Weapontype;
+	std::string m_Modelpass;
 	//ここに	シェーダー関連の変数を追加
 	//配列にして複数のシェーダーを動かす
 	ID3D11VertexShader* m_VertexShader[MAXSHADER];		//頂点シェーダ
@@ -43,7 +46,9 @@ public:
 	{
 		archive(CEREAL_NVP(m_Position),
 			CEREAL_NVP(m_Rotation),
-			CEREAL_NVP(m_Scale));
+			CEREAL_NVP(m_Scale),
+			CEREAL_NVP(m_Weapontype),
+			CEREAL_NVP(m_Modelpass));
 	}
 
 	void Init();
@@ -60,5 +65,5 @@ public:
 	bool	 isDeath() { return m_Death; }
 	int Getm_Hp() { return m_Hp; }
 
-	void Load(FILE* fp);	//セーブファイルからロードする
+	void Load();	//セーブファイルからロードする
 };

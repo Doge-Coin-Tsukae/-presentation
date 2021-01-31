@@ -47,6 +47,7 @@ void CCAPTUREUI::Update()
 
 void CCAPTUREUI::Draw()
 {
+
 	Line->Draw();
 }
 

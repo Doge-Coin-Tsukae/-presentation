@@ -32,10 +32,10 @@ void CBUNKER::Init()
 
 	m_Colider.Init(m_Position + D3DXVECTOR3(-10.0f, 0.0f, -8.0f), m_Position+ D3DXVECTOR3(10.0f, 2.0f, 8.0f), m_Position);
 
-	CRenderer::CreateVertexShader(&m_VertexShader[0], &m_VertexLayout,"shadowMappingVS.cso");
+	CRenderer::CreateVertexShader(&m_VertexShader[0], &m_VertexLayout,"vertexShader.cso");
 
 	//ピクセルシェーダーファイルのロード＆オブジェクト作成
-	CRenderer::CreatePixelShader(&m_PixelShader[0],"shadowMappingPS.cso");
+	CRenderer::CreatePixelShader(&m_PixelShader[0],"pixelShader.cso");
 
 	CRenderer::CreateVertexShader(&m_VertexShader[1], &m_VertexLayout, "vertexShader.cso");
 

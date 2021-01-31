@@ -20,14 +20,22 @@
 #include "colider.h"
 #include "player.h"
 #include "enemy.h"
-
-class CModel* CEnemy::m_Model;
 class CAnimationModel* CEnemy::m_AnimationModel;
+typedef struct
+{
+	char* pFilename;	// ファイル名
+} ANIMENAME;
+
+ANIMENAME g_aParam[1] =
+{
+	{(char*)"ready"},				// 構える
+};
 
 void CEnemy::Load()
 {
 	m_AnimationModel = new CAnimationModel();
 	m_AnimationModel->Load("asset/model/player/chara2.fbx");
+	m_AnimationModel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[0].pFilename);		//アニメーション
 }
 
 void CEnemy::Unload()
@@ -69,6 +77,7 @@ void CEnemy::Uninit()
 
 void CEnemy::Update()
 {
+	m_AnimationModel->Update(g_aParam[0].pFilename, g_aParam[0].pFilename, 0, 1);
 }
 
 void CEnemy::Draw()

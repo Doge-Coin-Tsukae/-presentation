@@ -10,13 +10,9 @@
 #include "Vector.h"
 #include "meshfield.h"
 #include "game.h"
-#include "human.h"
 #include "animationmodel.h"
 #include "model.h"
-#include "sight.h"
-#include "weapon.h"
 #include "colider.h"
-#include "player.h"
 #include "base.h"
 
 CBase::CBase()

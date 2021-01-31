@@ -64,8 +64,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	CManager::Init();
 
 	// ウインドウの表示(初期化処理の後に行う)
-	//ShowWindow(g_Window, nCmdShow);
-	ShowWindow(g_Window, SW_MAXIMIZE);		//最大表示にしたいので入れる
+	ShowWindow(g_Window, nCmdShow);
+	//ShowWindow(g_Window, SW_MAXIMIZE);		//最大表示にしたいので入れる
 	UpdateWindow(g_Window);
 
 

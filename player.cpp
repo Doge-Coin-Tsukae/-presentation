@@ -53,7 +53,8 @@ void CPlayer::Init()
 {
 	//クラスの初期処理
 	m_Animodel = new CAnimationModel();
-	m_Animodel->Load("asset\\model\\player\\chara2.fbx");					//モデルのロード(ボーン付き)
+	m_Modelpass = "asset/model/player/chara.fbx";
+	m_Animodel->Load(m_Modelpass.c_str());					//モデルのロード(ボーン付き)
 	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam[0].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[1].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam[2].pFilename);		//アニメーション
@@ -66,7 +67,7 @@ void CPlayer::Init()
 	m_Sight->Init();
 	m_Sight->Setparent(this);	//照準の親を自分に
 
-	m_Weapon = new Csmg();
+	m_Weapon = new Crifle();
 	m_Weapon->Init();
 	m_Weapon->Setparent(this);	//武器の親を自分に
 
@@ -89,16 +90,10 @@ void CPlayer::Init()
 
 	const char* VSfilename[MAXSHADER] = //バーテックスシェーダファイルネーム
 	{
-		"shadowMappingVS.cso",	//シェーダー
-		"pixelLightingVS.cso",	//シェーダー
-		"vertexLightingVS.cso",	//シェーダー
 		"vertexShader.cso",	//シェーダー
 	};
 	const char* PSfilename[MAXSHADER] = //ピクセルシェーダファイルネーム
 	{
-		"shadowMappingPS.cso",	//シェーダー
-		"pixelLightingPS.cso",	//シェーダー
-		"vertexLightingPS.cso",	//シェーダー
 		"pixelShader.cso",	//シェーダー
 	};
 	//ここにシェーダーファイルのロードを追加
@@ -353,11 +348,11 @@ void CPlayer::Draw()
 	m_Animodel->Draw();
 
 	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
-	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 	//バーテックスシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[MAXSHADER-1], NULL, 0);
+	//CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[MAXSHADER-1], NULL, 0);
 	//ピクセルシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[MAXSHADER-1], NULL, 0);
+	//CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[MAXSHADER-1], NULL, 0);
 }
 
 void CPlayer::Death()
@@ -385,10 +380,29 @@ void CPlayer::ChangeAnimation(char* Name)
 	rate = 0.0f;									//ブレンド値をリセット
 }
 
-void CPlayer::Load(FILE* fp)
+void CPlayer::Load()
 {
-	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
-	m_Velocity = m_Position;
-	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
-	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
+	m_Animodel->Unload();
+	delete m_Animodel;
+	m_Animodel = new CAnimationModel();
+	m_Animodel->Load(m_Modelpass.c_str());
+	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam[0].pFilename);		//アニメーション
+	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[1].pFilename);		//アニメーション
+	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam[2].pFilename);		//アニメーション
+	m_Animodel->LoadAnimation("asset\\model\\player\\readyrunning.fbx", g_aParam[3].pFilename);
+	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam[4].pFilename);
+	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam[5].pFilename);
+	switch (m_Weapontype)
+	{
+	case 0:
+		m_Weapon = new Crifle();
+		m_Weapon->Init();
+		m_Weapon->Setparent(this);	//武器の親を自分に
+		break;
+	case 1:
+		m_Weapon = new Csmg();
+		m_Weapon->Init();
+		m_Weapon->Setparent(this);	//武器の親を自分に
+		break;
+	}
 }

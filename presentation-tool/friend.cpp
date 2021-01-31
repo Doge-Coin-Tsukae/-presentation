@@ -23,16 +23,27 @@
 #include "friend.h"
 
 class CAnimationModel* CFriend::m_AnimationModel;
+typedef struct
+{
+	char* pFilename;	// ファイル名
+} ANIMENAME3;
+
+ANIMENAME3 g_aParam[1] =
+{
+	{(char*)"ready"},				// 構える
+};
 
 void CFriend::Load()
 {
 	m_AnimationModel = new CAnimationModel();
 	m_AnimationModel->Load("asset/model/player/chara.fbx");
+	m_AnimationModel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[0].pFilename);		//アニメーション
 }
 
 void CFriend::Unload()
 {
 	m_AnimationModel->Unload();
+	m_AnimationModel->UnloadAnimation();
 	delete m_AnimationModel;
 }
 
@@ -69,6 +80,7 @@ void CFriend::Uninit()
 
 void CFriend::Update()
 {
+	m_AnimationModel->Update(g_aParam[0].pFilename, g_aParam[0].pFilename, 0, 1);
 }
 
 void CFriend::Draw()

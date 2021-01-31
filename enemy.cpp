@@ -44,7 +44,7 @@ ANIMENAME2 g_aParam2[5] =
 void CEnemy::Load()
 {
 	m_Animodel = new CAnimationModel();
-	m_Animodel->Load("asset\\model\\player\\chara.fbx");					//モデルのロード(ボーン付き)
+	m_Animodel->Load("asset\\model\\player\\chara2.fbx");					//モデルのロード(ボーン付き)
 	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam2[0].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam2[1].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam2[2].pFilename);		//アニメーション
@@ -83,8 +83,8 @@ void CEnemy::Init()
 	m_Frame = 0;
 	rate = 0;
 
-	CRenderer::CreateVertexShader(&m_VertexShader[0],&m_VertexLayout, "shadowMappingVS.cso");
-	CRenderer::CreatePixelShader(&m_PixelShader[0], "shadowMappingPS.cso");
+	CRenderer::CreateVertexShader(&m_VertexShader[0],&m_VertexLayout, "vertexShader.cso");
+	CRenderer::CreatePixelShader(&m_PixelShader[0], "pixelShader.cso");
 	CRenderer::CreateVertexShader(&m_VertexShader[1], &m_VertexLayout, "vertexShader.cso");
 	CRenderer::CreatePixelShader(&m_PixelShader[1], "pixelShader.cso");
 }

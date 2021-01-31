@@ -151,8 +151,8 @@ void CMeshField::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	CRenderer::CreateVertexShader(&m_VertexShader[0], &m_VertexLayout, "shadowMappingVS.cso");
-	CRenderer::CreatePixelShader(&m_PixelShader[0], "shadowMappingPS.cso");
+	CRenderer::CreateVertexShader(&m_VertexShader[0], &m_VertexLayout, "vertexShader.cso");
+	CRenderer::CreatePixelShader(&m_PixelShader[0], "pixelShader.cso");
 	CRenderer::CreateVertexShader(&m_VertexShader[1], &m_VertexLayout, "vertexShader.cso");
 	CRenderer::CreatePixelShader(&m_PixelShader[1], "pixelShader.cso");
 }
