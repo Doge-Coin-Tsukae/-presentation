@@ -7,7 +7,7 @@
 
 void CMODECHIP::Init()
 {
-	m_polygon = new CMovePolygon;
+	m_polygon = new CSplitPolygon;
 	m_polygon->Init();
 }
 void CMODECHIP::Uninit()
@@ -21,8 +21,20 @@ void CMODECHIP::Update()
 }
 void CMODECHIP::Draw()
 {
+	D3DXVECTOR2 start(0,0);
+	D3DXVECTOR2 end(1.0f,1.0f);
 	if (m_SelectMode == true)
-	m_polygon->Draw();
+	{
+		end.y = 0.5f;
+		m_polygon->SetSplit(start, end);
+		m_polygon->Draw();
+	}
+	else
+	{
+		start.y = 0.5f;
+		m_polygon->SetSplit(start, end);
+		m_polygon->Draw();
+	}
 }
 
 void CMODECHIP::SetPolygon(char* name, D3DXVECTOR2 Size)

@@ -30,4 +30,5 @@ public:
 	void CameraMouseMove();
 	void CameraMouseRotate();
 	void ZoomCamera();
+	void ZoomOutCamera();
 };

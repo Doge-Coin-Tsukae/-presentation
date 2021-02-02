@@ -6,6 +6,7 @@
 #include "scene.h"
 #include "manager.h"
 #include "input.h"
+#include "Vector.h"
 
 #include "model.h"
 #include "carsor.h"
@@ -99,5 +100,20 @@ void CCamera::CameraMouseRotate()
 
 void CCamera::ZoomCamera()
 {
+	//カメラと注視点の単位ベクトルをとる
+	D3DXVECTOR3 Norm = GetNorm(m_Position, m_Target);
 
+	Norm *= 5;
+	m_Position += Norm;
+	m_Target += Norm;
+}
+
+void CCamera::ZoomOutCamera()
+{
+	//カメラと注視点の単位ベクトルをとる
+	D3DXVECTOR3 Norm = GetNorm(m_Position, m_Target);
+
+	Norm *= 5;
+	m_Position -= Norm;
+	m_Target -= Norm;
 }

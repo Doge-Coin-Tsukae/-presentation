@@ -33,6 +33,10 @@ void CSelectpointer::Uninit()
 
 void CSelectpointer::Update()
 {
+	Pointpos.x = std::max((int)Pointpos.x,0);
+	Pointpos.x = std::min((int)Pointpos.x,1);
+	Pointpos.y = std::max((int)Pointpos.y, 0);
+	Pointpos.y = std::min((int)Pointpos.y, 3);
 
 	//‰æ‘œ‚ÌÀ•WÝ’è
 	m_point->SetPosition(D3DXVECTOR3(m_Position.x + Pointpos.x * 74.0f, m_Position.y + Pointpos.y * 68.0f, m_Position.z));

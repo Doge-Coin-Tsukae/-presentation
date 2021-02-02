@@ -36,3 +36,5 @@
 
 
 HWND GetWindow();
+
+int GetMouseWheel();

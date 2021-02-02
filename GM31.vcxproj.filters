@@ -42,6 +42,9 @@
     <Filter Include="ソース ファイル\gameobject\weapon">
       <UniqueIdentifier>{f79b2c71-a92a-4c32-8045-05e3e6a9a58a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Behaviortree">
+      <UniqueIdentifier>{b8d8ca5f-dc38-4658-a681-b8660eacc2e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -184,6 +187,12 @@
     </ClCompile>
     <ClCompile Include="rifle.cpp">
       <Filter>ソース ファイル\gameobject\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior.cpp">
+      <Filter>ソース ファイル\Behaviortree</Filter>
+    </ClCompile>
+    <ClCompile Include="enemybehavior.cpp">
+      <Filter>ソース ファイル\Behaviortree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -336,6 +345,12 @@
     </ClInclude>
     <ClInclude Include="rifle.h">
       <Filter>ソース ファイル\gameobject\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior.h">
+      <Filter>ソース ファイル\Behaviortree</Filter>
+    </ClInclude>
+    <ClInclude Include="enemybehavior.h">
+      <Filter>ソース ファイル\Behaviortree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

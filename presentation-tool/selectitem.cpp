@@ -313,6 +313,18 @@ void CSelectItem::UpdateControll()
 		if (!m_EditGameObject) return;
 		m_EditGameObject->SetDestroy();
 	}
+
+	//マウスホイール
+	if (GetMouseWheel() > 0)
+	{
+		CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
+		camera->ZoomCamera();
+	}
+	if (GetMouseWheel() < 0)
+	{
+		CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
+		camera->ZoomOutCamera();
+	}
 }
 
 bool CSelectItem::ClikEditBox()

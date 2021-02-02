@@ -17,12 +17,17 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 
 HWND g_Window;
+int zDelta;			//マウスホイールの回転量
 
 HWND GetWindow()
 {
 	return g_Window;
 }
 
+int GetMouseWheel()
+{
+	return zDelta;
+}
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -150,6 +155,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
+	//マウスホイールの値取得
+	zDelta = GET_WHEEL_DELTA_WPARAM(wParam); // この値は負になることもある
+
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
-
