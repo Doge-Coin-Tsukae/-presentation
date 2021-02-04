@@ -17,13 +17,16 @@ public:
 //シークエンス
 class CNodeSequence :public  CNode
 {
+protected:
 	int m_Index;
-	RESULT Update();
+	virtual RESULT Update();
 };
 
 //セレクター
 class CNodeSelector :public CNode
 {
+protected:
 	int m_Index;
-	RESULT Update();
+	virtual RESULT Update();
+
 };

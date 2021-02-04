@@ -170,6 +170,9 @@
     <ClCompile Include="animationmodel.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
+    <ClCompile Include="spownpoint.cpp">
+      <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameobject.h">
@@ -324,6 +327,9 @@
     </ClInclude>
     <ClInclude Include="animationmodel.h">
       <Filter>ソース ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="spownpoint.h">
+      <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

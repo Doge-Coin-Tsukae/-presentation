@@ -20,7 +20,7 @@ void CWEAPON2D::Init()
 	m_Under = new CPolygon;
 	m_Under->SetSize(100,200);
 	m_Under->Init(D3DXVECTOR3(0.0f, 380.0f, 0.0f));
-	m_Under->SetTexture((char*)"asset/texture/rifle.png");
+	m_Under->SetTexture((char*)"asset/texture/weapon/rifle.png");
 
 	m_MaxAnmo = new CNUMBER;
 	m_MaxAnmo->Init();
@@ -37,6 +37,10 @@ void CWEAPON2D::Init()
 
 	m_MaxAnmo->SetLength(50.0f);
 	m_Anmo->SetLength(50.0f);
+
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+	ChengeWeaponTexture(pPlayer->GetWeapontype());
 }
 
 void CWEAPON2D::Uninit()
@@ -65,6 +69,8 @@ void CWEAPON2D::Update()
 	int MaxGauge = 200 - pWeapon->GetReloadTime();
 	m_Gauge->SetGauge(MaxGauge);
 	m_Gauge->Update();
+
+	
 }
 
 void CWEAPON2D::Draw()
@@ -77,4 +83,17 @@ void CWEAPON2D::Draw()
 	m_MaxAnmo->Draw();
 	m_Anmo->Draw();
 	m_Gauge->Draw();
+}
+
+void CWEAPON2D::ChengeWeaponTexture(int id)
+{
+	switch (id)
+	{
+	case 0:
+		m_Under->SetTexture((char*)"asset/texture/weapon/rifle.png");
+		return;
+	case 1:
+		m_Under->SetTexture((char*)"asset/texture/weapon/smg.png");
+		return;
+	}
 }

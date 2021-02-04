@@ -6,6 +6,7 @@
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
+#include "sound.h"
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
 #include "model.h"
@@ -20,6 +21,7 @@
 #include "colider.h"
 #include "player.h"
 #include "enemy.h"
+#include "meshfield.h"
 #include "friend.h"
 
 class CAnimationModel* CFriend::m_Animodel;
@@ -102,16 +104,34 @@ void CFriend::Update()
 
 	rate += ANIMEBLENDSPEED;
 	m_Frame+=0.3f;
+
+	//ちんだ時の処理
+	if (m_Death == true)
+	{
+		m_OldAnimationChara = (char*)"Death";
+		m_NowAnimationChara = (char*)"Death";
+
+		m_Frame += 0.7f;
+		if (m_Frame > 177)	//一定のフレーム数に達したらワールドから削除
+			SetDestroy();
+	}
+
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	m_Position.y = meshField->GetHeight(m_Position);
 }
 
 void CFriend::Update_AI()
 {
+	if (m_Death == true) return;
+
 	CScene* scene = CManager::GetScene();
 	std::vector<CEnemy*> enemyList = scene->GetGameObjects<CEnemy>(1);
 	CEnemy* NearEnemy=nullptr;		//自分に一番近い敵
 	float nearlength,enemylength;
 
 
+	//一番近い敵を探索する
 	for (CEnemy* enemy : enemyList)
 	{
 		D3DXVECTOR3 direction = m_Position - enemy->GetPosition();
@@ -124,6 +144,7 @@ void CFriend::Update_AI()
 		}
 	}
 
+	if (NearEnemy == nullptr) return;
 	LookEnemy(NearEnemy);
 
 	//範囲内になったら接近する
@@ -162,7 +183,7 @@ void CFriend::Draw()
 		return;
 
 	//内部クラスから
-	m_Weapon->Draw();
+	//m_Weapon->Draw();
 	m_Sight->Draw();
 
 	//マトリクス設定
@@ -196,4 +217,12 @@ void CFriend::ChangeAnimation(char* Name)
 	m_OldAnimationChara = m_NowAnimationChara;		//新しいアニメーションデータを古いアニメーションデータにする
 	m_NowAnimationChara = Name;						//新しいアニメーションデータを入れる
 	rate = 0.0f;									//ブレンド値をリセット
+}
+
+void CFriend::Death()
+{
+	if (m_Death == true) return;
+	PlaySound(SOUND_SE_DEATH);
+	m_Death = true;
+	m_Frame = 1;
 }

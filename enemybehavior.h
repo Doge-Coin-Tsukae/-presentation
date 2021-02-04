@@ -1,47 +1,68 @@
 #pragma once
 
+#include "gameobject.h"
+#include "enemy.h"
+
 class CEnemyAIRoot :public CNode
 {
 private:
-	CGameObject* parent;	//•t‘®‚·‚é“G
+	CEnemy* parent;	//•t‘®‚·‚é“G
 	int m_Index = m_Index;
 public:
-	void   Init();
+	void   Init(CEnemy* parent);
 	RESULT Update();
-
-	void SetParent(CGameObject* parentenemy);
 };
 
 class CEnemySelector :public CNodeSelector
 {
 private:
-	CGameObject* parent;	//•t‘®‚·‚é“G
+	CEnemy* m_parent;	//•t‘®‚·‚é“G
 public:
-	CEnemySelector()
-	{
-		m_child_Node[0];
-		m_child_Node[1];
-	}
-
-	void SetParent(CGameObject* parentenemy)
-	{
-		parent = parentenemy;
-	}
+	CEnemySelector(CEnemy* parent);
+	RESULT Update();
 };
 
 class CEnemySequence :public CNodeSequence
 {
 private:
-	CGameObject* parent;	//•t‘®‚·‚é“G
+	CEnemy* m_parent;	//•t‘®‚·‚é“G
 public:
-	CEnemySequence()
-	{
-		m_child_Node[0];
-		m_child_Node[1];
-	}
+	CEnemySequence(CEnemy* parent);
+};
 
-	void SetParent(CGameObject* parentenemy)
-	{
-		parent = parentenemy;
-	}
+
+class CEnemyRunNode :public CNode
+{
+private:
+	CEnemy* m_parent;	//•t‘®‚·‚é“G
+public:
+	CEnemyRunNode(CEnemy* parent);
+	RESULT Update();
+};
+
+class CEnemyWalkNode :public CNode
+{
+private:
+	CEnemy* m_parent;	//•t‘®‚·‚é“G
+public:
+	CEnemyWalkNode(CEnemy* parent);
+	RESULT Update();
+};
+
+class CEnemyShootNode :public CNode
+{
+private:
+	CEnemy* m_parent;	//•t‘®‚·‚é“G
+public:
+	CEnemyShootNode(CEnemy* parent);
+	RESULT Update();
+};
+
+class CEnemyReloadNode :public CNode
+{
+private:
+	CEnemy* m_parent;	//•t‘®‚·‚é“G
+public:
+	CEnemyReloadNode(CEnemy* parent);
+	RESULT Update();
 };

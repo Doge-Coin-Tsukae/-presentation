@@ -48,6 +48,8 @@ public:
 
 	void LookPlayer();		//ƒvƒŒƒCƒ„[‚ğŒ©‚é
 	void Death();
-
-	void Load(FILE*fp, int line);
+	
+	bool Shoot();			//UŒ‚‚·‚é
+	void Reload();			//e‚ğ‘•“U‚·‚é
+	bool isOverReload();		//‘•“UŠ®—¹‚µ‚½‚©
 };

@@ -194,6 +194,7 @@
     <ClCompile Include="selectpointer.cpp" />
     <ClCompile Include="sight.cpp" />
     <ClCompile Include="skydome.cpp" />
+    <ClCompile Include="spownpoint.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="tree.cpp" />
     <ClCompile Include="triangle.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="selectpointer.h" />
     <ClInclude Include="sight.h" />
     <ClInclude Include="skydome.h" />
+    <ClInclude Include="spownpoint.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="triangle.h" />

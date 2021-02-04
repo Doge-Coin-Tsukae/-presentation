@@ -194,6 +194,9 @@
     <ClCompile Include="enemybehavior.cpp">
       <Filter>ソース ファイル\Behaviortree</Filter>
     </ClCompile>
+    <ClCompile Include="spownpoint.cpp">
+      <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -351,6 +354,9 @@
     </ClInclude>
     <ClInclude Include="enemybehavior.h">
       <Filter>ソース ファイル\Behaviortree</Filter>
+    </ClInclude>
+    <ClInclude Include="spownpoint.h">
+      <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

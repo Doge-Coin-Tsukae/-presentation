@@ -64,6 +64,6 @@ public:
 	CWEAPON* GetWeapon(){return m_Weapon;}
 	bool	 isDeath() { return m_Death; }
 	int Getm_Hp() { return m_Hp; }
-
+	int GetWeapontype() { return m_Weapontype; }
 	void Load();	//セーブファイルからロードする
 };

@@ -40,6 +40,7 @@
 #include "skydome.h"
 #include "base.h"
 #include "deadtree.h"
+#include "spownpoint.h"
 
 #include "explosion.h"
 #include "smoke.h"
@@ -72,6 +73,7 @@ void CGame::Init()
 
 	AddGameObject<CSKYDOME>(1);		//スカイドーム
 	AddGameObject<CMeshField>(1);	//地面
+	AddGameObject<CSpownPoint>(1)->SetPosition(D3DXVECTOR3(95,0, -132));
 	AddGameObject<CWEAPON2D>(4);
 	AddGameObject<CPLAYERUI>(4);
 	AddGameObject<CENEMY_COMMANDER>(4);

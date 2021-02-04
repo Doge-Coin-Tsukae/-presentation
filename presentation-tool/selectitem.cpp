@@ -33,6 +33,7 @@
 #include "base.h"
 #include "deadtree.h"
 #include "tree.h"
+#include "spownpoint.h"
 
 #include "selectpointer.h"
 #include "modechip.h"
@@ -437,6 +438,8 @@ void CSelectItem::WorldObject()
 	case 5:
 		scene->AddGameObject<CBUNKER>(1)->SetPosition(m_carsor->GetPosition());
 		break;
+	case 6:
+		scene->AddGameObject<CSpownPoint>(1)->SetPosition(m_carsor->GetPosition());
 	default:
 		break;
 	}
@@ -474,6 +477,9 @@ void CSelectItem::ImGuiSetMode()
 		break;
 	case 5:		//建物
 		//モデル変更をおこないたい
+		break;
+	case 6:		//スポーンポイント
+		//スポーン条件変更を行いたい
 		break;
 	default:	//それ以外
 		break;

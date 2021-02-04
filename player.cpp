@@ -67,7 +67,7 @@ void CPlayer::Init()
 	m_Sight->Init();
 	m_Sight->Setparent(this);	//照準の親を自分に
 
-	m_Weapon = new Crifle();
+	m_Weapon = new Csmg();
 	m_Weapon->Init();
 	m_Weapon->Setparent(this);	//武器の親を自分に
 
@@ -87,7 +87,7 @@ void CPlayer::Init()
 	m_Hp = 100;
 	m_Frame = 0;
 	rate = 0;
-
+	m_Weapontype = 1;
 	const char* VSfilename[MAXSHADER] = //バーテックスシェーダファイルネーム
 	{
 		"vertexShader.cso",	//シェーダー
@@ -329,7 +329,7 @@ void CPlayer::Draw()
 	//ピクセルシェーダーオブジェクトのセット
 	CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[shaderNo], NULL, 0);
 
-	m_Weapon->Draw();
+	//m_Weapon->Draw();
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;	
@@ -382,6 +382,7 @@ void CPlayer::ChangeAnimation(char* Name)
 
 void CPlayer::Load()
 {
+
 	m_Animodel->Unload();
 	delete m_Animodel;
 	m_Animodel = new CAnimationModel();

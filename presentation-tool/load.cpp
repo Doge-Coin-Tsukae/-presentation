@@ -28,6 +28,7 @@
 #include "deadtree.h"
 #include "bunker.h"
 #include "base.h"
+#include "spownpoint.h"
 #include "load.h"
 
 
@@ -324,6 +325,39 @@ void CLOAD::Data_Load()
 		inputFile.close();
 	}
 
+	//スポーンポイント情報をファイルから読み込む
+	{
+		int totalnumber = 0;	//敵の総数
+		std::string moji = "spownpointdata";		//jsonの敵データ
+		std::string tmp;					//jsonの敵データの作業ファイル
+
+		std::string path = path2;
+		path += "/spownpointdata.json";
+		std::stringstream stream;
+
+		//ファイル入力ストリーム作成
+		std::ifstream inputFile(path, std::ios::in);
+		//入力データを全部文字列streamに投げる
+		stream << inputFile.rdbuf();
+
+		//jsonをロード
+		cereal::JSONInputArchive jsonInputArchive(stream);
+		jsonInputArchive(cereal::make_nvp("totalspownpoint", totalnumber));
+
+		for (int i = 1; i < totalnumber; i++)
+		{
+			CSpownPoint* pSpownPoint = new CSpownPoint;
+			pSpownPoint->Init();
+
+			tmp = moji;
+			tmp += i;
+			jsonInputArchive(cereal::make_nvp(tmp, *pSpownPoint));
+			scene->AddArgumentGameObject(pSpownPoint, 1);
+		}
+
+		inputFile.close();
+	}
+
 	//地形情報をファイルから読み込む
 	{
 		strcat(path2, "/field.txt");
@@ -376,5 +410,11 @@ void CLOAD::Data_Destroy()
 	for (CDEADTREE* deadtree : deadtreelist)
 	{
 		deadtree->SetDestroy();
+	}
+
+	std::vector<CSpownPoint*> spownpointlist = scene->GetGameObjects<CSpownPoint>(1);
+	for (CSpownPoint* spownpoint : spownpointlist)
+	{
+		spownpoint->SetDestroy();
 	}
 }

@@ -22,6 +22,7 @@
 #include "deadtree.h"
 #include "bunker.h"
 #include "base.h"
+#include "spownpoint.h"
 #include "load.h"
 
 void CLOAD::Uninit()
@@ -252,6 +253,39 @@ void CLOAD::Data_Load()
 			tmp += i;
 			jsonInputArchive(cereal::make_nvp(tmp, *pDeadTree));
 			scene->AddArgumentGameObject(pDeadTree, 1);
+		}
+
+		inputFile.close();
+	}
+
+
+	//スポーンポイント情報をファイルから読み込む
+	{
+		int totalnumber = 0;	//敵の総数
+		std::string moji = "spownpointdata";		//jsonの敵データ
+		std::string tmp;					//jsonの敵データの作業ファイル
+
+		path = "asset/savedata/spownpointdata.json";
+		std::stringstream stream;
+
+		//ファイル入力ストリーム作成
+		std::ifstream inputFile(path, std::ios::in);
+		//入力データを全部文字列streamに投げる
+		stream << inputFile.rdbuf();
+
+		//jsonをロード
+		cereal::JSONInputArchive jsonInputArchive(stream);
+		jsonInputArchive(cereal::make_nvp("totalspownpoint", totalnumber));
+
+		for (int i = 1; i < totalnumber; i++)
+		{
+			CSpownPoint* pSpownPoint = new CSpownPoint;
+			pSpownPoint->Init();
+
+			tmp = moji;
+			tmp += i;
+			jsonInputArchive(cereal::make_nvp(tmp, *pSpownPoint));
+			scene->AddArgumentGameObject(pSpownPoint, 1);
 		}
 
 		inputFile.close();

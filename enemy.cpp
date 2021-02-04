@@ -19,6 +19,8 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "colider.h"
+#include "behavior.h"
+#include "enemybehavior.h"
 #include "player.h"
 #include "meshfield.h"
 #include "enemy.h"
@@ -115,10 +117,23 @@ void CEnemy::Update()
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 	m_Position.y = meshField->GetHeight(m_Position);
+
+	//ちんだ時の処理
+	if (m_Death == true)
+	{
+		m_OldAnimationChara = (char*)"Death";
+		m_NowAnimationChara = (char*)"Death";
+
+		m_Frame += 0.7f;
+		if (m_Frame > 177)
+			SetDestroy();
+	}
 }
 
 void CEnemy::Update_AI()
 {
+	if (m_Death) return;
+
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
@@ -139,8 +154,7 @@ void CEnemy::Update_AI()
 		}
 		else
 		{
-			m_Weapon->Shoot(m_Sight->GetPosition(), m_TeamNumber);
-			ChangeAnimation((char*)"fire");
+			Shoot();
 		}
 	}
 	else
@@ -150,18 +164,7 @@ void CEnemy::Update_AI()
 
 	if (m_Weapon->GetAmmo() <= 0)
 	{
-		m_Weapon->Reload();
-	}
-
-	//ちんだ時の処理
-	if (m_Death == true)
-	{
-		m_OldAnimationChara = (char*)"Death";
-		m_NowAnimationChara = (char*)"Death";
-
-		m_Frame += 0.7f;
-		if (m_Frame > 177)
-			SetDestroy();
+		Reload();
 	}
 
 }
@@ -182,7 +185,7 @@ void CEnemy::Draw()
 	//ピクセルシェーダーオブジェクトのセット
 	CRenderer::GetDeviceContext()->PSSetShader(m_PixelShader[0], NULL, 0);
 
-	m_Weapon->Draw();
+	//m_Weapon->Draw();
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
@@ -211,6 +214,8 @@ void CEnemy::Draw()
 
 void CEnemy::LookPlayer()
 {
+	if (m_Death) return;
+
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
@@ -236,14 +241,21 @@ void CEnemy::Death()
 	m_Frame = 1;
 }
 
-void CEnemy::Load(FILE* fp, int line)
+bool CEnemy::Shoot()
 {
-	for (int i = 0; i < line * 3; i++)
-	{
-		fscanf(fp, "");
-	}
+	if (m_Weapon->GetAmmo() <= 0) return false;
 
-	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
-	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
-	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
+	m_Weapon->Shoot(m_Sight->GetPosition(), m_TeamNumber);
+	ChangeAnimation((char*)"fire");
+	return true;
+}
+
+void CEnemy::Reload()
+{
+	m_Weapon->Reload();
+}
+
+bool CEnemy::isOverReload()
+{
+	return m_Weapon->GetAmmo() < 0;
 }

@@ -31,6 +31,7 @@
 #include "deadtree.h"
 #include "bunker.h"
 #include "base.h"
+#include "spownpoint.h"
 #include "save.h"
 
 void CSAVE::Uninit()
@@ -340,15 +341,55 @@ void CSAVE::Data_Save()
 		outputFile.close();
 		ss.clear();
 	}
+
+	//スポーン情報をファイルに書き込む
+	{
+		std::vector<CSpownPoint*> spownpointlist = scene->GetGameObjects<CSpownPoint>(1);
+
+		std::stringstream ss;
+		std::string filename = path2;
+		filename += "/spownpointdata.json";
+		{
+			int  i = 1;
+			std::string moji = "spownpointdata";
+			std::string tmp;
+			cereal::JSONOutputArchive o_archive(ss);
+
+			//ワールドに設置してある数を計測
+			for (CSpownPoint* spownpoint : spownpointlist)
+			{
+				i++;
+			}
+
+			o_archive(cereal::make_nvp("totalspownpoint", i));		//木の総数を書き込む
+			i = 1;		//初期化(jsonに書き込む都合上1から)
+
+			for (CSpownPoint* spownpoint : spownpointlist)
+			{
+				tmp = moji;
+				tmp += i;
+				o_archive(cereal::make_nvp(tmp, *spownpoint));
+				i++;
+			}
+		}
+
+		std::ofstream outputFile(filename, std::ios::out);
+		//書き出す
+		outputFile << ss.str();
+		//閉じる
+		outputFile.close();
+		ss.clear();
+	}
+
 	//地形情報をファイルに書き込む
 	{
-		//strcpy(path2, temp);
-		//strcat(path2, "/field.txt");
-		//SaveFile = fopen(path2, "w");
-		//if (SaveFile == NULL)	// オープンに失敗した場合
-		//	return;				// 異常終了
-		//CMeshField* pMeshField = scene->GetGameObject<CMeshField>(1);
-		//pMeshField->Save(SaveFile);
-		//fclose(SaveFile);
+		strcpy(path2, temp);
+		strcat(path2, "/field.txt");
+		SaveFile = fopen(path2, "w");
+		if (SaveFile == NULL)	// オープンに失敗した場合
+			return;				// 異常終了
+		CMeshField* pMeshField = scene->GetGameObject<CMeshField>(1);
+		pMeshField->Save(SaveFile);
+		fclose(SaveFile);
 	}
 }
