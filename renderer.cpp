@@ -28,8 +28,8 @@ ID3D11Buffer*			CRenderer::m_ParameterBuffer = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateEnable = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
 
-ID3D11DepthStencilView* CRenderer::m_ShadowDepthStencilView = NULL;//追加
-ID3D11ShaderResourceView* CRenderer::m_ShadowDepthShaderResourceView = NULL;//追加
+ID3D11DepthStencilView* CRenderer::m_ShadowDepthStencilView = NULL;
+ID3D11ShaderResourceView* CRenderer::m_ShadowDepthShaderResourceView = NULL;
 
 void CRenderer::Init()
 {
@@ -99,8 +99,7 @@ void CRenderer::Init()
 
 	m_ImmediateContext->OMSetRenderTargets( 1, &m_RenderTargetView, m_DepthStencilView );
 
-	{//このカッコごと打ち込んでOK
-//シャドウバッファ用テクスチャー作成
+	{
 		ID3D11Texture2D* depthTexture = NULL;
 		D3D11_TEXTURE2D_DESC td;
 		ZeroMemory(&td, sizeof(td));
@@ -129,7 +128,7 @@ void CRenderer::Init()
 		SRVDesc.Texture2D.MipLevels = 1;
 		m_D3DDevice->CreateShaderResourceView(depthTexture, &SRVDesc,
 			&m_ShadowDepthShaderResourceView);
-	}//ここまで
+	}
 
 	// ビューポート設定
 	D3D11_VIEWPORT vp;
@@ -329,14 +328,10 @@ void CRenderer::Init()
 	m_ImmediateContext->VSSetShader( m_VertexShader, NULL, 0 );
 	m_ImmediateContext->PSSetShader( m_PixelShader, NULL, 0 );
 
-
-
 	// ライト無効化
 	LIGHT light;
 	light.Enable = false;
 	SetLight(light);
-
-
 
 	// マテリアル初期化
 	MATERIAL material;
@@ -458,8 +453,8 @@ void CRenderer::SetMaterial( MATERIAL Material )
 
 void CRenderer::SetLight( LIGHT Light )
 {
-	D3DXMatrixTranspose(&Light.ViewMatrix, &Light.ViewMatrix);//追加
-	D3DXMatrixTranspose(&Light.ProjectionMatrix, &Light.ProjectionMatrix);//追加
+	D3DXMatrixTranspose(&Light.ViewMatrix, &Light.ViewMatrix);
+	D3DXMatrixTranspose(&Light.ProjectionMatrix, &Light.ProjectionMatrix);
 
 	m_ImmediateContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 
@@ -535,7 +530,7 @@ void CRenderer::CreatePixelShader(ID3D11PixelShader** PixelShader, const char* F
 	delete[] buffer;
 }
 
-void CRenderer::BeginDepth() //新規関数追加
+void CRenderer::BeginDepth()
 {
 	//シャドウバッファを深度バッファに設定し、内容を1で塗りつぶす
 	m_ImmediateContext->OMSetRenderTargets(0, NULL, m_ShadowDepthStencilView);

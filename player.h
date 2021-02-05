@@ -27,14 +27,6 @@ private:
 	//ロード
 	int m_Weapontype;
 	std::string m_Modelpass;
-	//ここに	シェーダー関連の変数を追加
-	//配列にして複数のシェーダーを動かす
-	ID3D11VertexShader* m_VertexShader[MAXSHADER];		//頂点シェーダ
-	ID3D11PixelShader* m_pixelShader[MAXSHADER];		//ピクセルシェーダ
-
-	ID3D11InputLayout*  m_VertexLayout;
-
-	BYTE shaderNo;		//実行するシェーダーの番号を追加
 
 	void Update_Controll();		//キー入力
 public:

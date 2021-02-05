@@ -197,6 +197,9 @@
     <ClCompile Include="spownpoint.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClCompile>
+    <ClCompile Include="human.cpp">
+      <Filter>ソース ファイル\gameobject\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">

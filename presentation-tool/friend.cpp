@@ -17,7 +17,6 @@
 #include "Vector.h"
 #include "model.h"
 #include "sight.h"
-#include "weapon.h"
 #include "colider.h"
 #include "player.h"
 #include "friend.h"
@@ -53,10 +52,6 @@ void CFriend::Init()
 	m_Sight->Init();
 	m_Sight->Setparent(this);		//照準の親を自分に
 
-	m_Weapon = new CWEAPON();
-	m_Weapon->Init();
-	m_Weapon->Setparent(this);
-
 	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
@@ -71,8 +66,6 @@ void CFriend::Init()
 
 void CFriend::Uninit()
 {
-	m_Weapon->Uninit();
-	delete m_Weapon;
 
 	m_Sight->Uninit();
 	delete m_Sight;
@@ -86,7 +79,6 @@ void CFriend::Update()
 void CFriend::Draw()
 {
 	//内部クラスから
-	m_Weapon->Draw();
 	m_Sight->Draw();
 
 	//マトリクス設定

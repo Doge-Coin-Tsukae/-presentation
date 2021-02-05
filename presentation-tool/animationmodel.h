@@ -16,7 +16,7 @@ struct DEFORM_VERTEX
 	aiVector3D Normal;
 
 	int				BoneNum;
-	std::string		BoneName[4];	//本来はボーンインデックスで管理すべき(何処の骨についているか)
+	std::string		BoneName[4];
 	float			BoneWeight[4];
 };
 
@@ -34,8 +34,8 @@ private:
 	const aiScene*	m_Scene = NULL;		//fbxのデータ
 	std::map<std::string, const aiScene*> m_Animation;	//アニメーションデータ
 
-	ID3D11Buffer** m_VertexBuffer;			//複数必要なのでダブルポインタ
-	ID3D11Buffer** m_IndexBuffer;		//複数必要なのでダブルポインタ
+	ID3D11Buffer** m_VertexBuffer;
+	ID3D11Buffer** m_IndexBuffer;
 
 	std::map<std::string, ID3D11ShaderResourceView*> m_Texture;
 

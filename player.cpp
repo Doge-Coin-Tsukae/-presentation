@@ -88,25 +88,6 @@ void CPlayer::Init()
 	m_Frame = 0;
 	rate = 0;
 	m_Weapontype = 1;
-	const char* VSfilename[MAXSHADER] = //バーテックスシェーダファイルネーム
-	{
-		"vertexShader.cso",	//シェーダー
-	};
-	const char* PSfilename[MAXSHADER] = //ピクセルシェーダファイルネーム
-	{
-		"pixelShader.cso",	//シェーダー
-	};
-	//ここにシェーダーファイルのロードを追加
-	for (int i = 0; i < MAXSHADER; i++)
-	{
-		//バーテックスシェーダーファイルのロード＆オブジェクト作成
-		CRenderer::CreateVertexShader(&m_VertexShader[i], &m_VertexLayout, VSfilename[i]);
-
-		//ピクセルシェーダーファイルのロード＆オブジェクト作成
-		CRenderer::CreatePixelShader(&m_pixelShader[i], PSfilename[i]);
-	}
-
-	shaderNo = 0;
 }
 
 void CPlayer::Uninit()
@@ -120,12 +101,6 @@ void CPlayer::Uninit()
 	m_Animodel->Unload();
 	m_Animodel->UnloadAnimation();
 	delete m_Animodel;
-
-	for (int i = 0; i < MAXSHADER; i++)
-	{
-		m_VertexShader[i]->Release();
-		m_pixelShader[i]->Release();
-	}
 }
 
 void CPlayer::Update()
@@ -311,24 +286,9 @@ void CPlayer::Update_Controll()
 		pcamera->ZoomCamera();	//ズームしたり解除したり
 		m_ready = 1 - m_ready;	//構えたり解除したり
 	}
-
-	//シェーダー切り替え
-	if (CInput::GetKeyTrigger('Z'))
-	{
-		shaderNo++;
-		if (shaderNo >= MAXSHADER) shaderNo = 0;
-	}
-
 }
 void CPlayer::Draw()
 {
-	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
-	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-	//バーテックスシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[shaderNo], NULL, 0);
-	//ピクセルシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[shaderNo], NULL, 0);
-
 	//m_Weapon->Draw();
 
 	//マトリクス設定
@@ -346,13 +306,6 @@ void CPlayer::Draw()
 	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
 	
 	m_Animodel->Draw();
-
-	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
-	//CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-	//バーテックスシェーダーオブジェクトのセット
-	//CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[MAXSHADER-1], NULL, 0);
-	//ピクセルシェーダーオブジェクトのセット
-	//CRenderer::GetDeviceContext()->PSSetShader(m_pixelShader[MAXSHADER-1], NULL, 0);
 }
 
 void CPlayer::Death()
@@ -386,13 +339,15 @@ void CPlayer::Load()
 	m_Animodel->Unload();
 	delete m_Animodel;
 	m_Animodel = new CAnimationModel();
-	m_Animodel->Load(m_Modelpass.c_str());
+	m_Animodel->Load(m_Modelpass.c_str());		//パスからモデルを呼び出す
 	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam[0].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam[1].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam[2].pFilename);		//アニメーション
 	m_Animodel->LoadAnimation("asset\\model\\player\\readyrunning.fbx", g_aParam[3].pFilename);
 	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam[4].pFilename);
 	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam[5].pFilename);
+
+	//セーブデータに入っている武器が何かを呼び出す
 	switch (m_Weapontype)
 	{
 	case 0:

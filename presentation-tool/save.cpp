@@ -6,8 +6,8 @@
 #include <iostream>
 #include <tchar.h>
 #include <string>
-#include <fstream>   // ifstream, ofstream
-#include <sstream>   // istringstream
+#include <fstream>
+#include <sstream>
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
 #include "filewinapi.h"
@@ -24,7 +24,6 @@
 #include "carsor.h"
 #include "colider.h"
 #include "sight.h"
-#include "weapon.h"
 #include "player.h"
 #include "enemy.h"
 #include "friend.h"

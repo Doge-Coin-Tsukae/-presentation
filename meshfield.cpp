@@ -332,11 +332,6 @@ void CMeshField::Draw()
 	CRenderer::GetDeviceContext()->PSSetShader(m_PixelShader[1], NULL, 0);
 }
 
-void CMeshField::TextureMixed()
-{
-
-}
-
 float CMeshField::GetHeight(D3DXVECTOR3 Position)
 {
 	int x, z;

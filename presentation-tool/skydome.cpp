@@ -9,7 +9,6 @@
 #include "animationmodel.h"
 #include "model.h"
 #include "sight.h"
-#include "weapon.h"
 #include "colider.h"
 #include "skydome.h"
 #include "player.h"

@@ -21,6 +21,7 @@ D3DXVECTOR3 GetNorm(D3DXVECTOR3 start, D3DXVECTOR3 end)
 	return Vector;
 }
 
+//ƒxƒNƒgƒ‹‚Ì‘å‚«‚³(’·‚³)
 float GetVector(D3DXVECTOR3 start, D3DXVECTOR3 end)
 {
 	D3DXVECTOR3 xyz = start - end;

@@ -36,7 +36,6 @@ void CLOAD::Update()
 
 void CLOAD::Data_Load()
 {
-	FILE *SaveFile;//ファイルポインタ
 	CScene* scene = CManager::GetScene();	
 
 	Data_Destroy();	//ロードする前にそれまでに配置されていたオブジェクトを削除する
@@ -293,6 +292,7 @@ void CLOAD::Data_Load()
 
 	//地形情報をファイルから読み込む
 	{
+		FILE* SaveFile;//ファイルポインタ
 		SaveFile = fopen("asset/savedata/field.txt", "r");
 		if (SaveFile == NULL)	// オープンに失敗した場合
 			return;

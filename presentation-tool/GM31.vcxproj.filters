@@ -80,9 +80,6 @@
     <ClCompile Include="Vector.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
-    <ClCompile Include="weapon.cpp">
-      <Filter>ソース ファイル\gameobject\player</Filter>
-    </ClCompile>
     <ClCompile Include="skydome.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClCompile>
@@ -226,9 +223,6 @@
     <ClInclude Include="base.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
-    <ClInclude Include="weapon.h">
-      <Filter>ソース ファイル\gameobject\player</Filter>
-    </ClInclude>
     <ClInclude Include="skydome.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
@@ -302,9 +296,6 @@
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
     <ClInclude Include="filewinapi.h">
-      <Filter>ソース ファイル\system</Filter>
-    </ClInclude>
-    <ClInclude Include="cereal.h">
       <Filter>ソース ファイル\system</Filter>
     </ClInclude>
     <ClInclude Include="ImCurveEdit.h">

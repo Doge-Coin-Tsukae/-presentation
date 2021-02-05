@@ -9,7 +9,7 @@
 #include <windowsx.h>
 
 const char* CLASS_NAME = "AppClass";
-const char* WINDOW_NAME = "DX11ゲーム";
+const char* WINDOW_NAME = "FLAGCAPTOR -ROAD TO WAR- LevelDesignTool";
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -24,6 +24,7 @@ HWND GetWindow()
 	return g_Window;
 }
 
+//マウスホイールの値を習得
 int GetMouseWheel()
 {
 	return zDelta;
@@ -70,7 +71,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	// ウインドウの表示(初期化処理の後に行う)
 	ShowWindow(g_Window, nCmdShow);
-	//ShowWindow(g_Window, SW_MAXIMIZE);		//最大表示にしたいので入れる
 	UpdateWindow(g_Window);
 
 
@@ -90,12 +90,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			if(msg.message == WM_QUIT)
-			{// PostQuitMessage()が呼ばれたらループ終了
+			{
 				break;
 			}
 			else
 			{
-				// メッセージの翻訳とディスパッチ
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
@@ -117,7 +116,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		}
 	}
 
-	timeEndPeriod(1);				// 分解能を戻す
+	timeEndPeriod(1);
 
 	// ウィンドウクラスの登録を解除
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
@@ -156,7 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	//マウスホイールの値取得
-	zDelta = GET_WHEEL_DELTA_WPARAM(wParam); // この値は負になることもある
+	zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }

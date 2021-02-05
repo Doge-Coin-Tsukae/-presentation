@@ -46,10 +46,10 @@ ANIMENAME2 g_aParam2[5] =
 void CEnemy::Load()
 {
 	m_Animodel = new CAnimationModel();
-	m_Animodel->Load("asset\\model\\player\\chara2.fbx");					//モデルのロード(ボーン付き)
-	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam2[0].pFilename);		//アニメーション
-	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam2[1].pFilename);		//アニメーション
-	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam2[2].pFilename);		//アニメーション
+	m_Animodel->Load("asset\\model\\player\\chara2.fbx");									//モデルのロード(ボーン付き)
+	m_Animodel->LoadAnimation("asset\\model\\player\\idle.fbx", g_aParam2[0].pFilename);	//アニメーション
+	m_Animodel->LoadAnimation("asset\\model\\player\\ready.fbx", g_aParam2[1].pFilename);
+	m_Animodel->LoadAnimation("asset\\model\\player\\run.fbx", g_aParam2[2].pFilename);
 	m_Animodel->LoadAnimation("asset\\model\\player\\fire.fbx", g_aParam2[3].pFilename);
 	m_Animodel->LoadAnimation("asset\\model\\player\\Death.fbx", g_aParam2[4].pFilename);
 }
@@ -84,11 +84,6 @@ void CEnemy::Init()
 	m_OldAnimationChara = g_aParam2[1].pFilename;
 	m_Frame = 0;
 	rate = 0;
-
-	CRenderer::CreateVertexShader(&m_VertexShader[0],&m_VertexLayout, "vertexShader.cso");
-	CRenderer::CreatePixelShader(&m_PixelShader[0], "pixelShader.cso");
-	CRenderer::CreateVertexShader(&m_VertexShader[1], &m_VertexLayout, "vertexShader.cso");
-	CRenderer::CreatePixelShader(&m_PixelShader[1], "pixelShader.cso");
 }
 
 void CEnemy::Uninit()
@@ -178,13 +173,6 @@ void CEnemy::Draw()
 	if (!camera->CheckView(m_Position))
 		return;
 
-	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
-	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-	//バーテックスシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[0], NULL, 0);
-	//ピクセルシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->PSSetShader(m_PixelShader[0], NULL, 0);
-
 	//m_Weapon->Draw();
 
 	//マトリクス設定
@@ -198,18 +186,8 @@ void CEnemy::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
-	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
-	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
-
 	m_Animodel->Update(m_OldAnimationChara, m_NowAnimationChara, m_Frame, rate);
 	m_Animodel->Draw();
-
-	//インプットレイアウトのセット(DirectXへ頂点の構造を教える)
-	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-	//バーテックスシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->VSSetShader(m_VertexShader[1], NULL, 0);
-	//ピクセルシェーダーオブジェクトのセット
-	CRenderer::GetDeviceContext()->PSSetShader(m_PixelShader[1], NULL, 0);
 }
 
 void CEnemy::LookPlayer()

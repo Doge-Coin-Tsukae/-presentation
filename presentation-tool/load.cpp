@@ -21,7 +21,6 @@
 #include "carsor.h"
 #include "colider.h"
 #include "sight.h"
-#include "weapon.h"
 #include "player.h"
 #include "enemy.h"
 #include "friend.h"
@@ -39,7 +38,7 @@ void CLOAD::Uninit()
 
 void CLOAD::Update()
 {
-	//Iを押したときにファイルを読み込む処理を入れる
+	//Iを押したときにファイルを読み込む処理を入れる(ショートカット)
 	if (CInput::GetKeyTrigger('I'))
 		Data_Load();
 }

@@ -270,10 +270,6 @@ void CAnimationModel::Update(const char *AnimationName1, const char *AnimationNa
 			matrix[3] = m_Bone[deformVertex->BoneName[3]].Matrix;
 
 			//ウェイトを考慮してマトリクス算出
-			//outMatrix = matrix[0] * deformVertex->BoneWeight[0]
-			//			+ matrix[1] * deformVertex->BoneWeight[1]
-			//			+ matrix[2] * deformVertex->BoneWeight[2]
-			//			+ matrix[3] * deformVertex->BoneWeight[3];
 			{
 				outMatrix.a1 = matrix[0].a1 * deformVertex->BoneWeight[0]
 					+ matrix[1].a1 * deformVertex->BoneWeight[1]

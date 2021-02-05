@@ -8,7 +8,6 @@ private:
 	static CAnimationModel* m_AnimationModel;	//3Dƒ‚ƒfƒ‹ƒNƒ‰ƒX
 
 	CSIGHT* m_Sight;			//Æ€
-	CWEAPON* m_Weapon;			//Š•Ší
 
 	TEAM_NUMBER		m_TeamNumber;			//–¡•û‚©“G‚©‚Ì¯•Ê
 	int m_Weapontype = WEAPON_RIFLE;		//•Ší‚Ì”Ô†

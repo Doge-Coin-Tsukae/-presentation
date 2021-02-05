@@ -9,9 +9,6 @@ private:
 	static CModel* m_ShadowModel;
 	AABB m_Colider;
 	OBB*  m_Obb;
-	ID3D11VertexShader* m_VertexShader[2];		//頂点シェーダ
-	ID3D11PixelShader* m_PixelShader[2];		//ピクセルシェーダ
-	ID3D11InputLayout* m_VertexLayout;
 
 public:
 	CBUNKER(){}

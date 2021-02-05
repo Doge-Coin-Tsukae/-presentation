@@ -7,7 +7,6 @@
 
 #define MAX_LAYER 3
 
-//list管理は、メモリ効率はいいが、処理速度が悪いので使い分けが必要。(一度に大量にオブジェクトが出すのはあらかじめ配列に入れるといい)
 class CScene
 {
 protected:
@@ -59,7 +58,7 @@ public:
 		}
 	}
 
-	//ゲームオブジェクトが継承されたオブジェクトをリストに追加するテンプレート
+	//ゲームオブジェクトが継承されたオブジェクトをリストに追加する
 	template <typename T>
 	T* AddGameObject(int Layer)
 	{
@@ -70,7 +69,7 @@ public:
 		return gameObject;
 	}
 
-	//ゲームオブジェクトが継承されたオブジェクトをリストに追加するテンプレート
+	//既に宣言してあるゲームオブジェクトクラスをリストに加える
 	CGameObject* AddArgumentGameObject(CGameObject* gameobject,int Layer)
 	{
 		CGameObject* GameObject = gameobject;
@@ -110,7 +109,7 @@ public:
 		return objects;
 	}
 
-	//ゲームオブジェクトを全部引き出す大作戦(複数)
+	//レイヤー内のゲームオブジェクトを全部引き出す大作戦(複数)
 	template<typename T>
 	std::vector<T*> GetALLGameObjects(int Layer)
 	{

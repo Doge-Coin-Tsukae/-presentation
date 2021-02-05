@@ -17,7 +17,7 @@
 void CCARSOR::Init()
 {
 	m_Model = new CModel();
-	m_Model->Load("asset\\model\\yokoari.obj");
+	m_Model->Load("asset\\model\\cursor.obj");
 
 	m_Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 

@@ -16,7 +16,6 @@
 #include "model.h"
 #include "animationmodel.h"
 #include "sight.h"
-#include "weapon.h"
 #include "colider.h"
 #include "player.h"
 #include "bunker.h"

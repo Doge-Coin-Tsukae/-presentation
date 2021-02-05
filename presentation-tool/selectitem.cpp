@@ -26,7 +26,6 @@
 #include "camera.h"
 #include "bunker.h"
 #include "sight.h"
-#include "weapon.h"
 #include "player.h"
 #include "enemy.h"
 #include "friend.h"

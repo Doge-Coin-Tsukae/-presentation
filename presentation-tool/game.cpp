@@ -25,7 +25,6 @@
 #include "carsor.h"
 #include "colider.h"
 #include "sight.h"
-#include "weapon.h"
 #include "base.h"
 #include "player.h"
 #include "enemy.h"
@@ -51,7 +50,6 @@ void CGame::Init()
 	CBUNKER::Load();
 	CEnemy::Load();
 	CFriend::Load();
-	CWEAPON::Load();
 	CDEADTREE::Load();
 
 	//使うゲームオブジェクト呼び出し
@@ -75,7 +73,6 @@ void CGame::Uninit()
 
 	//テクスチャ + モデルアンロード
 	CDEADTREE::Unload();
-	CWEAPON::Unload();
 	CFriend::Unload();
 	CEnemy::Unload();
 	CBUNKER::Unload();

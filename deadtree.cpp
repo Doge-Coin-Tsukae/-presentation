@@ -86,6 +86,7 @@ void CDEADTREE::Draw()
 
 	m_Model->Draw();
 
+	///シャドウマトリクス
 	D3DXVECTOR3 light = m_Position - m_lightpos;
 	D3DXMatrixIdentity(&shadow);
 	shadow._21 = -light.x / light.y;

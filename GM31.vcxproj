@@ -175,6 +175,7 @@
     <ClCompile Include="gamemaneger.cpp" />
     <ClCompile Include="gauge.cpp" />
     <ClCompile Include="house.cpp" />
+    <ClCompile Include="human.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="load.cpp" />
     <ClCompile Include="main.cpp" />
