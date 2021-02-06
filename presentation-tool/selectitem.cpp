@@ -314,6 +314,27 @@ void CSelectItem::UpdateControll()
 		m_EditGameObject->SetDestroy();
 	}
 
+	//1キーで配置モード
+	if (CInput::GetKeyTrigger('1'))
+	{
+		if (m_modechip[0]->GetSelectMode() == false)
+		{
+			m_modechip[0]->SetMode();
+			m_modechip[1]->SetMode();
+			NowMode = 0;	//モードセット
+		}
+	}
+	//2キーで編集モード
+	if (CInput::GetKeyTrigger('2'))
+	{
+		if (m_modechip[1]->GetSelectMode() == false)
+		{
+			m_modechip[1]->SetMode();
+			m_modechip[0]->SetMode();
+			NowMode = 1;	//モードセット
+		}
+	}
+
 	//マウスホイール
 	if (GetMouseWheel() > 0)
 	{

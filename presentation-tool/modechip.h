@@ -22,4 +22,5 @@ public:
 	void Setid(int ids) { id = ids; }
 
 	int GetId() { return id; }
+	bool GetSelectMode() { return m_SelectMode; }
 };

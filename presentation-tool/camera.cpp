@@ -65,7 +65,6 @@ void CCamera::Controll_Update()
 		m_Velocity.y += 0.1f;
 
 	m_Position += m_Velocity;
-	m_Target += m_Velocity;
 
 	m_Target.x = m_Position.x - 5.0f * cos(anglex) * cos(anglez);	//ç¿ïW
 	m_Target.y = (m_Position.y + 1.0f) - 5.0f * sin(anglez);
@@ -87,10 +86,16 @@ void CCamera::Draw()
 
 void CCamera::CameraMouseMove()
 {
-	m_Position.x -= CInput::GetMousedDfference().x / CARSOR_SEBSITIVITY;
-	m_Target.x -= CInput::GetMousedDfference().x / CARSOR_SEBSITIVITY;
-	m_Position.z += CInput::GetMousedDfference().y / CARSOR_SEBSITIVITY;
-	m_Target.z += CInput::GetMousedDfference().y / CARSOR_SEBSITIVITY;
+	m_Position.x += cos(anglex) * CInput::GetMousedDfference().y;
+	m_Position.z -= sin(anglex) * CInput::GetMousedDfference().y;
+
+	m_Position.x += sin(anglex) * CInput::GetMousedDfference().x;
+	m_Position.z += cos(anglex) * CInput::GetMousedDfference().x;
+
+
+	m_Target.x = m_Position.x - 5.0f * cos(anglex) * cos(anglez);	//ç¿ïW
+	m_Target.y = (m_Position.y + 1.0f) - 5.0f * sin(anglez);
+	m_Target.z = m_Position.z - 5.0f * -sin(anglex) * cos(anglez);	//ç¿ïW
 }
 void CCamera::CameraMouseRotate()
 {

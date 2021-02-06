@@ -23,15 +23,16 @@ void CMODECHIP::Draw()
 {
 	D3DXVECTOR2 start(0,0);
 	D3DXVECTOR2 end(1.0f,1.0f);
+	//現在このモードが選択されていた時、薄い方のテクスチャを表示
 	if (m_SelectMode == true)
 	{
-		end.y = 0.5f;
+		start.y = 0.5f;
 		m_polygon->SetSplit(start, end);
 		m_polygon->Draw();
 	}
 	else
 	{
-		start.y = 0.5f;
+		end.y = 0.5f;
 		m_polygon->SetSplit(start, end);
 		m_polygon->Draw();
 	}

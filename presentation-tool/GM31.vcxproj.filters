@@ -21,9 +21,6 @@
     <Filter Include="ソース ファイル\gameobject\player">
       <UniqueIdentifier>{c8865022-6ec7-4b75-871f-b277c3cfae38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\gameobject\object">
-      <UniqueIdentifier>{a4ecd876-685c-4b1f-bb30-a1b732172368}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\gameobject\2D">
       <UniqueIdentifier>{c944d344-728c-4166-99b3-82431eb7df86}</UniqueIdentifier>
     </Filter>
@@ -35,6 +32,9 @@
     </Filter>
     <Filter Include="ソース ファイル\imguizmo">
       <UniqueIdentifier>{8275f19b-8a8f-497d-8e01-3f05b54f5829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameobject\object">
+      <UniqueIdentifier>{a4ecd876-685c-4b1f-bb30-a1b732172368}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
