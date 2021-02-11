@@ -1,5 +1,7 @@
 
 #include "main.h"
+#include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "renderer.h"
 #include "meshfield.h"
 
@@ -277,7 +279,10 @@ float CMeshField::GetHeight(D3DXVECTOR3 Position)
 	return py;
 }
 
-
+void CMeshField::ChangeSeed(int SetSeed)
+{
+	seed = SetSeed;
+}
 
 void CDiamondSquare::squareStep(float Array[FIELDX][FIELDY], int x, int z, int reach)
 {

@@ -33,6 +33,13 @@ public:
 
 	void Save(FILE* fp);						//データのセーブ
 	float GetHeight(D3DXVECTOR3 Position);		//座標の習得
+
+	void ChangeSeed(int SetSeed);				//シード値の変更
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(CEREAL_NVP(seed));
+	}
 };
 
 //ダイアモンドスクエアの自動生成

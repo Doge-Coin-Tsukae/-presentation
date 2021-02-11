@@ -2,9 +2,9 @@
     "totalspownpoint": 3,
     "spownpointdata\u0001": {
         "m_Position": {
-            "x": 432.6111145019531,
-            "y": 17.087400436401368,
-            "z": -860.8352661132813
+            "x": 596.2609252929688,
+            "y": 15.223638534545899,
+            "z": -640.5450439453125
         },
         "m_Rotation": {
             "x": 0.0,
@@ -16,16 +16,16 @@
             "y": 1.0,
             "z": 1.0
         },
-        "m_SpownType": 2,
-        "m_spowninterval": 302,
-        "m_Max": 5,
+        "m_SpownType": 1,
+        "m_spowninterval": 1000,
+        "m_Max": -1,
         "m_Spownlicense": true
     },
     "spownpointdata\u0002": {
         "m_Position": {
-            "x": 396.594482421875,
-            "y": 18.268001556396486,
-            "z": -730.74658203125
+            "x": 665.434814453125,
+            "y": 12.768454551696778,
+            "z": -391.74609375
         },
         "m_Rotation": {
             "x": 0.0,
@@ -33,12 +33,12 @@
             "z": 0.0
         },
         "m_Scale": {
-            "x": 1.0980000495910645,
+            "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
         "m_SpownType": 1,
-        "m_spowninterval": 504,
+        "m_spowninterval": 1000,
         "m_Max": -1,
         "m_Spownlicense": true
     }

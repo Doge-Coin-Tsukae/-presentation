@@ -67,7 +67,7 @@ void CPlayer::Init()
 	m_Sight->Init();
 	m_Sight->Setparent(this);	//Æ€‚Ìe‚ğ©•ª‚É
 
-	m_Weapon = new Csmg();
+	m_Weapon = new Crifle();
 	m_Weapon->Init();
 	m_Weapon->Setparent(this);	//•Ší‚Ìe‚ğ©•ª‚É
 
@@ -87,7 +87,7 @@ void CPlayer::Init()
 	m_Hp = 100;
 	m_Frame = 0;
 	rate = 0;
-	m_Weapontype = 1;
+	m_Weapontype = 0;
 }
 
 void CPlayer::Uninit()
