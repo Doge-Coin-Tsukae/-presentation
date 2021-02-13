@@ -49,6 +49,20 @@ ANIMENAME g_aParam[6] =
 	{(char *)"Death"},
 };
 
+//////////////////////////////////
+// 壁ずりベクトル
+//
+// out : 正規化壁ずりベクトル（戻り値）
+// front : 進行ベクトル
+// normal: 衝突点での法線ベクトル
+D3DXVECTOR3* calcWallScratchVector(D3DXVECTOR3* out, const D3DXVECTOR3& front, const D3DXVECTOR3& normal) {
+	D3DXVECTOR3 normal_n;
+	D3DXVec3Normalize(&normal_n, &normal);
+	D3DXVECTOR3 pV = (front - D3DXVec3Dot(&front, &normal_n) * normal_n);
+	out = D3DXVec3Normalize(out, &pV);
+	return out;
+}
+
 void CPlayer::Init()
 {
 	//クラスの初期処理
@@ -70,8 +84,6 @@ void CPlayer::Init()
 	m_Weapon = new Crifle();
 	m_Weapon->Init();
 	m_Weapon->Setparent(this);	//武器の親を自分に
-
-	m_Colider.Init(m_Position + D3DXVECTOR3(-1.0f, 0.0f, -1.0f), m_Position + D3DXVECTOR3(1.0f, 2.0f, 1.0f), m_Position);
 
 	//メンバ変数の初期処理
 	m_Position = D3DXVECTOR3(350.0f, 1.0f, -200.0f);
@@ -117,7 +129,6 @@ void CPlayer::Update()
 	//プレイヤーに入っているクラスの更新処理
 	m_Sight->Update();
 	m_Weapon->Update();
-	m_Colider.update(m_Velocity);
 	m_Animodel->Update(m_OldAnimationChara,m_NowAnimationChara, m_Frame, rate);
 
 	//当たり判定処理
@@ -125,12 +136,6 @@ void CPlayer::Update()
 	std::vector<CBUNKER*> bunkerList = scene->GetGameObjects<CBUNKER>(1);
 	for (CBUNKER* bunker : bunkerList)
 	{
-		//AABB
-		/*if (intersectAABB(m_Colider, bunker->GetColider()))
-		{
-			m_Velocity = m_Position;
-			m_speed = 0.01f;
-		}*/
 
 		//OBB(未完)
 		D3DXVECTOR3 bukerPos = bunker->GetPosition();
@@ -139,15 +144,15 @@ void CPlayer::Update()
 		D3DXVECTOR3 obbx, obby, obbz;
 		float obbLenx, obbLeny,obbLenz;
 
-		obbx = bunker->GetObbX();
+		obbx = bunker->GetObb()->GetObbX();
 		obbLenx = D3DXVec3Length(&obbx);
 		obbx /= obbLenx;
 
-		obby = bunker->GetObbY();
+		obby = bunker->GetObb()->GetObbY();
 		obbLeny = D3DXVec3Length(&obby);
 		obby /= obbLeny;
 
-		obbz = bunker->GetObbZ();
+		obbz = bunker->GetObb()->GetObbZ();
 		obbLenz = D3DXVec3Length(&obbz);
 		obbz /= obbLenz;
 
@@ -156,10 +161,14 @@ void CPlayer::Update()
 		lenY = D3DXVec3Dot(&obby, &direction);
 		lenZ = D3DXVec3Dot(&obbz, &direction);
 
-		if (fabs(lenX) < obbLenx && fabs(lenY) < obbLeny && fabs(lenZ) < obbLenz)
+		if (fabs(lenX) < obbLenx && fabs(lenZ) < obbLenz)
 		{
-			m_Velocity = m_Position;
-			m_speed = 0.01f;
+			D3DXVECTOR3 vector;
+			D3DXVECTOR3 vector2 = GetNorm(m_Position,bunker->GetPosition());
+
+			calcWallScratchVector(&vector, m_Position, m_Rotation);
+			m_Velocity += vector;
+			break;
 		}
 	}
 
@@ -333,9 +342,8 @@ void CPlayer::ChangeAnimation(char* Name)
 	rate = 0.0f;									//ブレンド値をリセット
 }
 
-void CPlayer::Load()
+void CPlayer::FileLoad()
 {
-
 	m_Animodel->Unload();
 	delete m_Animodel;
 	m_Animodel = new CAnimationModel();
@@ -361,4 +369,6 @@ void CPlayer::Load()
 		m_Weapon->Setparent(this);	//武器の親を自分に
 		break;
 	}
+
+	ResetVelocity();
 }

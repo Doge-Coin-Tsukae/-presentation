@@ -19,6 +19,7 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "colider.h"
+#include "behavior.h"
 #include "player.h"
 #include "enemy.h"
 #include "meshfield.h"

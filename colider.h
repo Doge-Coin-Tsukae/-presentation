@@ -6,13 +6,16 @@
 class CCOLIDER_CIRCLE: public CGameObject
 {
 private:
-	CModel *m_Model;				//自身のモデル
+	static CModel *m_Model;				//自身のモデル
 
 public:
 	CCOLIDER_CIRCLE(){}
 	~CCOLIDER_CIRCLE() {}
 
-	void Init();		//親のアドレスを入れる
+	static void Load();
+	static void Unload();
+
+	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
@@ -57,6 +60,7 @@ private:
 
 public:
 	void Init(){}
+	void Uninit(){}
 	void Update(){}
 	void parent(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scl)
 	{

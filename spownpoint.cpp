@@ -19,6 +19,7 @@
 #include "sight.h"
 #include "weapon.h"
 #include "colider.h"
+#include "behavior.h"
 #include "enemy.h"
 #include "friend.h"
 

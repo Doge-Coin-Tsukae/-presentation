@@ -4,6 +4,9 @@
 #include "manager.h"
 #include "sound.h"
 #include "input.h"
+#include "imgui.h"
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
 #include "gamemaneger.h"
 #include "Game.h"
 #include "Title.h"
@@ -18,6 +21,7 @@ void CManager::Init()
 	CRenderer::Init();
 	CInput::Init();
 	CFADE::Init();
+
 	InitSound(GetWindow());
 
 	SetScene<CTitle>();
@@ -43,6 +47,9 @@ void CManager::Update()
 
 void CManager::Draw()
 {
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 
 	LIGHT light;
 	light.Enable = true;
@@ -59,6 +66,16 @@ void CManager::Draw()
 	m_Scene->Draw();
 
 	CFADE::Draw();
+
+	//FPS•\Ž¦
+	ImGui::SetNextWindowSize(ImVec2(80, 50));
+	ImGui::Begin("FPS");
+
+	ImGui::Text("fps: %d",GetFPS());
+
+	ImGui::End();
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	CRenderer::End();
 }

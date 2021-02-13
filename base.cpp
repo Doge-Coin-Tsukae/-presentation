@@ -169,15 +169,3 @@ void CBASE::Draw()
 	m_Flag->Draw();		//Šø‚Ì•`‰æ
 	m_Zone->Draw();		//“–‚½‚è”»’è‚Ì•`‰æ
 }
-
-void CBASE::Load(FILE*fp, int line)
-{
-	for (int i = 0; i < line * 3; i++)
-	{
-		fscanf(fp, "");
-	}
-
-	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
-	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
-	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
-}

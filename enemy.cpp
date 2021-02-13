@@ -20,7 +20,6 @@
 #include "rifle.h"
 #include "colider.h"
 #include "behavior.h"
-#include "enemybehavior.h"
 #include "player.h"
 #include "meshfield.h"
 #include "enemy.h"
@@ -71,6 +70,9 @@ void CEnemy::Init()
 	m_Weapon = new Crifle();
 	m_Weapon->Init();
 	m_Weapon->Setparent(this);		//武器の親を自分に
+
+	m_AI = new CEnemyAIRoot();
+	m_AI->Init(this);
 
 	m_Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_ModelRot = D3DXVECTOR3(1.6f, 0.0f, 0.0f);
@@ -129,38 +131,7 @@ void CEnemy::Update_AI()
 {
 	if (m_Death) return;
 
-	CScene* scene = CManager::GetScene();
-	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
-
-	//当たり判定
-	D3DXVECTOR3 direction = m_Position - pPlayer->GetPosition();
-	float length = D3DXVec3Length(&direction);
-
-	LookPlayer();
-
-	//範囲内になったら接近する
-	if (length < 100.0f)
-	{
-		if (length > 50.0f)
-		{
-			D3DXVECTOR3 Velocity = GetNorm(m_Position, pPlayer->GetPosition());
-			m_Position += Velocity / 10;
-			ChangeAnimation((char*)"run");
-		}
-		else
-		{
-			Shoot();
-		}
-	}
-	else
-	{
-		ChangeAnimation((char*)"idle");
-	}
-
-	if (m_Weapon->GetAmmo() <= 0)
-	{
-		Reload();
-	}
+	m_AI->Update();
 
 }
 
@@ -235,5 +206,171 @@ void CEnemy::Reload()
 
 bool CEnemy::isOverReload()
 {
-	return m_Weapon->GetAmmo() < 0;
+	return m_Weapon->GetAmmo() > 0;
+}
+
+
+
+void CEnemyAIRoot::Init(CEnemy* Sparent)
+{
+	parent = Sparent;
+	m_Index = 0;
+	m_child_Node[0] = new CEnemySequence(Sparent);
+	m_child_Node[1] = new CEnemySelector(Sparent);
+}
+
+RESULT CEnemyAIRoot::Update()
+{
+	if (parent == nullptr) return RESULT_FAILED;
+
+	//プレイヤーから離れていたら移動
+	//近かったら攻撃
+	//死亡したら何も行わない
+
+	RESULT ret = m_child_Node[m_Index]->Update();
+
+	switch (ret)
+	{
+	case RESULT_PROGRESS:
+		return RESULT_PROGRESS;
+	case RESULT_SUCCEEDED:
+		if (m_Index == 0) m_Index = 1;
+		return RESULT_SUCCEEDED;
+	case RESULT_FAILED:
+		m_Index = 0;
+		return RESULT_FAILED;
+	}
+}
+
+
+CEnemySelector::CEnemySelector(CEnemy* parent)
+{
+	m_parent = parent;
+	m_child_Node[0] = new CEnemyShootNode(m_parent);
+	m_child_Node[1] = new CEnemyReloadNode(m_parent);
+}
+
+RESULT CEnemySelector::Update()
+{
+	RESULT ret = m_child_Node[m_Index]->Update();
+
+	switch (ret)
+	{
+	case RESULT_PROGRESS:
+		return RESULT_PROGRESS;
+	case RESULT_SUCCEEDED:
+		m_Index--;
+		return RESULT_SUCCEEDED;
+
+	case RESULT_FAILED:
+		if (m_parent->isOverReload() == false)
+		{
+			m_Index++;
+			return RESULT_PROGRESS;
+		}
+		return RESULT_FAILED;
+	}
+}
+
+CEnemySequence::CEnemySequence(CEnemy* parent)
+{
+	m_parent = parent;
+	m_child_Node[0] = new CEnemyRunNode(m_parent);
+	m_child_Node[1] = new CEnemyWalkNode(m_parent);
+}
+
+CEnemyRunNode::CEnemyRunNode(CEnemy* parent)
+{
+	m_parent = parent;
+}
+
+RESULT CEnemyRunNode::Update()
+{
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+
+	//距離を図る
+	D3DXVECTOR3 direction = m_parent->GetPosition() - pPlayer->GetPosition();
+	float length = D3DXVec3Length(&direction);
+
+	if (length < 50.0f) return RESULT_SUCCEEDED;
+
+	D3DXVECTOR3 Velocity = GetNorm(m_parent->GetPosition(), pPlayer->GetPosition());
+	D3DXVECTOR3 Position = m_parent->GetPosition() + Velocity / 10;
+
+	m_parent->LookPlayer();
+	m_parent->ChangeAnimation((char*)"run");
+	m_parent->SetPosition(Position);
+
+	return RESULT_PROGRESS;
+}
+
+CEnemyWalkNode::CEnemyWalkNode(CEnemy* parent)
+{
+	m_parent = parent;
+}
+
+RESULT CEnemyWalkNode::Update()
+{
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+
+
+	D3DXVECTOR3 Velocity = GetNorm(m_parent->GetPosition(), pPlayer->GetPosition());
+	D3DXVECTOR3 Position = m_parent->GetPosition() + Velocity / 15;
+
+	m_parent->LookPlayer();
+	m_parent->ChangeAnimation((char*)"run");
+	m_parent->SetPosition(Position);
+
+
+	//当たり判定
+	D3DXVECTOR3 direction = m_parent->GetPosition() - pPlayer->GetPosition();
+	float length = D3DXVec3Length(&direction);
+	if (length < 30.0f) return RESULT_SUCCEEDED;
+
+	return RESULT_PROGRESS;
+}
+
+CEnemyShootNode::CEnemyShootNode(CEnemy* parent)
+{
+	m_parent = parent;
+}
+
+RESULT CEnemyShootNode::Update()
+{
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+
+	//当たり判定
+	D3DXVECTOR3 direction = m_parent->GetPosition() - pPlayer->GetPosition();
+	float length = D3DXVec3Length(&direction);
+	m_parent->LookPlayer();
+
+	if (length > 60.0f) return RESULT_FAILED;					//ロックオンしていたキャラが範囲外に逃げたら
+	if (m_parent->Shoot() == false) return RESULT_FAILED;		//弾切れだったら
+
+	return RESULT_PROGRESS;
+}
+
+CEnemyReloadNode::CEnemyReloadNode(CEnemy* parent)
+{
+	m_parent = parent;
+}
+
+RESULT CEnemyReloadNode::Update()
+{
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+
+	//当たり判定
+	D3DXVECTOR3 direction = m_parent->GetPosition() - pPlayer->GetPosition();
+	float length = D3DXVec3Length(&direction);
+	m_parent->LookPlayer();
+
+	if (m_parent->isOverReload() == true) return RESULT_SUCCEEDED;
+
+	m_parent->Reload();
+
+	return RESULT_PROGRESS;
 }

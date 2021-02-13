@@ -100,5 +100,5 @@ public:		//アクセス指定子
 		}
 	}
 
-	virtual void Load() {}	//データのロード
+	virtual void FileLoad() {}	//データのロード
 };

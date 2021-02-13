@@ -142,16 +142,3 @@ void CTREE::Draw()
 	CRenderer::GetDeviceContext()->Draw(4, 0);
 	//CRenderer::GetDeviceContext()->DrawInstanced(4,);
 }
-
-void CTREE::Load(FILE*fp, int line)
-{
-	for (int i = 0; i < line * 3; i++)
-	{
-		fscanf(fp, "");
-	}
-
-	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
-	m_Position.y += 5.0f;
-	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
-	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
-}

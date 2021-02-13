@@ -7,11 +7,22 @@
 #include "manager.h"
 #include "model.h"
 #include "colider.h"
+class CModel* CCOLIDER_CIRCLE::m_Model;
 
-void CCOLIDER_CIRCLE::Init()
+void CCOLIDER_CIRCLE::Load()
 {
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\colider.obj");
+}
+
+void CCOLIDER_CIRCLE::Unload()
+{
+	m_Model->Unload();
+	delete m_Model;
+}
+void CCOLIDER_CIRCLE::Init()
+{
+
 }
 void CCOLIDER_CIRCLE::Uninit()
 {
@@ -33,6 +44,7 @@ void CCOLIDER_CIRCLE::Draw()
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
+
 	m_Model->Draw();
 }
 

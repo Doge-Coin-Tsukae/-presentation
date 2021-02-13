@@ -27,6 +27,7 @@
 #include "human.h"
 #include "model.h"
 #include "colider.h"
+#include "behavior.h"
 #include "sight.h"
 #include "weapon.h"
 
@@ -55,12 +56,14 @@ void CGame::Init()
 {
 	//テクスチャ + モデルロード
 	CBullet::Load();	//弾のモデルを呼び出す
+	CCOLIDER_CIRCLE::Load();
 	CBUNKER::Load();	//バンカーのモデルを呼び出す
 	CEnemy::Load();		//敵のモデルを呼び出す
 	CFriend::Load();
 	CWEAPON::Load();	//銃のモデルを呼び出す
 	CDEADTREE::Load();	//枯れ木のモデルを呼び出す
 	CSMOKE::Load();		//煙の画像を呼び出す
+	CExplosion::Load();
 
 	m_GameManeger = new CGAME_MANEGER;
 	m_GameManeger->Init(GAME_RULE_CONQUEST);
@@ -91,11 +94,13 @@ void CGame::Uninit()
 
 	//テクスチャアンロード
 	CDEADTREE::Unload();
+	CExplosion::Unload();
 	CSMOKE::Unload();
 	CWEAPON::UnLoad();
 	CFriend::Unload();
 	CEnemy::Unload();
 	CBUNKER::Unload();
+	CCOLIDER_CIRCLE::Unload();
 	CBullet::Unload();
 
 	m_GameManeger->Uninit();

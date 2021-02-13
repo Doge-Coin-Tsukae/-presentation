@@ -30,7 +30,10 @@ void CBUNKER::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	m_Colider.Init(m_Position + D3DXVECTOR3(-10.0f, 0.0f, -8.0f), m_Position+ D3DXVECTOR3(10.0f, 2.0f, 8.0f), m_Position);
+	m_Obb = new OBB;
+	m_Obb->Init();
+	m_Obb->parent(m_Position, m_Rotation, m_Scale);
+	m_Obb->SetScale(D3DXVECTOR3(24,1,15));
 }
 
 void CBUNKER::Uninit()
@@ -38,7 +41,6 @@ void CBUNKER::Uninit()
 }
 void CBUNKER::Update()
 {
-	m_Colider.update(m_Position);
 
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
@@ -68,14 +70,7 @@ void CBUNKER::Draw()
 
 }
 
-void CBUNKER::Load(FILE*fp, int line)
+void CBUNKER::FileLoad()
 {
-	for (int i = 0; i < line * 3; i++)
-	{
-		fscanf(fp, "");
-	}
 
-	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
-	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
-	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
 }

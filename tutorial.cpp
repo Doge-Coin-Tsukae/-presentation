@@ -27,6 +27,7 @@
 #include "colider.h"
 #include "sight.h"
 #include "weapon.h"
+#include "behavior.h"
 
 #include "player.h"
 #include "enemy.h"
@@ -54,6 +55,7 @@ void CTutorial::Init()
 
 	//テクスチャ + モデルロード
 	CBullet::Load();	//弾のモデルを呼び出す
+	CCOLIDER_CIRCLE::Load();
 	CBUNKER::Load();	//バンカーのモデルを呼び出す
 	CWEAPON::Load();	//銃のモデルを呼び出す
 	CSMOKE::Load();		//煙の画像を呼び出す
@@ -91,6 +93,7 @@ void CTutorial::Uninit()
 	CWEAPON::UnLoad();
 	CBullet::Unload();
 	CBUNKER::Unload();	//バンカーのモデルを呼び出す
+	CCOLIDER_CIRCLE::Unload();
 
 	m_GameManeger->Uninit();
 	delete m_GameManeger;

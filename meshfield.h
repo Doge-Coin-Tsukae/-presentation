@@ -122,4 +122,11 @@ public:
 
 	float GetHeight(D3DXVECTOR3 Position);
 	void flatworld();
+
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(CEREAL_NVP(seed));
+	}
+
 };

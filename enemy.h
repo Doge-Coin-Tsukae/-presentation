@@ -2,6 +2,8 @@
 
 #include "gameobject.h"
 
+class CEnemyAIRoot;
+
 class CEnemy : public CGameObject	//継承(インヘリタンス)
 {
 private:
@@ -9,6 +11,7 @@ private:
 	D3DXVECTOR3		m_ModelRot;
 	CSIGHT* m_Sight;			//照準
 	CWEAPON* m_Weapon;			//所持武器
+	CEnemyAIRoot* m_AI;			//ビヘイビアツリーで動く
 
 	TEAM_NUMBER		m_TeamNumber;			//味方か敵かの識別
 
@@ -21,7 +24,6 @@ private:
 	//ヘルパー関数
 	void Update_AI();
 
-	void ChangeAnimation(char* Name);
 public:
 	CEnemy() {}
 	~CEnemy() {}
@@ -48,4 +50,76 @@ public:
 	bool Shoot();			//攻撃する
 	void Reload();			//銃を装填する
 	bool isOverReload();		//装填完了したか
+
+	void ChangeAnimation(char* Name);		//アニメーション変更
+};
+
+//AIRoot
+class CEnemyAIRoot :public CNode
+{
+private:
+	CEnemy* parent;	//付属する敵
+	int m_Index = m_Index;
+public:
+	void   Init(CEnemy* parent);
+	RESULT Update();
+};
+
+//ビヘイビアのセレクター
+class CEnemySelector :public CNodeSelector
+{
+private:
+	CEnemy* m_parent;	//付属する敵
+public:
+	CEnemySelector(CEnemy* parent);
+	RESULT Update();
+};
+
+//ビヘイビアのシークエンス
+class CEnemySequence :public CNodeSequence
+{
+private:
+	CEnemy* m_parent;	//付属する敵
+public:
+	CEnemySequence(CEnemy* parent);
+};
+
+//ビヘイビアのノード(走る)
+class CEnemyRunNode :public CNode
+{
+private:
+	CEnemy* m_parent;	//付属する敵
+public:
+	CEnemyRunNode(CEnemy* parent);
+	RESULT Update();
+};
+
+//ビヘイビアのノード(歩く)
+class CEnemyWalkNode :public CNode
+{
+private:
+	CEnemy* m_parent;	//付属する敵
+public:
+	CEnemyWalkNode(CEnemy* parent);
+	RESULT Update();
+};
+
+//ビヘイビアのノード(撃つ)
+class CEnemyShootNode :public CNode
+{
+private:
+	CEnemy* m_parent;	//付属する敵
+public:
+	CEnemyShootNode(CEnemy* parent);
+	RESULT Update();
+};
+
+//ビヘイビアのノード(リロード)
+class CEnemyReloadNode :public CNode
+{
+private:
+	CEnemy* m_parent;	//付属する敵
+public:
+	CEnemyReloadNode(CEnemy* parent);
+	RESULT Update();
 };

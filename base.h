@@ -43,8 +43,6 @@ public:
 	void Update();
 	void Draw();
 
-	void Load(FILE*fp, int line);
-
 	TERRITORY GetTerritory() { return m_territory; }
 	bool GetinPlayer() { return m_inPlayer; }
 	int GetGauge() { return m_Gauge; }

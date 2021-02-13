@@ -5,6 +5,28 @@
 #include "explosion.h"
 #include "camera.h"
 
+class ID3D11ShaderResourceView* CExplosion::m_Texture;
+
+void CExplosion::Load()
+{
+
+	//テクスチャ読み込み
+	D3DX11CreateShaderResourceViewFromFile(CRenderer::GetDevice(),
+		"asset/billboard/explosion.png",
+		NULL,
+		NULL,
+		&m_Texture,
+		NULL);
+
+	//テクスチャが張ってないとき、エラーを検知する
+	assert(m_Texture);
+}
+
+void CExplosion::Unload()
+{
+	m_Texture->Release();
+}
+
 void CExplosion::Init()
 {
 	VERTEX_3D vertex[4];
@@ -42,17 +64,6 @@ void CExplosion::Init()
 
 	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
 
-	//テクスチャ読み込み
-	D3DX11CreateShaderResourceViewFromFile(CRenderer::GetDevice(),
-		"asset/billboard/explosion.png",
-		NULL,
-		NULL,
-		&m_Texture,
-		NULL);
-
-	//テクスチャが張ってないとき、エラーを検知する
-	assert(m_Texture);
-
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
@@ -61,7 +72,6 @@ void CExplosion::Init()
 void CExplosion::Uninit()
 {
 	m_VertexBuffer->Release();
-	m_Texture->Release();
 }
 
 void CExplosion::Update()

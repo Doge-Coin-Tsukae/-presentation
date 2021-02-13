@@ -1,0 +1,21 @@
+{
+    "playerdata": {
+        "m_Position": {
+            "x": 1020.9671630859375,
+            "y": 21.034467697143556,
+            "z": -1208.0418701171876
+        },
+        "m_Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "m_Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "m_Weapontype": 0,
+        "m_Modelpass": "asset/model/player/chara.fbx"
+    }
+}

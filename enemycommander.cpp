@@ -9,6 +9,7 @@
 #include "sight.h"
 #include "weapon.h"
 #include "colider.h"
+#include "behavior.h"
 #include "enemy.h"
 #include "base.h"
 #include "enemycommander.h"

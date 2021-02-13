@@ -15,6 +15,7 @@
 #include "explosion.h"
 #include "human.h"
 #include "animationmodel.h"
+#include "behavior.h"
 #include "sight.h"
 #include "weapon.h"
 #include "colider.h"
@@ -85,18 +86,6 @@ void CBullet::Update_Collision()
 	std::vector<CBUNKER*> pBunker = scene->GetGameObjects<CBUNKER>(1);
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
-	AABB Bulletaabb;	//ˆêŽž“I‚É¢Š«
-	Bulletaabb.Init(m_Position + D3DXVECTOR3(-1.0f, -1.0f, -1.0f), m_Position + D3DXVECTOR3(1.0f, 1.0f, 1.0f), m_Position);
-
-	//•Ç‚ÉŒƒ“Ë
-	for (CBUNKER* Bunker : pBunker)
-	{
-		if (intersectAABB(Bunker->GetColider(), Bulletaabb) == true)
-		{
-			SetDestroy();
-			return;
-		}
-	}
 
 	//’e‚ª–¡•û‚Ì•¨‚¾‚Á‚½Žž
 	if (m_TeamNumber == TEAM_FRIENDRY)

@@ -5,6 +5,9 @@
 #include "scene.h"
 #include "manager.h"
 #include "input.h"
+#include "imgui.h"
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
 #include <windowsx.h>
 
 const char* CLASS_NAME = "AppClass";
@@ -15,6 +18,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 
 HWND g_Window;
+
+Fps fps;	//fpsを表示管理するクラス
 
 HWND GetWindow()
 {
@@ -76,13 +81,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	dwCurrentTime = 0;
 
 
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	ImGui_ImplWin32_Init(GetWindow());
+	ImGui_ImplDX11_Init(CRenderer::GetDevice(), CRenderer::GetDeviceContext());
+
 	// メッセージループ
 	MSG msg;
-	while(1)
+	while (1)
 	{
-        if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			if(msg.message == WM_QUIT)
+			if (msg.message == WM_QUIT)
 			{// PostQuitMessage()が呼ばれたらループ終了
 				break;
 			}
@@ -92,21 +105,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
-        }
+		}
 		else
 		{
-			dwCurrentTime = timeGetTime();
+			fps.Update();
 
-			if((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
-			{
-				dwExecLastTime = dwCurrentTime;
+			// 更新処理
+			CManager::Update();
 
-				// 更新処理
-				CManager::Update();
+			// 描画処理
+			CManager::Draw();
 
-				// 描画処理
-				CManager::Draw();
-			}
+			fps.Wait();
+
 		}
 	}
 
@@ -147,5 +158,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+int GetFPS()
+{
+	return fps.Getfps();
 }
 

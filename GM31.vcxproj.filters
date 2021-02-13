@@ -45,6 +45,9 @@
     <Filter Include="ソース ファイル\Behaviortree">
       <UniqueIdentifier>{b8d8ca5f-dc38-4658-a681-b8660eacc2e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\system\ImGUI">
+      <UniqueIdentifier>{d30257c3-42dd-43ac-a48c-85af5796b0ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -199,6 +202,33 @@
     </ClCompile>
     <ClCompile Include="human.cpp">
       <Filter>ソース ファイル\gameobject\player</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImSequencer.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImCurveEdit.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGradient.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -360,6 +390,42 @@
     </ClInclude>
     <ClInclude Include="spownpoint.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClInclude>
+    <ClInclude Include="ImCurveEdit.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGradient.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuizmo.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImSequencer.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImZoomSlider.h">
+      <Filter>ソース ファイル\system\ImGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

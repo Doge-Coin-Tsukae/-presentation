@@ -22,6 +22,4 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-
-	void Load(FILE*fp, int line);
 };

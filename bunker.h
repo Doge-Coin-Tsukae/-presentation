@@ -7,7 +7,6 @@ class CBUNKER : public CGameObject
 private:
 	static CModel* m_Model;		//3Dモデルクラス
 	static CModel* m_ShadowModel;
-	AABB m_Colider;
 	OBB*  m_Obb;
 
 public:
@@ -30,7 +29,8 @@ public:
 	void Update();
 	void Draw();
 
-	void Load(FILE*fp, int line);
+	void FileLoad();	//セーブファイルからロードする
 
-	AABB GetColider() { return m_Colider; }
+	OBB* GetObb() { return m_Obb; }
+
 };

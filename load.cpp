@@ -16,6 +16,7 @@
 #include "sight.h"
 #include "animationmodel.h"
 #include "weapon.h"
+#include "behavior.h"
 #include "player.h"
 #include "enemy.h"
 #include "friend.h"
@@ -42,264 +43,93 @@ void CLOAD::Data_Load()
 
 	std::string path;
 
-		//プレイヤーの情報をファイルから読み込む
+	//プレイヤーの情報をファイルから読み込む
 	{
-		CPlayer* pPlayer = new CPlayer();
-		pPlayer->Init();
-		path = "asset/savedata/playerdata.json";
+		CPlayer* pplayer = new CPlayer;
+		std::string playerpass = "asset/savedata/playerdata.json";	//jsonファイル名
+		std::string playerdata = "playerdata";		//jsonファイルに読み込む時のデータの名前
+		GameObjectLoad(pplayer, playerpass, playerdata);
 
-		std::stringstream stream;
-		//ファイル入力ストリーム作成
-		std::ifstream inputFile(path, std::ios::in);
-		//入力データを全部文字列streamに投げる
-		stream << inputFile.rdbuf();
-		//jsonをロード
-		cereal::JSONInputArchive jsonInputArchive(stream);
-
-		jsonInputArchive(cereal::make_nvp("playerdata", *pPlayer));
-		pPlayer->ResetVelocity();
-		pPlayer->Load();
-		scene->AddArgumentGameObject(pPlayer, 1);
-
-		stream.clear();
-		inputFile.close();
+		delete pplayer;
 	}
 
+	//敵の情報をファイルから読み込む
 	{
-		int totalnumber = 0;	//敵の総数
-		std::string moji = "enemydata";		//jsonの敵データ
-		std::string tmp;					//jsonの敵データの作業ファイル
-
-		path = "asset/savedata/enemydata.json";
-		std::stringstream stream;
-
-		//ファイル入力ストリーム作成
-		std::ifstream inputFile(path, std::ios::in);
-		//入力データを全部文字列streamに投げる
-		stream << inputFile.rdbuf();
-
-		//jsonをロード
-		cereal::JSONInputArchive jsonInputArchive(stream);
-		jsonInputArchive(cereal::make_nvp("totalenemy", totalnumber));
-
-		for (int i = 1; i < totalnumber; i++)
-		{
-			CEnemy* pEnemy = new CEnemy;
-			pEnemy->Init();
-
-			tmp = moji;
-			tmp += i;
-			jsonInputArchive(cereal::make_nvp(tmp, *pEnemy));
-			scene->AddArgumentGameObject(pEnemy, 1);
-		}
-
-		inputFile.close();
-		moji.clear();
-		stream.clear();
-		tmp.clear();
+		CEnemy* penemy = new CEnemy;
+		std::string enemypass = "asset/savedata/enemydata.json";	//jsonファイル名
+		std::string enemydata = "enemydata";		//jsonファイルに読み込む時のデータの名前
+		std::string enemynum = "totalenemy";		//総数をjsonファイルに読み込む時の名前
+		GameObjectsLoad(penemy, enemypass, enemydata, enemynum,1);
+		delete penemy;
 	}
 
+	//味方情報をファイルから読み込む
 	{
-		int totalnumber = 0;	//敵の総数
-		std::string moji = "frienddata";		//jsonの敵データ
-		std::string tmp;					//jsonの敵データの作業ファイル
-
-		path = "asset/savedata/frienddata.json";
-		std::stringstream stream;
-
-		//ファイル入力ストリーム作成
-		std::ifstream inputFile(path, std::ios::in);
-		//入力データを全部文字列streamに投げる
-		stream << inputFile.rdbuf();
-
-		//jsonをロード
-		cereal::JSONInputArchive jsonInputArchive(stream);
-		jsonInputArchive(cereal::make_nvp("totalfriend", totalnumber));
-
-		for (int i = 1; i < totalnumber; i++)
-		{
-			CFriend* pFriend = new CFriend;
-			pFriend->Init();
-
-			tmp = moji;
-			tmp += i;
-			jsonInputArchive(cereal::make_nvp(tmp, *pFriend));
-			scene->AddArgumentGameObject(pFriend, 1);
-		}
-
-		inputFile.close();
-		moji.clear();
-		stream.clear();
-		tmp.clear();
+		CFriend* pfriend = new CFriend;
+		std::string enemypass = "asset/savedata/frienddata.json";	//jsonファイル名
+		std::string enemydata = "frienddata";		//jsonファイルに読み込む時のデータの名前
+		std::string enemynum = "totalfriend";		//総数をjsonファイルに読み込む時の名前
+		GameObjectsLoad(pfriend, enemypass, enemydata, enemynum,1);
+		delete pfriend;
 	}
 
+	//バンカー情報をファイルから読み込む
 	{
-		int totalnumber = 0;	//敵の総数
-		std::string moji = "bunkerdata";		//jsonの敵データ
-		std::string tmp;					//jsonの敵データの作業ファイル
-
-		path = "asset/savedata/bunkerdata.json";
-		std::stringstream stream;
-
-		//ファイル入力ストリーム作成
-		std::ifstream inputFile(path, std::ios::in);
-		//入力データを全部文字列streamに投げる
-		stream << inputFile.rdbuf();
-
-		//jsonをロード
-		cereal::JSONInputArchive jsonInputArchive(stream);
-		jsonInputArchive(cereal::make_nvp("totalbunker", totalnumber));
-
-		for (int i = 1; i < totalnumber; i++)
-		{
-			CBUNKER* pBunker = new CBUNKER;
-			pBunker->Init();
-
-			tmp = moji;
-			tmp += i;
-			jsonInputArchive(cereal::make_nvp(tmp, *pBunker));
-			scene->AddArgumentGameObject(pBunker, 1);
-		}
-
-		inputFile.close();
+		CBUNKER* pbunker = new CBUNKER;
+		std::string bunkerpass = "asset/savedata/bunkerdata.json";	//jsonファイル名
+		std::string bunkerdata = "bunkerdata";			//jsonファイルに読み込む時のデータの名前
+		std::string bunkernum = "totalbunker";			//総数をjsonファイルに読み込む時の名前
+		GameObjectsLoad(pbunker, bunkerpass, bunkerdata, bunkernum,1);
+		delete pbunker;
 	}
 
+	//拠点情報をファイルから読み込む
 	{
-		int totalnumber = 0;	//敵の総数
-		std::string moji = "basedata";		//jsonの敵データ
-		std::string tmp;					//jsonの敵データの作業ファイル
-
-		path = "asset/savedata/basedata.json";
-		std::stringstream stream;
-
-		//ファイル入力ストリーム作成
-		std::ifstream inputFile(path, std::ios::in);
-		//入力データを全部文字列streamに投げる
-		stream << inputFile.rdbuf();
-
-		//jsonをロード
-		cereal::JSONInputArchive jsonInputArchive(stream);
-		jsonInputArchive(cereal::make_nvp("totalbase", totalnumber));
-
-		for (int i = 1; i < totalnumber; i++)
-		{
-			CBASE* pBase = new CBASE;
-			pBase->Init();
-
-			tmp = moji;
-			tmp += i;
-			jsonInputArchive(cereal::make_nvp(tmp, *pBase));
-			scene->AddArgumentGameObject(pBase, 2);
-		}
-
-		inputFile.close();
+		CBASE* pbase = new CBASE;
+		std::string basepass = "asset/savedata/basedata.json";	//jsonファイル名
+		std::string basedata = "basedata";			//jsonファイルに読み込む時のデータの名前
+		std::string basenum = "totalbase";			//総数をjsonファイルに読み込む時の名前
+		GameObjectsLoad(pbase, basepass, basedata, basenum,2);
+		delete pbase;
 	}
 
+	//木情報をファイルから読み込む
 	{
-		int totalnumber = 0;	//敵の総数
-		std::string moji = "treedata";		//jsonの敵データ
-		std::string tmp;					//jsonの敵データの作業ファイル
-
-		path = "asset/savedata/treedata.json";
-		std::stringstream stream;
-
-		//ファイル入力ストリーム作成
-		std::ifstream inputFile(path, std::ios::in);
-		//入力データを全部文字列streamに投げる
-		stream << inputFile.rdbuf();
-
-		//jsonをロード
-		cereal::JSONInputArchive jsonInputArchive(stream);
-		jsonInputArchive(cereal::make_nvp("totaltree", totalnumber));
-
-		for (int i = 1; i < totalnumber; i++)
-		{
-			CTREE* pTree = new CTREE;
-			pTree->Init();
-
-			tmp = moji;
-			tmp += i;
-			jsonInputArchive(cereal::make_nvp(tmp, *pTree));
-			scene->AddArgumentGameObject(pTree, 1);
-		}
-
-		inputFile.close();
+		CTREE* ptree = new CTREE;
+		std::string treepass = "asset/savedata/treedata.json";	//jsonファイル名
+		std::string treedata = "treedata";			//jsonファイルに読み込む時のデータの名前
+		std::string treenum = "totaltree";			//総数をjsonファイルに書き込む時の名前
+		GameObjectsLoad(ptree, treepass, treedata, treenum,3);
+		delete ptree;
 	}
 
+	//枯れ木情報をファイルから読み込む
 	{
-		int totalnumber = 0;	//敵の総数
-		std::string moji = "deadtreedata";		//jsonの敵データ
-		std::string tmp;					//jsonの敵データの作業ファイル
-
-		path = "asset/savedata/deadtreedata.json";
-		std::stringstream stream;
-
-		//ファイル入力ストリーム作成
-		std::ifstream inputFile(path, std::ios::in);
-		//入力データを全部文字列streamに投げる
-		stream << inputFile.rdbuf();
-
-		//jsonをロード
-		cereal::JSONInputArchive jsonInputArchive(stream);
-		jsonInputArchive(cereal::make_nvp("totaldeadtree", totalnumber));
-
-		for (int i = 1; i < totalnumber; i++)
-		{
-			CDEADTREE* pDeadTree = new CDEADTREE;
-			pDeadTree->Init();
-
-			tmp = moji;
-			tmp += i;
-			jsonInputArchive(cereal::make_nvp(tmp, *pDeadTree));
-			scene->AddArgumentGameObject(pDeadTree, 1);
-		}
-
-		inputFile.close();
+		CDEADTREE* pdeadtree = new CDEADTREE;
+		std::string deadtreepass = "asset/savedata/deadtreedata.json";	//jsonファイル名
+		std::string deadtreedata = "deadtreedata";			//jsonファイルに読み込む時のデータの名前
+		std::string deadtreenum = "totaldeadtree";			//総数をjsonファイルに読み込む時の名前
+		GameObjectsLoad(pdeadtree, deadtreepass, deadtreedata, deadtreenum,1);
+		delete pdeadtree;
 	}
-
 
 	//スポーンポイント情報をファイルから読み込む
 	{
-		int totalnumber = 0;	//敵の総数
-		std::string moji = "spownpointdata";		//jsonの敵データ
-		std::string tmp;					//jsonの敵データの作業ファイル
-
-		path = "asset/savedata/spownpointdata.json";
-		std::stringstream stream;
-
-		//ファイル入力ストリーム作成
-		std::ifstream inputFile(path, std::ios::in);
-		//入力データを全部文字列streamに投げる
-		stream << inputFile.rdbuf();
-
-		//jsonをロード
-		cereal::JSONInputArchive jsonInputArchive(stream);
-		jsonInputArchive(cereal::make_nvp("totalspownpoint", totalnumber));
-
-		for (int i = 1; i < totalnumber; i++)
-		{
-			CSpownPoint* pSpownPoint = new CSpownPoint;
-			pSpownPoint->Init();
-
-			tmp = moji;
-			tmp += i;
-			jsonInputArchive(cereal::make_nvp(tmp, *pSpownPoint));
-			scene->AddArgumentGameObject(pSpownPoint, 1);
-		}
-
-		inputFile.close();
+		CSpownPoint* pspownpoint = new CSpownPoint;
+		std::string spownpointpass = "asset/savedata/spownpointdata.json";	//jsonファイル名
+		std::string spownpointdata = "spownpointdata";			//jsonファイルから読み込む時のデータの名前
+		std::string spownpointnum = "totalspownpoint";			//総数をjsonファイルに読み込む時の名前
+		GameObjectsLoad(pspownpoint, spownpointpass, spownpointdata, spownpointnum,1);
+		delete pspownpoint;
 	}
 
 	//地形情報をファイルから読み込む
 	{
-		FILE* SaveFile;//ファイルポインタ
-		SaveFile = fopen("asset/savedata/field.txt", "r");
-		if (SaveFile == NULL)	// オープンに失敗した場合
-			return;
-
-		CMeshField* pMeshField = scene->GetGameObject<CMeshField>(1);
-		
-		fclose(SaveFile);
+		CMeshField* pmeshfield = new CMeshField;
+		std::string fieldpass = "asset/savedata/field.json";	//jsonファイル名
+		std::string fielddata = "meshfielddata";		//jsonファイルに読み込む時のデータの名前
+		GameObjectLoad(pmeshfield, fieldpass, fielddata);
+		delete pmeshfield;
 	}
 }
 
@@ -326,7 +156,7 @@ void CLOAD::Data_Destroy()
 	}
 
 	//リストからピックアップしてデータ削除
-	std::vector<CBASE*> baselist = scene->GetGameObjects<CBASE>(1);
+	std::vector<CBASE*> baselist = scene->GetGameObjects<CBASE>(2);
 	for (CBASE* base : baselist)
 	{
 		base->SetDestroy();
@@ -345,4 +175,63 @@ void CLOAD::Data_Destroy()
 	{
 		deadtree->SetDestroy();
 	}
+}
+
+
+template<typename T>
+void CLOAD::GameObjectLoad(T* savedata, std::string fullname, std::string data)		//単数のオブジェクトをロードする
+{
+	T* pclass = new T();
+	pclass->Init();
+
+	std::stringstream stream;
+	//ファイル入力ストリーム作成
+	std::ifstream inputFile(fullname, std::ios::in);
+	//入力データを全部文字列streamに投げる
+	stream << inputFile.rdbuf();
+	//jsonをロード
+	cereal::JSONInputArchive jsonInputArchive(stream);
+
+	jsonInputArchive(cereal::make_nvp(data, *pclass));
+
+	CScene* scene = CManager::GetScene();
+	pclass->FileLoad();
+	scene->AddArgumentGameObject(pclass, 1);
+
+	stream.clear();
+	inputFile.close();
+}
+
+template<typename T>
+void CLOAD::GameObjectsLoad(T* savedata, std::string fullname, std::string data, std::string total, int layer)	//複数のオブジェクトをロード
+{
+	int totalnumber = 0;		//敵の総数
+	std::string tmp;			//jsonの敵データの作業ファイル
+	std::stringstream stream;
+
+	//ファイル入力ストリーム作成
+	std::ifstream inputFile(fullname, std::ios::in);
+	//入力データを全部文字列streamに投げる
+	stream << inputFile.rdbuf();
+
+	//jsonをロード
+	cereal::JSONInputArchive jsonInputArchive(stream);
+	jsonInputArchive(cereal::make_nvp(total, totalnumber));
+
+	for (int i = 1; i < totalnumber; i++)
+	{
+		T* pclass = new T;
+		pclass->Init();
+
+		tmp = data;
+		tmp += i;
+		jsonInputArchive(cereal::make_nvp(tmp, *pclass));
+
+		CScene* scene = CManager::GetScene();
+		pclass->FileLoad();
+		scene->AddArgumentGameObject(pclass, layer);
+	}
+
+	inputFile.close();
+	stream.clear();
 }
