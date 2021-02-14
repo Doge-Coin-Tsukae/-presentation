@@ -41,6 +41,7 @@ void CBUNKER::Uninit()
 }
 void CBUNKER::Update()
 {
+	m_Obb->SetRotation(m_Rotation);
 
 	//メッシュフィールド高さ取得
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
@@ -56,11 +57,11 @@ void CBUNKER::Draw()
 		return;
 
 	//マトリクス設定
-	D3DXMATRIX world, scale, rot, trans, shadow, modelshadow;
+	D3DXMATRIX world, scale, rot, trans;
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	//位置マトリクス
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
@@ -72,5 +73,6 @@ void CBUNKER::Draw()
 
 void CBUNKER::FileLoad()
 {
-
+	m_Obb->parent(m_Position, m_Rotation, m_Scale);
+	m_Obb->SetScale(D3DXVECTOR3(15, 1, 24));
 }

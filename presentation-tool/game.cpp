@@ -17,7 +17,6 @@
 #include "save.h"
 #include "load.h"
 #include "camera.h"
-#include "field.h"
 #include "meshfield.h"
 #include "human.h"
 #include "model.h"

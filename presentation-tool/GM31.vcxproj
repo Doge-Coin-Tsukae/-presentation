@@ -164,7 +164,6 @@
     <ClCompile Include="colider.cpp" />
     <ClCompile Include="deadtree.cpp" />
     <ClCompile Include="enemy.cpp" />
-    <ClCompile Include="field.cpp" />
     <ClCompile Include="filewinapi.cpp" />
     <ClCompile Include="friend.cpp" />
     <ClCompile Include="game.cpp" />
@@ -210,7 +209,6 @@
     <ClInclude Include="colider.h" />
     <ClInclude Include="deadtree.h" />
     <ClInclude Include="enemy.h" />
-    <ClInclude Include="field.h" />
     <ClInclude Include="filewinapi.h" />
     <ClInclude Include="friend.h" />
     <ClInclude Include="Game.h" />

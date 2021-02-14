@@ -41,9 +41,6 @@ ANIMENAME g_aParam3[6] =
 
 void CWEAPON::Load()
 {
-	//m_Model = new CModel();
-	//m_Model->Load("asset\\model\\rifl.obj");
-
 	m_AniModel = new CAnimationModel();
 	m_AniModel->Load("asset\\model\\weapon\\rifle.fbx");					//モデルのロード(ボーン付き)
 	m_AniModel->LoadAnimation("asset\\model\\weapon\\rifle_idle.fbx", g_aParam3[0].pFilename);
@@ -85,8 +82,8 @@ void CWEAPON::Update()
 
 	//座標の更新
 	m_Position = m_parent->GetPosition();
-	m_Position.x = m_Position.x - 1.0f * cos(m_parent->GetRotation().x)*cos(m_parent->GetRotation().z);	//座標
-	m_Position.z = m_Position.z - 1.0f *-sin(m_parent->GetRotation().x)*cos(m_parent->GetRotation().z);	//座標
+	m_Position.x = m_Position.x - 1.0f * cos(m_parent->GetRotation().y)*cos(m_parent->GetRotation().x);	//座標
+	m_Position.z = m_Position.z - 1.0f *-sin(m_parent->GetRotation().y)*cos(m_parent->GetRotation().x);	//座標
 	m_Rotation = m_parent->GetRotation();
 
 	rate += ANIMEBLENDSPEED;
@@ -124,7 +121,7 @@ void CWEAPON::Draw()
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	//位置マトリクス
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;

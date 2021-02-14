@@ -58,7 +58,7 @@ public:		//アクセス指定子
 	virtual void SetImGui()
 	{
 		ImGui::Text("SetMode");
-		ImGui::SliderFloat("rotation",&m_Rotation.x,0,10);
+		ImGui::SliderFloat("rotation",&m_Rotation.y,0,10);
 		ImGui::Checkbox("delete",&m_Destroy);
 	}
 

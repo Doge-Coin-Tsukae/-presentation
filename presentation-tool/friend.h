@@ -34,8 +34,5 @@ public:
 	void Update();
 	void Draw();
 
-	void Save(FILE* fp);
-	void Load(FILE* fp, int line);
-
 	void SetImGui();
 };

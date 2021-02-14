@@ -22,9 +22,9 @@ void CSIGHT::Update()
 	//座標の更新
 	m_Position = m_parent->GetPosition();
 
-	m_Position.x = m_Position.x - 8.0f * cos(m_parent->GetRotation().x)*cos(m_parent->GetRotation().z);	//座標
-	m_Position.y = (m_Position.y+1.0f) - 8.0f * sin(m_parent->GetRotation().z);
-	m_Position.z = m_Position.z - 8.0f *-sin(m_parent->GetRotation().x)*cos(m_parent->GetRotation().z);	//座標
+	m_Position.x = m_Position.x - 8.0f * cos(m_parent->GetRotation().y)*cos(m_parent->GetRotation().x);	//座標
+	m_Position.y = (m_Position.y+1.0f) - 8.0f * sin(m_parent->GetRotation().x);
+	m_Position.z = m_Position.z - 8.0f *-sin(m_parent->GetRotation().y)*cos(m_parent->GetRotation().x);	//座標
 }
 void CSIGHT::Draw()
 {

@@ -121,8 +121,8 @@ void CPlayer::Update()
 	Update_Controll();
 
 	//上限加減チェック
-	m_Rotation.z = std::min(m_Rotation.z, 0.0f);
-	m_Rotation.z = std::max(m_Rotation.z, -0.5f);
+	m_Rotation.x = std::min(m_Rotation.x, 0.0f);
+	m_Rotation.x = std::max(m_Rotation.x, -0.5f);
 	rate = std::min(rate, 1.0f);
 	rate = std::max(rate, 0.0f);
 
@@ -163,11 +163,8 @@ void CPlayer::Update()
 
 		if (fabs(lenX) < obbLenx && fabs(lenZ) < obbLenz)
 		{
-			D3DXVECTOR3 vector;
-			D3DXVECTOR3 vector2 = GetNorm(m_Position,bunker->GetPosition());
-
-			calcWallScratchVector(&vector, m_Position, m_Rotation);
-			m_Velocity += vector;
+			D3DXVECTOR3 vector = m_Velocity - m_Position;
+			m_Velocity -= vector * 1.5f;
 			break;
 		}
 	}
@@ -218,8 +215,8 @@ void CPlayer::Update_Controll()
 	//キー入力で移動
 	if (CInput::GetKeyPress('A'))
 	{
-		m_Velocity.x -= sin(m_Rotation.x)*m_speed;
-		m_Velocity.z -= cos(m_Rotation.x)*m_speed;
+		m_Velocity.x -= sin(m_Rotation.y)*m_speed;
+		m_Velocity.z -= cos(m_Rotation.y)*m_speed;
 		m_speed += 0.01f;
 		if(m_ready)
 			ChangeAnimation((char*)"readyrun");
@@ -228,8 +225,8 @@ void CPlayer::Update_Controll()
 	}
 	if (CInput::GetKeyPress('D'))
 	{
-		m_Velocity.x += sin(m_Rotation.x)*m_speed;
-		m_Velocity.z += cos(m_Rotation.x)*m_speed;
+		m_Velocity.x += sin(m_Rotation.y)*m_speed;
+		m_Velocity.z += cos(m_Rotation.y)*m_speed;
 		m_speed += 0.01f;
 		if (m_ready)
 			ChangeAnimation((char*)"readyrun");
@@ -238,8 +235,8 @@ void CPlayer::Update_Controll()
 	}
 	if (CInput::GetKeyPress('W'))
 	{
-		m_Velocity.z += sin(m_Rotation.x)*m_speed;
-		m_Velocity.x -= cos(m_Rotation.x)*m_speed;
+		m_Velocity.z += sin(m_Rotation.y)*m_speed;
+		m_Velocity.x -= cos(m_Rotation.y)*m_speed;
 		m_speed += 0.01f;
 		if (m_ready)
 			ChangeAnimation((char*)"readyrun");
@@ -248,29 +245,22 @@ void CPlayer::Update_Controll()
 	}
 	if (CInput::GetKeyPress('S'))
 	{
-		m_Velocity.z -= sin(m_Rotation.x)*m_speed;
-		m_Velocity.x += cos(m_Rotation.x)*m_speed;
+		m_Velocity.z -= sin(m_Rotation.y)*m_speed;
+		m_Velocity.x += cos(m_Rotation.y)*m_speed;
 		m_speed += 0.01f;
 				if(m_ready)
 			ChangeAnimation((char*)"readyrun");
 		else
 			ChangeAnimation((char*)"run");
 	}
-	if (CInput::GetKeyPress('Q'))
-		m_Rotation.x -= 0.1f;
-	if (CInput::GetKeyPress('E'))
-		m_Rotation.x += 0.1f;
 
-	if (CInput::GetKeyPress('Z'))
-		m_Rotation.z -= 0.1f;
-	if (CInput::GetKeyPress('C'))
-		m_Rotation.z += 0.1f;
 
 	if (CInput::GetKeyTrigger('R'))
 		m_Weapon->Reload();
 
-	m_Rotation.x += CInput::GetMousedDfference().x / 100;
-	m_Rotation.z -= CInput::GetMousedDfference().y / 100;
+	//マウス操作で視点移動
+	m_Rotation.y += CInput::GetMousedDfference().x / 100;
+	m_Rotation.x -= CInput::GetMousedDfference().y / 100;
 
 	if (m_Velocity.x == m_Position.x && m_Velocity.z == m_Position.z)
 	{
@@ -305,8 +295,8 @@ void CPlayer::Draw()
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x + m_ModelRot.x, -m_Rotation.z - m_ModelRot.z, m_Rotation.y + m_ModelRot.y);
-	//位置マトリクス6
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y + m_ModelRot.x, -m_Rotation.x - m_ModelRot.z, m_Rotation.z + m_ModelRot.y);
+	//位置マトリクス
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);

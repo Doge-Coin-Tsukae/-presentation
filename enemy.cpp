@@ -151,8 +151,8 @@ void CEnemy::Draw()
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x + m_ModelRot.x, -m_Rotation.z - m_ModelRot.z, m_Rotation.y + m_ModelRot.y);
-	//位置マトリクス6
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y + m_ModelRot.x, -m_Rotation.x - m_ModelRot.z, m_Rotation.z + m_ModelRot.y);
+	//位置マトリクス
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
@@ -170,8 +170,8 @@ void CEnemy::LookPlayer()
 
 	D3DXVECTOR3 Velocity = GetNorm(m_Position, pPlayer->GetPosition());
 	D3DXVECTOR3 Velocity2 = GetNorm(m_Position,m_Sight->GetPosition());
-	m_Rotation.x += (Velocity.x * Velocity2.x+ Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
-	m_Rotation.x -= 1.0f;
+	m_Rotation.y += (Velocity.x * Velocity2.x+ Velocity.z*Velocity2.z) / (sqrt((Velocity.x*Velocity.x) + (Velocity.z*Velocity.z))*sqrt((Velocity2.x*Velocity2.x) + (Velocity2.z*Velocity2.z)));
+	m_Rotation.y -= 1.0f;
 }
 
 void CEnemy::ChangeAnimation(char* Name)

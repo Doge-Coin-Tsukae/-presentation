@@ -63,7 +63,7 @@ void CBase::Draw()
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	//位置マトリクス
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
@@ -71,32 +71,4 @@ void CBase::Draw()
 
 	m_Flag->Draw();		//旗の描画
 	m_Zone->Draw();		//当たり判定の描画
-}
-
-void CBase::Save(FILE* fp)
-{
-	//座標
-	fprintf(fp, "%f ", m_Position.x);
-	fprintf(fp, "%f ", m_Position.y);
-	fprintf(fp, "%f\n", m_Position.z);
-	//角度
-	fprintf(fp, "%f ", m_Rotation.x);
-	fprintf(fp, "%f ", m_Rotation.y);
-	fprintf(fp, "%f\n", m_Rotation.z);
-	//大きさ
-	fprintf(fp, "%f ", m_Scale.x);
-	fprintf(fp, "%f ", m_Scale.y);
-	fprintf(fp, "%f\n", m_Scale.z);
-}
-
-void CBase::Load(FILE*fp, int line)
-{
-	for (int i = 0; i < line * 3; i++)
-	{
-		fscanf(fp, "");
-	}
-
-	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
-	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
-	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
 }

@@ -473,7 +473,7 @@ void CSelectItem::ImGuiSetMode()
 
 	//‹¤’Ê‚·‚é•¨
 
-	ImGui::SliderFloat("rotation", &m_Rotation.x, 0, 10);
+	ImGui::SliderFloat("rotation", &m_Rotation.y, 0, 10);
 	ImGui::SliderFloat("scale", &m_Scale.x, 0, 10);
 
 	switch (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId())

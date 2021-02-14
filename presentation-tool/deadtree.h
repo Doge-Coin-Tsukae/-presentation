@@ -27,8 +27,5 @@ public:
 	void Update();
 	void Draw();
 
-	void Save(FILE* fp);
-	void Load(FILE*fp, int line);
-
 	AABB GetColider() { return m_Colider; }
 };

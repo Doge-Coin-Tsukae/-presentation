@@ -86,41 +86,13 @@ void CFriend::Draw()
 	//拡大縮小のマトリクス
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	//ヨーピッチロールのマトリクス
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	//位置マトリクス
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
 	m_AnimationModel->Draw();
-}
-
-void CFriend::Save(FILE* fp)
-{
-	//座標
-	fprintf(fp, "%f ", m_Position.x);
-	fprintf(fp, "%f ", m_Position.y);
-	fprintf(fp, "%f\n", m_Position.z);
-	//角度
-	fprintf(fp, "%f ", m_Rotation.x);
-	fprintf(fp, "%f ", m_Rotation.y);
-	fprintf(fp, "%f\n", m_Rotation.z);
-	//大きさ
-	fprintf(fp, "%f ", m_Scale.x);
-	fprintf(fp, "%f ", m_Scale.y);
-	fprintf(fp, "%f\n", m_Scale.z);
-}
-
-void CFriend::Load(FILE* fp, int line)
-{
-	for (int i = 0; i < line * 3; i++)
-	{
-		fscanf(fp, "");
-	}
-
-	fscanf(fp, "%f%f%f", &m_Position.x, &m_Position.y, &m_Position.z);
-	fscanf(fp, "%f%f%f", &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
-	fscanf(fp, "%f%f%f", &m_Scale.x, &m_Scale.y, &m_Scale.z);
 }
 
 void CFriend::SetImGui()
@@ -135,7 +107,7 @@ void CFriend::SetImGui()
 	const char* listbox_items[] = { "Rifle", "SMG" };
 
 	ImGui::Text("FriendNPC");
-	ImGui::SliderFloat("rotation", &m_Rotation.x, 0, 10);
+	ImGui::SliderFloat("rotation", &m_Rotation.y, 0, 10);
 	ImGui::ListBox("weaponbox", &m_Weapontype, listbox_items, IM_ARRAYSIZE(listbox_items), 2);
 	ImGui::Checkbox("delete", &m_Destroy);
 
