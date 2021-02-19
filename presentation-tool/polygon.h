@@ -2,6 +2,12 @@
 
 #include "gameobject.h"
 
+//------------------------------------------------------
+//
+//	2Dポリゴンクラス
+//
+//------------------------------------------------------
+
 //ポリゴン(画像は動かない)
 class CPolygon : public  CGameObject
 {
@@ -49,7 +55,7 @@ private:
 	float m_len;		//縦の長さ
 	float m_wid;		//横の長さ
 
-	D3DXVECTOR2 m_StartTexcoord;		//分割位置(始まり)
+	D3DXVECTOR2 m_StartTexcoord;	//分割位置(始まり)
 	D3DXVECTOR2 m_EndTexcoord;		//分割位置(終わり)
 
 public:

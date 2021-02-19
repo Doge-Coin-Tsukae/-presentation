@@ -1,6 +1,3 @@
-//
-//チップ(ボタン)クラス
-//
 #include "main.h"
 #include "renderer.h"
 #include "scene.h"
@@ -29,7 +26,7 @@ void CChip::Draw()
 
 void CChip::SetPolygon(char* name, D3DXVECTOR2 Size, D3DXVECTOR2 Split,D3DXVECTOR2 Splitend)
 {
-	m_Size = Size;		//サイズを受け取ったのに
+	m_Size = Size;								//チップのサイズ
 
 	m_polygon->SetSize(m_Size.y, m_Size.x);		//ポリゴンのサイズも同じに
 	m_polygon->SetTexture(name);				//画像

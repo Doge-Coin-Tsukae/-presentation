@@ -1,0 +1,45 @@
+{
+    "totalspownpoint": 3,
+    "spownpointdata\u0001": {
+        "m_Position": {
+            "x": 167.2845001220703,
+            "y": 71.97126007080078,
+            "z": -160.135986328125
+        },
+        "m_Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "m_Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "m_SpownType": 2,
+        "m_spowninterval": 1000,
+        "m_Max": -1,
+        "m_Spownlicense": true
+    },
+    "spownpointdata\u0002": {
+        "m_Position": {
+            "x": 137.32077026367188,
+            "y": 70.03585815429688,
+            "z": -241.1342315673828
+        },
+        "m_Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "m_Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "m_SpownType": 1,
+        "m_spowninterval": 1000,
+        "m_Max": -1,
+        "m_Spownlicense": true
+    }
+}

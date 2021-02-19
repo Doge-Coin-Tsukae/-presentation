@@ -25,7 +25,7 @@ private:
 
 	bool ClickItemBox();	//アイテムボタンをクリックしたとき
 	bool ClikEditBox();		//編集ボタンをクリックしたとき
-	void ClickColider();
+	void ClickColider();	//ゲームオブジェクトとカーソルの当たり判定
 	void WorldObject();		//ワールド座標にオブジェクトを配置する
 	void UpdateControll();	//input処理
 	void ImGuiSetMode();

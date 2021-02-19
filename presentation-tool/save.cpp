@@ -77,12 +77,6 @@ TCHAR* CSAVE::PassAsset(TCHAR path[300])
 
 void CSAVE::Data_Save()
 {
-	ShowCursor(TRUE);
-
-	FILE *SaveFile;
-	CScene* scene = CManager::GetScene();
-
-
 	TCHAR def_dir[100], path[300];
 
 	_tcscpy_s(def_dir, sizeof(def_dir) / sizeof(TCHAR), _TEXT("D:"));
@@ -90,7 +84,72 @@ void CSAVE::Data_Save()
 		return;
 
 	assetpass = PassAsset(path);//ファイルのパスをassetフォルダからにする
+	Save();
+}
 
+template<typename T>
+void CSAVE::GameObjectSave(T* savedata, std::string fullename, std::string data)
+{
+	std::stringstream ss;
+	std::string path = assetpass;
+	path += fullename;
+
+	{
+		cereal::JSONOutputArchive o_archive(ss);
+		o_archive(cereal::make_nvp(data, *savedata));
+	}
+	std::ofstream outputFile(path, std::ios::out);
+
+	//書き出す
+	outputFile << ss.str();
+	//閉じる
+	outputFile.close();
+	ss.clear();
+}
+
+template<typename T>
+void CSAVE::GameObjectsSave(std::vector<T*> savedata, std::string fullename, std::string data, std::string total)
+{
+	std::stringstream ss;
+	std::string fullpath = assetpass;
+	fullpath += fullename;
+	int  i = 1;
+
+	std::string tmp;
+	//データを書き込む準備(括弧で囲わないとファイルが正常に作成されない)
+	{
+		cereal::JSONOutputArchive o_archive(ss);
+
+		//敵の総数を計測
+		for (T* Gameobject : savedata)
+		{
+			i++;
+		}
+		o_archive(cereal::make_nvp(total, i));		//総数を書き込む
+		i = 1;
+
+		//敵の情報を書き込む
+		for (T* Gameobject : savedata)
+		{
+			tmp = data;
+			tmp += i;
+			o_archive(cereal::make_nvp(tmp, *Gameobject));
+			i++;
+		}
+	}
+
+	std::ofstream outputFile(fullpath, std::ios::out);
+	//書き出す
+	outputFile << ss.str();
+	//閉じる
+	outputFile.close();
+	ss.clear();
+	return;
+}
+
+void CSAVE::Save()
+{
+	CScene* scene = CManager::GetScene();
 	//プレイヤーの情報をファイルに書き込む
 	{
 		//プレイヤーの情報を書き出す
@@ -106,7 +165,7 @@ void CSAVE::Data_Save()
 		std::vector<CEnemy*> enemylist = scene->GetGameObjects<CEnemy>(1);
 		std::string enemypass = "/enemydata.json";	//jsonファイル名
 		std::string enemydata = "enemydata";		//jsonファイルに書き込む時のデータの名前
-		std::string enemynum  = "totalenemy";		//総数をjsonファイルに書き込む時の名前
+		std::string enemynum = "totalenemy";		//総数をjsonファイルに書き込む時の名前
 
 		GameObjectsSave(enemylist, enemypass, enemydata, enemynum);		//情報を書き込む
 	}
@@ -186,62 +245,8 @@ void CSAVE::Data_Save()
 	}
 }
 
-template<typename T>
-void CSAVE::GameObjectSave(T* savedata, std::string fullename, std::string data)
+void CSAVE::TestData_Save()
 {
-	std::stringstream ss;
-	std::string path = assetpass;
-	path += fullename;
-
-	{
-		cereal::JSONOutputArchive o_archive(ss);
-		o_archive(cereal::make_nvp(data, *savedata));
-	}
-	std::ofstream outputFile(path, std::ios::out);
-
-	//書き出す
-	outputFile << ss.str();
-	//閉じる
-	outputFile.close();
-	ss.clear();
-}
-
-template<typename T>
-void CSAVE::GameObjectsSave(std::vector<T*> savedata, std::string fullename, std::string data, std::string total)
-{
-	std::stringstream ss;
-	std::string fullpath = assetpass;
-	fullpath += fullename;
-	int  i = 1;
-
-	std::string tmp;
-	//データを書き込む準備(括弧で囲わないとファイルが正常に作成されない)
-	{
-		cereal::JSONOutputArchive o_archive(ss);
-
-		//敵の総数を計測
-		for (T* Gameobject : savedata)
-		{
-			i++;
-		}
-		o_archive(cereal::make_nvp(total, i));		//総数を書き込む
-		i = 1;
-
-		//敵の情報を書き込む
-		for (T* Gameobject : savedata)
-		{
-			tmp = data;
-			tmp += i;
-			o_archive(cereal::make_nvp(tmp, *Gameobject));
-			i++;
-		}
-	}
-
-	std::ofstream outputFile(fullpath, std::ios::out);
-	//書き出す
-	outputFile << ss.str();
-	//閉じる
-	outputFile.close();
-	ss.clear();
-	return;
+	assetpass = "asset/testsavedata";		//テストデータ用のパスを用意
+	Save();									//セーブ
 }

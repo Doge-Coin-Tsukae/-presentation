@@ -11,9 +11,11 @@ private:
 	void GameObjectSave(T* savedata, std::string fullename, std::string data);		//単数のオブジェクトをセーブする
 	template<typename T>
 	void GameObjectsSave(std::vector<T*> savedata,std::string fullename,std::string data,std::string total);	//複数のオブジェクトをセーブする
+	void Save();	//オブジェクトのセーブをまとめる
 public:
 	void Uninit();
 	void Update();
 	void Data_Save();
+	void TestData_Save();
 	TCHAR* PassAsset(TCHAR path[300]);
 };

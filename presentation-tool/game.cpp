@@ -2,6 +2,7 @@
 #include <vector>
 #include <typeinfo>
 #include<string>
+#include <direct.h>
 #include "main.h"
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
@@ -46,10 +47,7 @@
 void CGame::Init()
 {
 	//テクスチャ + モデルロード
-	CBUNKER::Load();
-	CEnemy::Load();
-	CFriend::Load();
-	CDEADTREE::Load();
+
 
 	//使うゲームオブジェクト呼び出し
 	//カメラ0番 3Dモデル1番 2Dモデル番
@@ -80,6 +78,14 @@ void CGame::Uninit()
 void CGame::Update()
 {
 	CScene::Update();	//リストに入っているゲームオブジェクトを呼び出す
+
+	//Tボタンでステージテスト
+	if (CInput::GetKeyTrigger('T'))
+	{
+		_mkdir("asset/testsavedata");	//テストセーブデータのフォルダを作成
+		CScene::GetGameObject<CSAVE>(0)->TestData_Save();
+		system("GM31.exe");
+	}
 }
 
 void CGame::Draw()

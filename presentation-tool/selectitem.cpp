@@ -273,15 +273,16 @@ void CSelectItem::UpdateControll()
 			D3DXVECTOR3 editrot = m_EditGameObject->GetRotation();
 
 			D3DXVECTOR3 editobjectforwardpos = m_EditGameObject->GetPosition();
-			editobjectforwardpos.x = editobjectforwardpos.x - 5.0f * cos(m_EditGameObject->GetRotation().x) * cos(m_EditGameObject->GetRotation().z *1.2f);	//座標
-			editobjectforwardpos.y = (editobjectforwardpos.y + 1.0f) - 8.0f * sin(m_EditGameObject->GetRotation().z);
-			editobjectforwardpos.z = editobjectforwardpos.z - 5.0f * -sin(m_EditGameObject->GetRotation().x) * cos(m_EditGameObject->GetRotation().z);	//座標
+
+			editobjectforwardpos.x = editobjectforwardpos.x - 5.0f * cos(m_EditGameObject->GetRotation().y) * cos(m_EditGameObject->GetRotation().x *1.1f);	//座標
+			editobjectforwardpos.y = (editobjectforwardpos.y + 1.0f) - 8.0f * sin(m_EditGameObject->GetRotation().x);
+			editobjectforwardpos.z = editobjectforwardpos.z - 5.0f * -sin(m_EditGameObject->GetRotation().y) * cos(m_EditGameObject->GetRotation().x);	//座標
 
 
 			D3DXVECTOR3 Velocity = GetNorm(m_carsor->GetPosition(), m_EditGameObject->GetPosition());
 			D3DXVECTOR3 Velocity2 = GetNorm(m_EditGameObject->GetPosition(), editobjectforwardpos);
 
-			editrot.x += (Velocity.x * Velocity2.x + Velocity.z * Velocity2.z) / (sqrt((Velocity.x * Velocity.x) + (Velocity.z * Velocity.z)) * sqrt((Velocity2.x * Velocity2.x) + (Velocity2.z * Velocity2.z)));
+			editrot.y += (Velocity.x * Velocity2.x + Velocity.z * Velocity2.z) / (sqrt((Velocity.x * Velocity.x) + (Velocity.z * Velocity.z)) * sqrt((Velocity2.x * Velocity2.x) + (Velocity2.z * Velocity2.z)));
 			m_EditGameObject->SetRotation(editrot);
 
 		}
@@ -422,8 +423,6 @@ void CSelectItem::ClickColider()
 			}
 		}
 	}
-	//なにもクリックされなかったとき
-	m_EditGameObject == nullptr;
 }
 
 void CSelectItem::WorldObject()

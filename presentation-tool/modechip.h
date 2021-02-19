@@ -2,13 +2,19 @@
 
 #include "gameobject.h"
 
+//------------------------------------------------------
+//
+//	モード切替を行うチップ
+//
+//------------------------------------------------------
+
 class CMODECHIP :public CGameObject
 {
 private:
-	int id;			//オブジェクトの種類
-	bool m_SelectMode;		//現在このモードか
-	CSplitPolygon *m_polygon;
-	D3DXVECTOR2 m_Size;
+	int id;						//オブジェクトの種類
+	bool m_SelectMode;			//現在このモードかどうか
+	CSplitPolygon *m_polygon;	//
+	D3DXVECTOR2 m_Size;			//
 
 public:
 	void Init();

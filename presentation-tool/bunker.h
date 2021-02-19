@@ -6,7 +6,6 @@ class CBUNKER : public CGameObject
 {
 private:
 	static CModel* m_Model;		//3Dƒ‚ƒfƒ‹ƒNƒ‰ƒX
-	AABB m_Colider;
 public:
 	CBUNKER(){}
 	~CBUNKER(){}
@@ -27,5 +26,4 @@ public:
 	void Update();
 	void Draw();
 
-	AABB GetColider() { return m_Colider; }
 };

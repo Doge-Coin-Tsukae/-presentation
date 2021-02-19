@@ -77,7 +77,7 @@ void CTitle::Init()
 	AddGameObject<CTITLE2D>(4);
 	CScene* scene = CManager::GetScene();
 	CBUNKER*  bunker = scene->GetGameObject<CBUNKER>(1);
-	bunker->SetRotation(D3DXVECTOR3(2.5f,0.0f,0.0f));
+	bunker->SetRotation(D3DXVECTOR3(0.0f,-2.5f,0.0f));
 
 	//PlaySound(SOUND_BGM_BGM003);
 

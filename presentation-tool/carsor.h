@@ -26,12 +26,13 @@ public:
 
 	D3DXVECTOR3 WorldCarsor() { return ppos; }
 
+	//ゲームオブジェクトとの当たり判定
 	bool Collision(CGameObject* gameobject)
 	{
 		D3DXVECTOR3 direction = m_Position - gameobject->GetPosition();
 		float length = D3DXVec3Length(&direction);
 
-		if (length < m_Scale.x)
+		if (length < m_Scale.x * 4)
 		{
 			return true;
 		}
