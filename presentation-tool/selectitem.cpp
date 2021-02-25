@@ -4,6 +4,7 @@
 //
 //---------------------------------
 
+#include <direct.h>
 #include "main.h"
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
@@ -15,7 +16,6 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 #include "input.h"
-#include "scene.h"
 #include "polygon.h"
 #include "chip.h"
 #include "model.h"
@@ -33,11 +33,14 @@
 #include "deadtree.h"
 #include "tree.h"
 #include "spownpoint.h"
+#include "save.h"
 
 #include "selectpointer.h"
 #include "modechip.h"
 #include "saveloadchip.h"
+#include "testplaybutton.h"
 #include "triangle.h"
+#include "setimgui.h"
 #include "selectitem.h"
 
 #define ITEMCHIPX 2
@@ -106,17 +109,25 @@ void CSelectItem::Init()
 	m_SaveLoadChip->SetPosition(m_Position);
 	m_SaveLoadChip->Init();
 
+	m_TestPlayButton = new CTestPlayButton;
+	m_TestPlayButton->Init();
+
 	m_Triangle = new CTriangle;
 	m_Triangle->Init();
 
+	m_SetImGui = new CSetPlayerImGui();
+
 	min = D3DXVECTOR2(0, 0);
-	max = D3DXVECTOR2(150.0f, 300.0f);
+	max = D3DXVECTOR2(150.0f, 450.0f);
 	click = false;
 	isEnemy = false;
 }
 
 void CSelectItem::Uninit()
 {
+	m_TestPlayButton->Uninit();
+	delete m_TestPlayButton;
+
 	m_SaveLoadChip->Uninit();
 	delete m_SaveLoadChip;
 
@@ -168,6 +179,8 @@ void CSelectItem::Update()
 
 	m_carsor->Update();
 	m_SaveLoadChip->Update();
+	m_TestPlayButton->Update();
+
 	m_Triangle->Update();
 
 	if (m_EditGameObject != nullptr)
@@ -175,6 +188,9 @@ void CSelectItem::Update()
 		D3DXVECTOR3 Tpos(m_EditGameObject->GetPosition().x, m_EditGameObject->GetPosition().y + 3.5f, m_EditGameObject->GetPosition().z);
 		m_Triangle->SetPosition(Tpos);//現在クリックしているゲームオブジェクトに逆三角形のオブジェクトを出す
 	}
+
+	m_SetImGui->Update();
+
 	UpdateControll();
 
 }
@@ -204,6 +220,8 @@ void CSelectItem::Draw()
 	m_carsor->Draw();
 
 	m_SaveLoadChip->Draw();
+
+	m_TestPlayButton->Draw();
 
 	//配置モードの時に配置する
 	if (NowMode == SET)
@@ -398,9 +416,17 @@ bool CSelectItem::ClickItemBox()
 			if (m_chip[h][w]->Colision(pos) == true)
 			{
 				m_pointer->SetPos(D3DXVECTOR2((float)w, (float)h));	//ポインターの位置をカーソルがさしたところに
+				SetObject();
 				return true;
 			}
 		}
+	}
+
+	//テストプレイボタンの判定
+	if (m_TestPlayButton->Colision(pos) == true)
+	{
+		ClickTestBotton();
+		return true;
 	}
 
 	return false;
@@ -412,6 +438,7 @@ void CSelectItem::ClickColider()
 
 	std::vector<CGameObject*> gameobjectlist = scene->GetALLGameObjects<CGameObject>(1);
 	CCARSOR *cursor = scene->GetGameObject<CCARSOR>(1);
+
 	for (CGameObject* gameobject : gameobjectlist)
 	{
 		if (gameobject->GetPosition() != cursor->GetPosition())
@@ -430,39 +457,14 @@ void CSelectItem::WorldObject()
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
-	//オブジェクトの設置をおこなう
-	//選択したオブジェクトで配置オブジェクト変更
-	switch (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId())
+	//個数制限(プレイヤーは一人しか存在しない)
+	if (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId() ==0)
 	{
-	case 0:
-		//個数制限(プレイヤーは一人しか存在しない)
 		if (pPlayer)pPlayer->SetDestroy();
-		scene->AddGameObject<CPlayer>(1)->SetPosition(m_carsor->GetPosition());
-		break;
-	case 1:
-		if(isEnemy == true) 
-			scene->AddGameObject<CEnemy>(1)->SetPosition(m_carsor->GetPosition());
-		else
-			scene->AddGameObject<CFriend>(1)->SetPosition(m_carsor->GetPosition());
-		break;
-	case 2:
-		scene->AddGameObject<CBase>(1)->SetPosition(m_carsor->GetPosition());
-		break;
-	case 3:
-		scene->AddGameObject<CDEADTREE>(1)->SetPosition(m_carsor->GetPosition());
-		break;
-	case 4:
-		scene->AddGameObject<CTREE>(1)->SetPosition(m_carsor->GetPosition());
-		break;
-	case 5:
-		scene->AddGameObject<CBUNKER>(1)->SetPosition(m_carsor->GetPosition());
-		break;
-	case 6:
-		scene->AddGameObject<CSpownPoint>(1)->SetPosition(m_carsor->GetPosition());
-	default:
-		break;
 	}
 
+	//オブジェクトの設置をおこなう
+	m_SetImGui->SetObject(m_carsor->GetPosition());
 }
 
 void CSelectItem::ImGuiSetMode()
@@ -471,39 +473,46 @@ void CSelectItem::ImGuiSetMode()
 	ImGui::Begin("SET_MODE");
 
 	//共通する物
+	m_SetImGui->SetImGui();
+	
+	ImGui::End();
+}
 
-	ImGui::SliderFloat("rotation", &m_Rotation.y, 0, 10);
-	ImGui::SliderFloat("scale", &m_Scale.x, 0, 10);
-
+void CSelectItem::SetObject()
+{
 	switch (m_chip[(int)m_pointer->GetPos().y][(int)m_pointer->GetPos().x]->GetId())
 	{
 	case 0:		//プレイヤー
-		//モデル変更をここでおこないたい
+		delete m_SetImGui;
+		m_SetImGui = new CSetPlayerImGui;
 		break;
 	case 1:		//敵
-		ImGui::Checkbox("Enemy", &isEnemy);
+		delete m_SetImGui;
+		m_SetImGui = new CSetNPCImGui;
 		break;
 	case 2:		//拠点
-		//判定の円の大きさを変更したい
+		delete m_SetImGui;
+		m_SetImGui = new CSetBaseImGui;
 		break;
 	case 3:		//枯れ木
-		//複数配置を行いたい
-		//円を表示してその範囲内で乱数配置を行いたい
+		delete m_SetImGui;
+		m_SetImGui = new CSetDeadTreeImGui;
 		break;
 	case 4:		//木
-		//複数配置を行いたい
-		//円を表示してその範囲内で乱数配置を行いたい
+		delete m_SetImGui;
+		m_SetImGui = new CSetTreeImGui;
 		break;
 	case 5:		//建物
-		//モデル変更をおこないたい
+		delete m_SetImGui;
+		m_SetImGui = new CSeBunkerImGui;
 		break;
 	case 6:		//スポーンポイント
-		//スポーン条件変更を行いたい
+		delete m_SetImGui;
+		m_SetImGui = new CSetSpownPointImGui;
 		break;
 	default:	//それ以外
 		break;
 	}
-
-	
-	ImGui::End();
 }
+
+

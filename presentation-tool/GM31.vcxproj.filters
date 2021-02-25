@@ -167,6 +167,12 @@
     <ClCompile Include="spownpoint.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
     </ClCompile>
+    <ClCompile Include="testplaybutton.cpp">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="setimgui.cpp">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameobject.h">
@@ -315,6 +321,12 @@
     </ClInclude>
     <ClInclude Include="spownpoint.h">
       <Filter>ソース ファイル\gameobject\object</Filter>
+    </ClInclude>
+    <ClInclude Include="testplaybutton.h">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="setimgui.h">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

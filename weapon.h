@@ -13,8 +13,8 @@ protected:
 	int MaxReloadTime;
 	int MaxNextShootTime;
 private:
-	//static CModel* m_Model;			//3Dモデルクラス
-	static CAnimationModel* m_AniModel;
+
+	static CAnimationModel* m_AniModel;		//3Dモデル
 	CGameObject* m_parent;		//親のアドレスを入れる
 
 	char* m_OldAnimationChara;	//アニメーションの名前の旧名

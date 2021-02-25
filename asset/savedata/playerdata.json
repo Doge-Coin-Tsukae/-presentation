@@ -15,7 +15,7 @@
             "y": 1.0,
             "z": 1.0
         },
-        "m_Weapontype": 0,
+        "m_Weapontype": 1,
         "m_Modelpass": "asset/model/player/chara.fbx"
     }
 }

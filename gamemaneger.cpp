@@ -1,6 +1,6 @@
 //=====================================
 //
-//  ゲームルールとルールを入れる箱
+//  ゲームルールとルール
 //  written by Y.Okubo
 //
 //=====================================
@@ -42,49 +42,56 @@ void CConquest::Uninit()
 }
 void CConquest::Update()
 {
-	VictoryOrDefeatConditions();	//勝敗条件をチェックする
-
-	CScene* scene = CManager::GetScene();
-
-	//リザルト画面に移行する
-	VICORDEF* vic = scene->GetGameObject<VICORDEF>(4);
-	if (vic != nullptr)
-	{
-		//フェード終わったら消す
-		if (m_deleted == true)
-		{
-			if (CFADE::Fade_IsFade() == false)
-			{
-				StopSound();
-				CManager::SetScene<CTitle>();
-				return;
-			}
-		}
-		if (vic->GetDelete())
-		{
-			//フェードの実行
-			if (m_deleted == true)return;
-			CFADE::SetTexture((char*)"asset/texture/fade.png");
-			CFADE::Fade_Start(true, 90, D3DCOLOR());
-
-			m_deleted = true;
-		}
-	}
+	Conditions();	//勝敗条件をチェックする
+	GameOver();		//シーンを変える処理
 
 	//勝利条件を満たしたとき
 	if (m_Victory == true)
 	{
-		scene->AddGameObject<VICORDEF>(4)->Set(true);
+		
 		return;
 	}
 	//敗北条件を満たしたとき
 	if (m_Defeat == true)
 	{
-		scene->AddGameObject<VICORDEF>(4)->Set(false);
+		
 		return;
 	}
 }
-void CConquest::VictoryOrDefeatConditions()
+
+void CConquest::GameOver()
+{
+	//勝敗が決まっていなければ処理終了
+	if (m_Victory == false && m_Defeat == false) return;
+
+	//フェード終わったら消す
+	if (m_deleted == true)
+	{
+		if (CFADE::Fade_IsFade() == false)
+		{
+			StopSound();						//音を止める
+			CManager::SetScene<CTitle>();		///タイトルに戻る
+			return;
+		}
+	}
+
+	Fade_On();		//フェードするか決める
+}
+void CConquest::Fade_On()
+{
+	//画面から勝敗の表示が消えたら
+	CScene* scene = CManager::GetScene();
+	VICORDEF* vic = scene->GetGameObject<VICORDEF>(4);
+
+	//画面表示が消えていたら
+	if (vic->GetDelete() == false) return;
+
+	CFADE::SetTexture((char*)"asset/texture/fade.png");
+	CFADE::Fade_Start(true, 90);
+	m_deleted = true;
+}
+
+void CConquest::Conditions()
 {
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
@@ -96,13 +103,17 @@ void CConquest::VictoryOrDefeatConditions()
 		m_BaseCaptcha[i] = 0;
 	}
 
-	//プレイヤーが死んだら負けにする
+	//敗北条件
 	if (pPlayer->isDeath() == true)
+	{
+		scene->AddGameObject<VICORDEF>(4)->Set(false);
 		m_Defeat = true;
+		return;
+	}
 
-	int BaseCount = 0;
 
 	//以下勝利条件
+	int BaseCount = 0;
 	for (CBASE* base : baseList)
 	{
 		if (base->GetTerritory() == FRIENDRY_ZONE) { m_BaseCaptcha[0]++; }
@@ -111,8 +122,14 @@ void CConquest::VictoryOrDefeatConditions()
 	}
 	//拠点全部取ったら勝ちにする
 	if (m_BaseCaptcha[0] >= BaseCount)
+	{
+		scene->AddGameObject<VICORDEF>(4)->Set(true);
 		m_Victory = true;
+		return;
+	}
 }
+
+
 
 //チュートリアルのルール
 void CRULE_TUTORIAL::Init()
@@ -126,7 +143,6 @@ void CRULE_TUTORIAL::Init()
 		m_Tutorial[i] = false;
 	}
 	m_NowTurorial = 0;
-	m_deleted = false;
 	m_Defeat = false;
 	m_Victory = false;
 }
@@ -137,10 +153,10 @@ void CRULE_TUTORIAL::Update()
 {
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
-	CWEAPON* pWeapon = pPlayer->GetWeapon();
 	CBASE* pBase = scene->GetGameObject<CBASE>(2);
+	CWEAPON* pWeapon = pPlayer->GetWeapon();
 
-	VictoryOrDefeatConditions();
+	Conditions();
 
 	//現在の進行具合によって変える
 	switch (m_NowTurorial)
@@ -149,34 +165,36 @@ void CRULE_TUTORIAL::Update()
 		//クリア条件満たしたら
 		if (CInput::GetKeyPress('W'))						//前進
 			LevelUp();	//段階を上げる
-
 		break;
+
 	case 1:
 		//クリア条件満たしたら
 		if (CInput::GetKeyPress(VK_RBUTTON))				//視点変更
 			LevelUp();	//段階を上げる
 		break;
+
 	case 2:
 		//クリア条件満たしたら
 		if (CInput::GetKeyPress(VK_LBUTTON))				//発砲
 			LevelUp();	//段階を上げる
 		break;
+
 	case 3:
+
 		//クリア条件満たしたら
 		if (pWeapon->GetAmmo() == pWeapon->GetMaxAmmo())	//現在の弾と最大弾数が同じになったら
 			LevelUp();	//段階を上げる
 		break;
+
 	case 4:
 		if (pBase->GetTerritory() == FRIENDRY_ZONE)		//拠点占領
 			LevelUp();
-		break;
-	case 5:
 		break;
 	default:
 		break;
 	}
 }
-void CRULE_TUTORIAL::VictoryOrDefeatConditions()
+void CRULE_TUTORIAL::Conditions()
 {
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
@@ -230,8 +248,6 @@ void CGAME_MANEGER::Init(GAME_RULE SetRule)
 	{
 	case GAME_RULE_CONQUEST:
 		m_Rule = new CConquest;
-		break;
-	case GAME_RULE_DEATHMATH:
 		break;
 	case GAME_RULE_TUTORIAL:
 		m_Rule = new CRULE_TUTORIAL;

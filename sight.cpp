@@ -1,3 +1,9 @@
+//=====================================
+//
+//	サイト(プレイヤー及びNPCの照準)
+//  written by Y.Okubo
+//
+//=====================================
 #include "main.h"
 #include "renderer.h"
 #include "scene.h"

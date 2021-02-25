@@ -13,7 +13,6 @@
 ID3D11Buffer*				CFADE::m_VertexBuffer;
 ID3D11ShaderResourceView*	CFADE::m_Texture;
 
-D3DXCOLOR CFADE::m_FadeColor;
 float CFADE::m_Alpha;
 float CFADE::m_AddAlpha;
 bool CFADE::m_bOut;
@@ -21,7 +20,6 @@ bool CFADE::m_bIsFade;
 
 void CFADE::Init()
 {
-	m_FadeColor = (1.0f, 0.0f, 0.0f, 0.0f);
 	m_Alpha = 0.0f;
 	m_AddAlpha = 0.0f;
 	m_bOut = false;
@@ -67,7 +65,7 @@ void CFADE::Init()
 void CFADE::Uninit()
 {
 	m_VertexBuffer->Release();
-	//m_Texture->Release();
+	m_Texture->Release();
 }
 void CFADE::Update()
 {
@@ -126,12 +124,11 @@ void CFADE::Draw()
 	light.Enable = true;
 	CRenderer::SetLight(light);
 }
-void CFADE::Fade_Start(bool bOut, int frame, D3DCOLOR color)
+void CFADE::Fade_Start(bool bOut, int frame)
 {
 	if (m_bIsFade == true)return;	//既にフェードしてたらやらない
 	m_bOut = bOut;
 	m_AddAlpha = 1.0f / frame;
-	m_FadeColor = color;
 	m_bIsFade = true;
 
 	if (m_bOut) {

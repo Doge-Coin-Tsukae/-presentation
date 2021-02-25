@@ -5,8 +5,8 @@
 class CTutorial : public CScene
 {
 private:
-	CGAME_MANEGER* m_GameManeger;
-	bool m_Clik;		//エンター押されたか
+	CGAME_MANEGER* m_GameManeger;	//ゲームのルールのクラス
+	bool m_Clik;					//スペースキーが押されたか
 
 public:
 	void Init();

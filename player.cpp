@@ -49,20 +49,6 @@ ANIMENAME g_aParam[6] =
 	{(char *)"Death"},
 };
 
-//////////////////////////////////
-// 壁ずりベクトル
-//
-// out : 正規化壁ずりベクトル（戻り値）
-// front : 進行ベクトル
-// normal: 衝突点での法線ベクトル
-D3DXVECTOR3* calcWallScratchVector(D3DXVECTOR3* out, const D3DXVECTOR3& front, const D3DXVECTOR3& normal) {
-	D3DXVECTOR3 normal_n;
-	D3DXVec3Normalize(&normal_n, &normal);
-	D3DXVECTOR3 pV = (front - D3DXVec3Dot(&front, &normal_n) * normal_n);
-	out = D3DXVec3Normalize(out, &pV);
-	return out;
-}
-
 void CPlayer::Init()
 {
 	//クラスの初期処理
@@ -117,8 +103,10 @@ void CPlayer::Uninit()
 
 void CPlayer::Update()
 {
+
 	//ヘルパー関数の更新
-	Update_Controll();
+	Update_InPut();
+	Update_Colision();
 
 	//上限加減チェック
 	m_Rotation.x = std::min(m_Rotation.x, 0.0f);
@@ -130,44 +118,6 @@ void CPlayer::Update()
 	m_Sight->Update();
 	m_Weapon->Update();
 	m_Animodel->Update(m_OldAnimationChara,m_NowAnimationChara, m_Frame, rate);
-
-	//当たり判定処理
-	CScene* scene = CManager::GetScene();
-	std::vector<CBUNKER*> bunkerList = scene->GetGameObjects<CBUNKER>(1);
-	for (CBUNKER* bunker : bunkerList)
-	{
-
-		//OBB(未完)
-		D3DXVECTOR3 bukerPos = bunker->GetPosition();
-		D3DXVECTOR3 direction = m_Position - bukerPos;
-
-		D3DXVECTOR3 obbx, obby, obbz;
-		float obbLenx, obbLeny,obbLenz;
-
-		obbx = bunker->GetObb()->GetObbX();
-		obbLenx = D3DXVec3Length(&obbx);
-		obbx /= obbLenx;
-
-		obby = bunker->GetObb()->GetObbY();
-		obbLeny = D3DXVec3Length(&obby);
-		obby /= obbLeny;
-
-		obbz = bunker->GetObb()->GetObbZ();
-		obbLenz = D3DXVec3Length(&obbz);
-		obbz /= obbLenz;
-
-		float lenX,lenY, lenZ;
-		lenX = D3DXVec3Dot(&obbx, &direction);
-		lenY = D3DXVec3Dot(&obby, &direction);
-		lenZ = D3DXVec3Dot(&obbz, &direction);
-
-		if (fabs(lenX) < obbLenx && fabs(lenZ) < obbLenz)
-		{
-			D3DXVECTOR3 vector = m_Velocity - m_Position;
-			m_Velocity -= vector * 1.5f;
-			break;
-		}
-	}
 
 	//座標を更新
 	m_Position = m_Velocity;
@@ -197,7 +147,7 @@ void CPlayer::Update()
 		m_NowAnimationChara = (char*)"Death";
 
 		if (m_Frame/177 == 1)
-				m_Frame --;
+				m_Frame--;
 	}
 
 	//変数
@@ -208,8 +158,59 @@ void CPlayer::Update()
 	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 	m_Position.y = meshField->GetHeight(m_Position);
 }
+void CPlayer::Update_Colision()
+{
+	//当たり判定処理
+	std::vector<CBUNKER*> bunkerList = CManager::GetScene()->GetGameObjects<CBUNKER>(1);
 
-void CPlayer::Update_Controll()
+	//バンカーとの当たり判定
+	for (CBUNKER* bunker : bunkerList)
+	{
+
+		//OBB
+		D3DXVECTOR3 bukerPos = bunker->GetPosition();
+		D3DXVECTOR3 direction = m_Velocity - bukerPos;
+
+		D3DXVECTOR3 obbx, obby, obbz;
+		float obbLenx, obbLeny, obbLenz;
+
+		obbx = bunker->GetObb()->GetObbX();
+		obbLenx = D3DXVec3Length(&obbx);
+		obbx /= obbLenx;
+
+		obby = bunker->GetObb()->GetObbY();
+		obbLeny = D3DXVec3Length(&obby);
+		obby /= obbLeny;
+
+		obbz = bunker->GetObb()->GetObbZ();
+		obbLenz = D3DXVec3Length(&obbz);
+		obbz /= obbLenz;
+
+		float lenX, lenY, lenZ;
+		lenX = D3DXVec3Dot(&obbx, &direction);
+		lenY = D3DXVec3Dot(&obby, &direction);
+		lenZ = D3DXVec3Dot(&obbz, &direction);
+
+		//当たり判定
+		if (fabs(lenX) < obbLenx && fabs(lenZ) < obbLenz)
+		{
+			/*D3DXVECTOR3 Direction, Direction2;
+			calcWallScratchVector(&Direction, m_Velocity, bunker->GetObb()->GetObbZ());
+
+			if(Direction.x > 1.0f)calcWallScratchVector(&Direction, m_Velocity, bunker->GetObb()->GetObbX());
+			m_Velocity = m_Position;
+
+			if (m_Velocity.z > bukerPos.z)Direction *= -1;
+
+			m_Velocity += Direction;
+			break;*/
+
+			m_Velocity=m_Position;
+		}
+	}
+}
+
+void CPlayer::Update_InPut()
 {
 	if (m_Death == true) return;
 	//キー入力で移動
@@ -301,9 +302,6 @@ void CPlayer::Draw()
 	world = scale * rot * trans;
 	CRenderer::SetWorldMatrix(&world);
 
-	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
-	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
-	
 	m_Animodel->Draw();
 }
 
@@ -321,7 +319,7 @@ void CPlayer::Damage()
 	if (m_Death == true) return;
 	m_Hp -= 10;	//ダメージを入れる
 	CFADE::SetTexture((char*)"asset/texture/fade_red.png");
-	CFADE::Fade_Start(false, 10.0f, D3DXCOLOR());
+	CFADE::Fade_Start(false, 10.0f);
 }
 
 void CPlayer::ChangeAnimation(char* Name)

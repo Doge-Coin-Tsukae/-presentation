@@ -14,7 +14,7 @@ private:
 
 	int m_AnimationModeltype;				//ImGUIで使うアニメーションモデル
 	int m_AnimationModeltypeold;			//ImGUIでアニメーションモデルが変更になったか調べる
-	std::string m_Modelpass;							//モデルのパス
+	std::string m_Modelpass;				//モデルのパス
 
 	int m_Weapontype = WEAPON_RIFLE;		//武器の種類
 
@@ -39,4 +39,11 @@ public:
 	void Update();
 	void Draw();
 	void SetImGui();
+
+	void SetWeapondata(int weapontype) {m_Weapontype = weapontype;}
+	void SetAnimationData(int animationtype, std::string pass)
+	{
+		m_AnimationModeltype = animationtype;
+		m_Modelpass = pass;
+	}
 };

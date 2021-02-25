@@ -1,4 +1,3 @@
-
 //=====================================
 //
 //  画面に表示させる2Dポリゴン
@@ -10,6 +9,10 @@
 #include "scene.h"
 #include "manager.h"
 #include "polygon.h"
+
+//-------------------------------------
+// 通常のポリゴン
+//-------------------------------------
 
 void CPolygon::Init(D3DXVECTOR3 Pos)
 {
@@ -70,8 +73,6 @@ void CPolygon::Draw()
 	light.Enable = false;
 	CRenderer::SetLight(light);
 
-	CScene* scene = CManager::GetScene();
-
 	//マトリクス設定
 	CRenderer::SetWorldViewProjection2D();
 
@@ -88,9 +89,6 @@ void CPolygon::Draw()
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0,1,&m_Texture);
-
-	//ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
-	//CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &shadowDepthTexture);//-追加
 
 	//プリミティブトポロジ設定
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
@@ -109,6 +107,10 @@ void CPolygon::SetTexture(char* name)
 		&m_Texture,
 		NULL);
 }
+
+//-------------------------------------
+// 動かせるのポリゴン
+//-------------------------------------
 
 void CMovePolygon::Init()
 {
@@ -165,8 +167,6 @@ void CMovePolygon::Draw()
 	light.Enable = false;
 	CRenderer::SetLight(light);
 
-	CScene* scene = CManager::GetScene();
-
 	D3D11_MAPPED_SUBRESOURCE msr;
 	CRenderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
@@ -213,9 +213,6 @@ void CMovePolygon::Draw()
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-
-	//ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
-	//CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &shadowDepthTexture);//-追加
 
 	//プリミティブトポロジ設定
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);

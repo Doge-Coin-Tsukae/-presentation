@@ -45,61 +45,57 @@ void CBullet::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	m_Zone = new CCOLIDER_CIRCLE();
-	m_Zone->Init();
-	m_Zone->SetScale(D3DXVECTOR3(3.0f, 3.0f,3.0f));
+	m_Colision = new CCOLIDER_CIRCLE();
+	m_Colision->Init();
+	m_Colision->SetScale(D3DXVECTOR3(3.0f, 3.0f,3.0f));
 }
 
 void CBullet::Uninit()
 {
-	m_Zone->Uninit();
-	delete m_Zone;
+	m_Colision->Uninit();
+	delete m_Colision;
 }
 
 void CBullet::Update()
 {
-	Update_Varios();
-
 	//時間が0になったら削除
 	if (DeleteTime <=0.0f)
 	{
 		SetDestroy();
 		return;
 	}
-	//ヘルパー関数
-	Update_Collision();
+
+	Update_Collision();	//当たり判定
+	Update_Varios();	//座標の更新
 }
 
 void CBullet::Update_Varios()
 {
-	m_Position += m_Dir * 5.0f;
+	m_Position += m_Velocity * 5.0f;
 	DeleteTime -= 0.1f;
 }
 
 void CBullet::Update_Collision()
 {
 	//当たり判定更新
-	m_Zone->Update();
-	m_Zone->SetPosition(m_Position);
+	m_Colision->Update();
+	m_Colision->SetPosition(m_Position);
 
 	CScene* scene = CManager::GetScene();
-	std::vector<CEnemy*> enemyList = scene->GetGameObjects<CEnemy>(1);
-	std::vector<CFriend*> friendList = scene->GetGameObjects<CFriend>(1);
-	std::vector<CBUNKER*> pBunker = scene->GetGameObjects<CBUNKER>(1);
-	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
-
 
 	//弾が味方の物だった時
 	if (m_TeamNumber == TEAM_FRIENDRY)
 	{
+		std::vector<CEnemy*> enemyList = scene->GetGameObjects<CEnemy>(1);
+
+		//すべての敵との当たり判定を調べる
 		for (CEnemy* enemy : enemyList)
 		{	//弾と敵の当たり判定
-			if (m_Zone->GetColider(enemy->GetPosition()))
+			if (m_Colision->GetColider(enemy->GetPosition()))
 			{
-				scene->AddGameObject<CExplosion>(2)->SetPosition(m_Position);	//画面に表示させる
-				enemy->Death();
-				PlaySound(SOUND_SE_DEATH);
-				SetDestroy();
+				scene->AddGameObject<CExplosion>(2)->SetPosition(m_Position);	//画面に爆発のテクスチャ表示させる
+				enemy->Death();													//敵を死亡させる
+				SetDestroy();													//自身を消す
 				return;
 			}
 		}
@@ -108,19 +104,24 @@ void CBullet::Update_Collision()
 	//弾が敵の物だった場合
 	if (m_TeamNumber == TEAM_ENEMY)
 	{
-		if (m_Zone->GetColider(pPlayer->GetPosition()))
+		std::vector<CFriend*> friendList = scene->GetGameObjects<CFriend>(1);
+		CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+
+		//プレイヤーの当たり判定
+		if (m_Colision->GetColider(pPlayer->GetPosition()))
 		{
 			pPlayer->Damage();
 			SetDestroy();
 			return;
 		}
+
+		//すべての味方との当たり判定を調べる
 		for (CFriend* friends : friendList)
 		{
-			if (m_Zone->GetColider(friends->GetPosition()))
+			if (m_Colision->GetColider(friends->GetPosition()))
 			{
-				scene->AddGameObject<CExplosion>(2)->SetPosition(m_Position);	//画面に表示させる
-				friends->Death();
-				PlaySound(SOUND_SE_DEATH);
+				scene->AddGameObject<CExplosion>(2)->SetPosition(m_Position);	//画面に爆発のテクスチャ表示させる
+				friends->Death();												//敵を死亡させる
 				SetDestroy();
 				return;
 			}
@@ -133,6 +134,7 @@ void CBullet::Draw()
 	CScene* scene = CManager::GetScene();
 	CCamera* camera = scene->GetGameObject <CCamera>(0);
 
+	//画面からはみ出てたら表示を行わない
 	if (!camera->CheckView(m_Position))
 		return;
 
@@ -153,6 +155,6 @@ void CBullet::Draw()
 void  CBullet::Set(D3DXVECTOR3 SetPos, D3DXVECTOR3 SetSight,TEAM_NUMBER SetNUMBER)
 {
 	m_Position = SetPos;
-	m_Dir = GetNorm(SetPos,SetSight);
+	m_Velocity = GetNorm(SetPos,SetSight);
 	m_TeamNumber = SetNUMBER;
 }

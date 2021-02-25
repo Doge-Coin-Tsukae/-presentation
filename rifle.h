@@ -11,7 +11,4 @@ public:
 	~Crifle(){}
 
 	void Init();
-	//void Uninit();
-	//void Update();
-	//void Draw();
 };

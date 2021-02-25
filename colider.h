@@ -6,20 +6,18 @@
 class CCOLIDER_CIRCLE: public CGameObject
 {
 private:
-	static CModel *m_Model;				//自身のモデル
+	CModel *m_Model;				//自身のモデル
 
 public:
 	CCOLIDER_CIRCLE(){}
 	~CCOLIDER_CIRCLE() {}
-
-	static void Load();
-	static void Unload();
 
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
 	bool GetColider(D3DXVECTOR3 pPos);		//当たり判定習得(判定の座標) = 当たっているか否かを返す
+	void SetModel();						//当たり判定の図形の表示を行う場合、この関数を呼び出す
 };
 
 //Axis Aligned Bounding Box の当たり判定

@@ -79,12 +79,13 @@ void CSAVE::Data_Save()
 {
 	TCHAR def_dir[100], path[300];
 
+	//フルパスをとる
 	_tcscpy_s(def_dir, sizeof(def_dir) / sizeof(TCHAR), _TEXT("D:"));
 	if (GetDir(GetWindow(), def_dir, path) == false)
 		return;
 
 	assetpass = PassAsset(path);//ファイルのパスをassetフォルダからにする
-	Save();
+	Save();						//保存
 }
 
 template<typename T>
@@ -248,5 +249,5 @@ void CSAVE::Save()
 void CSAVE::TestData_Save()
 {
 	assetpass = "asset/testsavedata";		//テストデータ用のパスを用意
-	Save();									//セーブ
+	Save();									//保存
 }

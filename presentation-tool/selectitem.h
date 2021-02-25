@@ -13,7 +13,9 @@ private:
 	CMODECHIP *m_modechip[2];	//編集モードを切替ボタン
 	CCARSOR *m_carsor;			//カーソル
 	CSaveLoadChip *m_SaveLoadChip;
+	CTestPlayButton* m_TestPlayButton;
 	CTriangle* m_Triangle;
+	CSetImGui* m_SetImGui;
 
 	D3DXVECTOR2 min;
 	D3DXVECTOR2 max;
@@ -29,6 +31,8 @@ private:
 	void WorldObject();		//ワールド座標にオブジェクトを配置する
 	void UpdateControll();	//input処理
 	void ImGuiSetMode();
+
+	void SetObject();		//設置するオブジェクト設定
 public:
 	void Init();
 	void Uninit();

@@ -43,13 +43,12 @@ void CTitle::Init()
 
 	CDEADTREE::Load();	//枯れ木のモデルを呼び出す
 	CBUNKER::Load();	//バンカーのモデルを呼び出す
-	CShellExplosion::LoadTexture();
+	CShellExplosion::LoadTexture();		//テクスチャセット
 
+	//オブジェクト設置
 	AddGameObject<CCamera>(0);
 
 	AddGameObject<CSKYDOME>(1);
-
-	//地面
 	AddGameObject<CMeshField>(1)->flatworld();
 
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(30.0f, 0.0f, -150.0f));
@@ -71,23 +70,23 @@ void CTitle::Init()
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(95.0f, 0.0f, -150.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(120.0f, 0.0f, -175.0f));
 	AddGameObject<CDEADTREE>(1)->SetPosition(D3DXVECTOR3(150.0f, 0.0f, -160.0f));
-
 	AddGameObject<CBUNKER>(1)->SetPosition(D3DXVECTOR3(160.0f, 0.0f, -240.0f));
+
 	AddGameObject<Title_Effect_Manager>(2);
+
 	AddGameObject<CTITLE2D>(4);
+
 	CScene* scene = CManager::GetScene();
 	CBUNKER*  bunker = scene->GetGameObject<CBUNKER>(1);
-	bunker->SetRotation(D3DXVECTOR3(0.0f,-2.5f,0.0f));
-
-	//PlaySound(SOUND_BGM_BGM003);
+	bunker->SetRotation(D3DXVECTOR3(0.0f,-2.5f,0.0f));			//角度指定
 
 }
 
 void CTitle::Uninit()
 {
-	//StopSound(SOUND_BGM_BGM003);
-	CDEADTREE::Unload();	//枯れ木のモデルを呼び出す
-	CBUNKER::Unload();	//バンカーのモデルを呼び出す
+	//メモリ開放
+	CDEADTREE::Unload();
+	CBUNKER::Unload();
 	CShellExplosion::UnLoadTexture();
 }
 
@@ -95,18 +94,28 @@ void CTitle::Update()
 {
 	CScene::Update();
 
-	if (CInput::GetKeyTrigger(VK_SPACE))
-	{
-		m_Clik = true;
-		PlaySound(SOUND_SE_CLICK);
-		CFADE::SetTexture((char*)"asset/texture/fade.png");
-		CFADE::Fade_Start(true, 60, D3DCOLOR());
-	}
+	Update_InPut();
+	isFade();
+}
 
-	if (m_Clik == false) return;
+void CTitle::isFade()
+{
+	if (m_Clik == false) return;		//一度もクリックされていない場合は処理を行わない
 	if (CFADE::Fade_IsFade() == false)
 	{
-		StopSound();
-		CManager::SetScene<CTutorial>();
+		StopSound();						//流れている音楽を止める
+		CManager::SetScene<CTutorial>();	//チュートリアル画面に遷移
+	}
+}
+
+void CTitle::Update_InPut()
+{
+	//スペースキーを押したら
+	if (CInput::GetKeyTrigger(VK_SPACE) && m_Clik == false)
+	{
+		m_Clik = true;				//一回クリックされた
+		PlaySound(SOUND_SE_CLICK);	//クリック音
+		CFADE::SetTexture((char*)"asset/texture/fade.png");		//フェードのテクスチャセット
+		CFADE::Fade_Start(true, 60);
 	}
 }

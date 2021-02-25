@@ -3,7 +3,7 @@
 #include "gameobject.h"
 
 class CFriendAIRoot;
-
+class CEnemy;
 class CFriend : public CGameObject	//継承(インヘリタンス)
 {
 private:
@@ -12,7 +12,7 @@ private:
 	CSIGHT* m_Sight;			//照準
 	CWEAPON* m_Weapon;			//所持武器
 	CFriendAIRoot* m_AI;		//ビヘイビアツリー
-	CGameObject* LockOnEnemy;		//現在ターゲットにしている敵の情報
+	CEnemy* LockOnEnemy;		//現在ターゲットにしている敵の情報
 	TEAM_NUMBER		m_TeamNumber;	//味方か敵かの識別
 
 	char*	m_OldAnimationChara;	//アニメーションの名前の旧名
@@ -45,8 +45,8 @@ public:
 	void Draw();
 
 	void LookEnemy();			//狙っている敵の方向を見る
-	void SetLockOnEnemy(CGameObject* enemy);		//ロックオンする敵をセット
-	CGameObject* GetLockOnEnemy() {return LockOnEnemy;}
+	void SetLockOnEnemy(CEnemy* enemy);		//ロックオンする敵をセット
+	CEnemy* GetLockOnEnemy() {return LockOnEnemy;}
 	void Death();
 	void ChangeAnimation(char* Name);
 

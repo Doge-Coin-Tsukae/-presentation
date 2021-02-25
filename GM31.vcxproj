@@ -168,17 +168,13 @@
     <ClCompile Include="captureui.cpp" />
     <ClCompile Include="colider.cpp" />
     <ClCompile Include="deadtree.cpp" />
-    <ClCompile Include="effect.cpp" />
     <ClCompile Include="enemy.cpp" />
-    <ClCompile Include="enemycommander.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="friend.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamemaneger.cpp" />
     <ClCompile Include="gauge.cpp" />
-    <ClCompile Include="house.cpp" />
-    <ClCompile Include="human.cpp" />
     <ClCompile Include="ImCurveEdit.cpp" />
     <ClCompile Include="ImGradient.cpp" />
     <ClCompile Include="imgui.cpp" />
@@ -199,7 +195,6 @@
     <ClCompile Include="playerui.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="result.cpp" />
     <ClCompile Include="rifle.cpp" />
     <ClCompile Include="shellexplosion.cpp" />
     <ClCompile Include="sight.cpp" />
@@ -229,8 +224,6 @@
     <ClInclude Include="captureui.h" />
     <ClInclude Include="colider.h" />
     <ClInclude Include="deadtree.h" />
-    <ClInclude Include="enemycommander.h" />
-    <ClInclude Include="effect.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="explosion.h" />
     <ClInclude Include="fade.h" />
@@ -239,7 +232,6 @@
     <ClInclude Include="gamemaneger.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="gauge.h" />
-    <ClInclude Include="house.h" />
     <ClInclude Include="human.h" />
     <ClInclude Include="ImCurveEdit.h" />
     <ClInclude Include="ImGradient.h" />
@@ -264,7 +256,6 @@
     <ClInclude Include="playerui.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
-    <ClInclude Include="Result.h" />
     <ClInclude Include="rifle.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shellexplosion.h" />

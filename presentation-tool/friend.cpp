@@ -110,11 +110,5 @@ void CFriend::SetImGui()
 	ImGui::SliderFloat("rotation", &m_Rotation.y, 0, 10);
 	ImGui::ListBox("weaponbox", &m_Weapontype, listbox_items, IM_ARRAYSIZE(listbox_items), 2);
 	ImGui::Checkbox("delete", &m_Destroy);
-
-	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
-	//ImGuizmo::DecomposeMatrixToComponents(world, matrixTranslation, matrixRotation, matrixScale);
-	//ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, world);
-	//ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, SCREEN_WIDTH, SCREEN_HEIGHT);
-	//ImGuizmo::Manipulate(camera->GetViewMatrix(), camera->GetProjectionMatrix(), ImGuizmo::ROTATE, ImGuizmo::LOCAL, &world._11);
-	//ImGuizmo::ViewManipulate(camera->GetViewMatrix(), cameralength, ImVec2(ImGui::GetWindowPos().x - 128, ImGui::GetWindowPos().y), ImVec2(128, 128), 0x10101010);
+	ImGui::End();
 }

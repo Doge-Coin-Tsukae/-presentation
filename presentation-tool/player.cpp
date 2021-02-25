@@ -109,16 +109,11 @@ void CPlayer::SetImGui()
 	ImGui::ListBox("Weapon",&m_Weapontype, listbox_items, IM_ARRAYSIZE(listbox_items), 2);
 	ImGui::Checkbox("delete", &m_Destroy);
 	ImGui::End();
-
-	//ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, SCREEN_WIDTH, SCREEN_HEIGHT);
-	//ImGuizmo::Manipulate(camera->GetViewMatrix(), camera->GetProjectionMatrix(), ImGuizmo::ROTATE, ImGuizmo::LOCAL, world);
-	//ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, world);
-	//ImGuizmo::ViewManipulate(camera->GetViewMatrix(), cameralength,ImVec2(ImGui::GetWindowPos().x -128, ImGui::GetWindowPos().y), ImVec2(128,128), 0x10101010);
 }
 
 void CPlayer::UpdateAnimationModel()
 {
-	//
+	//アニメーション変更されているかどうか
 	if (m_AnimationModeltype == m_AnimationModeltypeold) return;
 
 	m_AnimationModel->Unload();

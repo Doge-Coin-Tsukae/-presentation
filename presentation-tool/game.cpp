@@ -41,7 +41,9 @@
 #include "modechip.h"
 #include "selectpointer.h"
 #include "saveloadchip.h"
+#include "testplaybutton.h"
 #include "triangle.h"
+#include "setimgui.h"
 #include "selectitem.h"
 
 void CGame::Init()
@@ -82,9 +84,7 @@ void CGame::Update()
 	//Tボタンでステージテスト
 	if (CInput::GetKeyTrigger('T'))
 	{
-		_mkdir("asset/testsavedata");	//テストセーブデータのフォルダを作成
-		CScene::GetGameObject<CSAVE>(0)->TestData_Save();
-		system("GM31.exe");
+		ClickTestBotton();
 	}
 }
 

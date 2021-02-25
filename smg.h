@@ -9,7 +9,4 @@ public:
 	~Csmg() {}
 
 	void Init();
-	//void Uninit();
-	//void Update();
-	//void Draw();
 };

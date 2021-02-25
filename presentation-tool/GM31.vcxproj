@@ -191,9 +191,11 @@
     <ClCompile Include="saveloadchip.cpp" />
     <ClCompile Include="selectitem.cpp" />
     <ClCompile Include="selectpointer.cpp" />
+    <ClCompile Include="setimgui.cpp" />
     <ClCompile Include="sight.cpp" />
     <ClCompile Include="skydome.cpp" />
     <ClCompile Include="spownpoint.cpp" />
+    <ClCompile Include="testplaybutton.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="tree.cpp" />
     <ClCompile Include="triangle.cpp" />
@@ -242,9 +244,11 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="selectitem.h" />
     <ClInclude Include="selectpointer.h" />
+    <ClInclude Include="setimgui.h" />
     <ClInclude Include="sight.h" />
     <ClInclude Include="skydome.h" />
     <ClInclude Include="spownpoint.h" />
+    <ClInclude Include="testplaybutton.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="triangle.h" />

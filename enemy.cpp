@@ -1,6 +1,9 @@
-//****************************************
-//敵
-//****************************************
+//=====================================
+//
+//	敵NPC
+//  written by Y.Okubo
+//
+//=====================================
 
 #include "main.h"
 #include "cereal/cereal.hpp"
@@ -287,43 +290,8 @@ RESULT CEnemySearchNode::Update()
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 
-	//std::vector<CFriend*> friendList = scene->GetGameObjects<CFriend>(1);
-	//CFriend* NearEnemy = nullptr;		//自分に一番近い敵
+	m_parent->SetLockOnEnemy(pPlayer);		//プレイヤーをロックオン
 
-	//float nearlength = 0, enemylength = 0;
-
-
-	//一番近い味方NPCを探索する
-	//for (CFriend* friends : friendList)
-	//{
-	//	if (friends->isDeath() == false)		//生きている敵のみ探索
-	//	{
-	//		D3DXVECTOR3 direction = m_parent->GetPosition() - friends->GetPosition();
-	//		enemylength = D3DXVec3Length(&direction);
-
-	//		if (NearEnemy == nullptr || nearlength > enemylength)
-	//		{
-	//			NearEnemy = friends;
-	//			nearlength = enemylength;
-	//		}
-	//	}
-	//}
-
-	//プレイヤーと一番近い味方NPCを比較し、一番近いNPCをターゲットとする
-	//D3DXVECTOR3 direction = m_parent->GetPosition() - pPlayer->GetPosition();
-	//float length = D3DXVec3Length(&direction);
-
-
-	////発見できなかったとき、そのまま
-	//if (NearEnemy == nullptr && pPlayer == nullptr)	return RESULT_PROGRESS;
-
-
-	//if(nearlength < length)
-		m_parent->SetLockOnEnemy(pPlayer);		//プレイヤーをロックオン
-	//else
-		//m_parent->SetLockOnEnemy(NearEnemy);	//NPCをロックオン
-	
-	//探索終了
 	return RESULT_SUCCEEDED;
 }
 

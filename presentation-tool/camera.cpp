@@ -59,11 +59,6 @@ void CCamera::Controll_Update()
 
 	}
 
-	if (CInput::GetKeyPress('Z'))
-		m_Velocity.y -= 0.1f;
-	if (CInput::GetKeyPress('C'))
-		m_Velocity.y += 0.1f;
-
 	m_Position += m_Velocity;
 
 	m_Target.x = m_Position.x - 5.0f * cos(anglex) * cos(anglez);	//ç¿ïW

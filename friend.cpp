@@ -1,7 +1,9 @@
-//****************************************
-//–¡•ûNPC
-//****************************************
-
+//=====================================
+//
+//	–¡•ûNPC
+//  written by Y.Okubo
+//
+//=====================================
 #include "main.h"
 #include "renderer.h"
 #include "scene.h"
@@ -170,7 +172,7 @@ void CFriend::LookEnemy()
 	m_Rotation.y -= 1.0f;
 }
 
-void CFriend::SetLockOnEnemy(CGameObject* enemy)
+void CFriend::SetLockOnEnemy(CEnemy* enemy)
 {
 	LockOnEnemy = enemy;
 }
@@ -235,7 +237,7 @@ RESULT CFriendAIRoot::Update()
 	//ƒƒbƒNƒIƒ“‚µ‚Ä‚¢‚½“G‚ªŽ€‚ñ‚¾‚ç‚à‚¤ˆê“x‘{õƒm[ƒh‚ð‹N“®‚·‚é
 	if (parent->GetLockOnEnemy() != nullptr)
 	{
-		//if (parent->GetLockOnEnemy()->isDeath() == true)
+		if (parent->GetLockOnEnemy()->isDeath() == true)
 			m_Index = 0;
 	}
 
@@ -326,6 +328,7 @@ RESULT CFriendSearchNode::Update()
 	}
 
 	m_parent->SetLockOnEnemy(NearEnemy);	//ˆê”Ô‹ß‚©‚Á‚½“G‚ð“ü‚ê‚é
+	m_parent->ChangeAnimation((char*)"run");
 
 	return RESULT_SUCCEEDED;
 }
@@ -341,14 +344,14 @@ RESULT CFriendWalkNode::Update()
 	D3DXVECTOR3 Position = m_parent->GetPosition() + Velocity / 15;
 
 	m_parent->LookEnemy();
-	m_parent->ChangeAnimation((char*)"run");
 	m_parent->SetPosition(Position);
 
 	//“–‚½‚è”»’è
 	D3DXVECTOR3 direction = m_parent->GetPosition() - m_parent->GetLockOnEnemy()->GetPosition();
 	float length = D3DXVec3Length(&direction);
-	if (length < 30.0f) 
-		return RESULT_SUCCEEDED;
+
+	//ˆê’è‹——£‚Ü‚Å‹ß‚Ã‚¢‚½‚ç
+	if (length < 30.0f) return RESULT_SUCCEEDED;
 
 	return RESULT_PROGRESS;
 }

@@ -5,12 +5,12 @@
 class CBullet : public CGameObject
 {
 private:
-	static CModel* m_Model;		//3Dモデルクラス
-	CCOLIDER_CIRCLE*	m_Zone;		//当たり判定
+	static CModel*		m_Model;		//3Dモデルクラス
+	CCOLIDER_CIRCLE*	m_Colision;		//当たり判定
 
-	D3DXVECTOR3 m_Dir;
-	float DeleteTime;		//オブジェクト消失時間
-	TEAM_NUMBER m_TeamNumber;	//撃った人が敵か味方か識別
+	D3DXVECTOR3		m_Velocity;		//行き先座標
+	float DeleteTime;				//オブジェクト消失時間
+	TEAM_NUMBER m_TeamNumber;		//撃った人が敵か味方か識別
 
 	void Update_Varios();			//変数更新
 	void Update_Collision();		//当たり判定更新

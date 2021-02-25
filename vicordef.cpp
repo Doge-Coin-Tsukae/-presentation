@@ -14,7 +14,7 @@
 
 void VICORDEF::Init()
 {
-	//必ずセットを使うこと
+	//必ずセット関数を使うこと
 }
 
 void VICORDEF::Uninit()

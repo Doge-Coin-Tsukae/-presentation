@@ -44,6 +44,7 @@ void CBASE::Init()
 	//“–‚½‚è”»’è‚ÌÝ’è
 	m_Zone = new CCOLIDER_CIRCLE();
 	m_Zone->Init();
+	m_Zone->SetModel();
 	m_Zone->SetScale(D3DXVECTOR3(30.0f, 30.0f, 30.0f));		//”»’è‚Ì‘å‚«‚³
 }
 

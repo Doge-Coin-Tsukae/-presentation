@@ -1,3 +1,10 @@
+//=====================================
+//
+//  ロードを行う
+//  written by Y.Okubo
+//
+//=====================================
+
 #include "main.h"
 #include <tchar.h>
 #include <fstream>
@@ -37,11 +44,8 @@ void CLOAD::Update()
 
 void CLOAD::Data_Load()
 {
-	CScene* scene = CManager::GetScene();	
-
 	Data_Destroy();	//ロードする前にそれまでに配置されていたオブジェクトを削除する
 
-	std::string path;
 
 	//プレイヤーの情報をファイルから読み込む
 	{

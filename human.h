@@ -1,11 +1,11 @@
-//プレイヤー共通の部分をクラス化したい
 #pragma once
 
 #include "gameobject.h"
 
+//NPCの所属
 enum TEAM_NUMBER{
-	TEAM_FRIENDRY,
-	TEAM_ENEMY,
+	TEAM_FRIENDRY,		//味方チーム
+	TEAM_ENEMY,			//敵チーム
 };
 
 //NPCを共通化する

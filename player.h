@@ -27,7 +27,8 @@ private:
 	int m_Weapontype;
 	std::string m_Modelpass;
 
-	void Update_Controll();		//キー入力
+	void Update_InPut();		//キー入力
+	void Update_Colision();		//当たり判定
 public:
 	CPlayer(){}
 	~CPlayer(){}

@@ -1,3 +1,10 @@
+//=====================================
+//
+//	木のビルボード
+//  written by Y.Okubo
+//
+//=====================================
+
 #include "main.h"
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"

@@ -1,9 +1,10 @@
 //=====================================
 //
-//  拠点を占領したときに画面に表示させる + 拠点を占領中に表示させる
+//  HPバー + サイトの表示を行う
 //  written by Y.Okubo
 //
 //=====================================
+
 #include "main.h"
 #include "renderer.h"
 #include "scene.h"
@@ -24,10 +25,12 @@
 
 void CPLAYERUI::Init()
 {
+	//HPバー
 	m_HpGauge = new CGAUGE;
 	m_HpGauge->Init();
 	m_HpGauge->SetPosition(D3DXVECTOR3(1, 1, 0));
 
+	//サイト
 	m_Sight = new CPolygon;
 	m_Sight->SetTexture((char*)"asset/texture/sight.png");
 	m_Sight->SetSize(32,32);
@@ -53,12 +56,11 @@ void CPLAYERUI::Update()
 }
 void CPLAYERUI::Draw()
 {
-	CScene* scene = CManager::GetScene();
-
 	m_HpGauge->Draw();
 
-	CCamera* pcamera = scene->GetGameObject<CCamera>(0);
 	//カメラをzoomしている時のみ表示
+	CScene* scene = CManager::GetScene();
+	CCamera* pcamera = scene->GetGameObject<CCamera>(0);
 	if(pcamera->GetZoom())
-	m_Sight->Draw();
+		m_Sight->Draw();
 }

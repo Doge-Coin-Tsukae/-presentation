@@ -1,3 +1,9 @@
+//========================================
+//
+//  現在所持している武器の情報の表示を行う
+//  written by Y.Okubo
+//
+//========================================
 #include "main.h"
 #include "renderer.h"
 #include "scene.h"
@@ -22,21 +28,32 @@ void CWEAPON2D::Init()
 	m_Under->Init(D3DXVECTOR3(0.0f, 380.0f, 0.0f));
 	m_Under->SetTexture((char*)"asset/texture/weapon/rifle.png");
 
-	m_MaxAnmo = new CNUMBER;
-	m_MaxAnmo->Init();
+	m_slash = new CPolygon;
+	m_slash->SetSize(100,100);
+	m_slash->Init(D3DXVECTOR3(100.0f, 480.0f, 0.0f));
+	m_slash->SetTexture((char*)"asset/texture/weapon/rifle.png");
 
-	m_Anmo = new CNUMBER;
-	m_Anmo->Init();
+	for (int i = 0; i < 2; i++)
+	{
+		m_MaxAnmo[i] = new CNUMBER;
+		m_MaxAnmo[i]->Init();
+
+		m_Anmo[i] = new CNUMBER;
+		m_Anmo[i]->Init();
+
+		m_MaxAnmo[i]->SetPosition(D3DXVECTOR3(150.0f - i * 30, 480.0f, 0.0f));
+		m_Anmo[i]->SetPosition(D3DXVECTOR3(50.0f - i * 30, 480.0f, 0.0f));
+
+		m_MaxAnmo[i]->SetLength(50.0f);
+		m_Anmo[i]->SetLength(50.0f);
+
+	}
 
 	m_Gauge = new CGAUGE;
 	m_Gauge->Init();
 	m_Gauge->SetPosition(D3DXVECTOR3(0.0f,530.0f,0.0f));
 
-	m_MaxAnmo->SetPosition(D3DXVECTOR3(100.0f, 480.0f, 0.0f));
-	m_Anmo->SetPosition(D3DXVECTOR3(50.0f,480.0f,0.0f));
 
-	m_MaxAnmo->SetLength(50.0f);
-	m_Anmo->SetLength(50.0f);
 
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
@@ -47,10 +64,18 @@ void CWEAPON2D::Uninit()
 {
 	m_Gauge->Uninit();
 	delete m_Gauge;
-	m_Anmo->Uninit();
-	delete m_Anmo;
-	m_MaxAnmo->Uninit();
-	delete m_MaxAnmo;
+
+	for (int i = 0; i < 2; i++)
+	{
+		m_Anmo[i]->Uninit();
+		m_MaxAnmo[i]->Uninit();
+		delete m_Anmo[i];
+		delete m_MaxAnmo[i];
+	}
+	
+	m_slash->Uninit();
+	delete m_slash;
+
 	m_Under->Uninit();
 	delete m_Under;
 }
@@ -58,13 +83,14 @@ void CWEAPON2D::Uninit()
 void CWEAPON2D::Update()
 {
 	m_Under->Update();
+	m_slash->Update();
+
+	Advance();
+
+	//値のセット
 	CScene* scene = CManager::GetScene();
 	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
 	CWEAPON* pWeapon = pPlayer->GetWeapon();
-
-	//値のセット
-	m_MaxAnmo->SetNumber(pWeapon->GetMaxAmmo());
-	m_Anmo->SetNumber(pWeapon->GetAmmo());
 
 	int MaxGauge = 200 - pWeapon->GetReloadTime();
 	m_Gauge->SetGauge(MaxGauge);
@@ -80,8 +106,13 @@ void CWEAPON2D::Draw()
 	CRenderer::SetLight(light);
 
 	m_Under->Draw();
-	m_MaxAnmo->Draw();
-	m_Anmo->Draw();
+
+	for (int i = 0; i < 2; i++)
+	{
+		m_MaxAnmo[i]->Draw();
+		m_Anmo[i]->Draw();
+	}
+	m_slash->Draw();
 	m_Gauge->Draw();
 }
 
@@ -96,4 +127,24 @@ void CWEAPON2D::ChengeWeaponTexture(int id)
 		m_Under->SetTexture((char*)"asset/texture/weapon/smg.png");
 		return;
 	}
+}
+
+void CWEAPON2D::Advance()
+{
+	CScene* scene = CManager::GetScene();
+	CPlayer* pPlayer = scene->GetGameObject<CPlayer>(1);
+	CWEAPON* pWeapon = pPlayer->GetWeapon();
+
+	int maxAnmo_1stline = pWeapon->GetMaxAmmo() %10;	//一桁目
+	int Anmo_1stline = pWeapon->GetAmmo() % 10;		//一桁目
+
+
+
+	//一桁目
+	m_MaxAnmo[0]->SetNumber(maxAnmo_1stline);
+	m_Anmo[0]->SetNumber(Anmo_1stline);
+
+	//二桁目
+	m_MaxAnmo[1]->SetNumber(pWeapon->GetMaxAmmo() /10);
+	m_Anmo[1]->SetNumber(pWeapon->GetAmmo() /10);
 }

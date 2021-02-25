@@ -1,3 +1,9 @@
+//=====================================
+//
+//	爆発のエフェクト
+//  written by Y.Okubo
+//
+//=====================================
 #include "main.h"
 #include "renderer.h"
 #include "scene.h"

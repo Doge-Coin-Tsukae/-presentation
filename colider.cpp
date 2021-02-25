@@ -1,32 +1,26 @@
-//****************************************
-//“–‚½‚è”»’è
-//****************************************
+//=====================================
+//
+//	“–‚½‚è”»’è
+//  written by Y.Okubo
+//
+//=====================================
 #include "main.h"
 #include "renderer.h"
 #include "scene.h"
 #include "manager.h"
 #include "model.h"
 #include "colider.h"
-class CModel* CCOLIDER_CIRCLE::m_Model;
 
-void CCOLIDER_CIRCLE::Load()
-{
-	m_Model = new CModel();
-	m_Model->Load("asset\\model\\colider.obj");
-}
-
-void CCOLIDER_CIRCLE::Unload()
-{
-	m_Model->Unload();
-	delete m_Model;
-}
 void CCOLIDER_CIRCLE::Init()
 {
 
 }
 void CCOLIDER_CIRCLE::Uninit()
 {
-
+	//ƒ‚ƒfƒ‹‚ðŽg‚Á‚Ä‚¢‚½‚Æ‚«‚Ì‚Ýíœ‚ðs‚¤
+	if (m_Model == nullptr) return;
+	m_Model->Unload();
+	delete m_Model;
 }
 void CCOLIDER_CIRCLE::Update()
 {
@@ -46,6 +40,11 @@ void CCOLIDER_CIRCLE::Draw()
 	CRenderer::SetWorldMatrix(&world);
 
 	m_Model->Draw();
+}
+void CCOLIDER_CIRCLE::SetModel()
+{
+	m_Model = new CModel();
+	m_Model->Load("asset\\model\\colider.obj");
 }
 
 bool CCOLIDER_CIRCLE::GetColider(D3DXVECTOR3 pPos)

@@ -119,14 +119,8 @@
     <ClCompile Include="game.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="result.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="title.cpp">
       <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="effect.cpp">
-      <Filter>ソース ファイル\gameobject\billboard</Filter>
     </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル\system\sound</Filter>
@@ -137,17 +131,11 @@
     <ClCompile Include="playerui.cpp">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClCompile>
-    <ClCompile Include="fade.cpp">
-      <Filter>ソース ファイル\system</Filter>
-    </ClCompile>
     <ClCompile Include="vicordef.cpp">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClCompile>
     <ClCompile Include="smoke.cpp">
       <Filter>ソース ファイル\gameobject\billboard</Filter>
-    </ClCompile>
-    <ClCompile Include="house.cpp">
-      <Filter>ソース ファイル\gameobject\object</Filter>
     </ClCompile>
     <ClCompile Include="deadtree.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
@@ -176,9 +164,6 @@
     <ClCompile Include="titleeffectmanager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="enemycommander.cpp">
-      <Filter>ソース ファイル\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="load.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
@@ -196,9 +181,6 @@
     </ClCompile>
     <ClCompile Include="spownpoint.cpp">
       <Filter>ソース ファイル\gameobject\object</Filter>
-    </ClCompile>
-    <ClCompile Include="human.cpp">
-      <Filter>ソース ファイル\gameobject\player</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_dx11.cpp">
       <Filter>ソース ファイル\system\ImGUI</Filter>
@@ -226,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="imgui_draw.cpp">
       <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="fade.cpp">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,9 +283,6 @@
     <ClInclude Include="Game.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Title.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
@@ -309,9 +291,6 @@
     </ClInclude>
     <ClInclude Include="gamemaneger.h">
       <Filter>ソース ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="effect.h">
-      <Filter>ソース ファイル\gameobject\billboard</Filter>
     </ClInclude>
     <ClInclude Include="sound.h">
       <Filter>ソース ファイル\system\sound</Filter>
@@ -322,17 +301,11 @@
     <ClInclude Include="playerui.h">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
-    <ClInclude Include="fade.h">
-      <Filter>ソース ファイル\system</Filter>
-    </ClInclude>
     <ClInclude Include="vicordef.h">
       <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
     <ClInclude Include="smoke.h">
       <Filter>ソース ファイル\gameobject\billboard</Filter>
-    </ClInclude>
-    <ClInclude Include="house.h">
-      <Filter>ソース ファイル\gameobject\object</Filter>
     </ClInclude>
     <ClInclude Include="gameobject.h">
       <Filter>ソース ファイル\system</Filter>
@@ -362,9 +335,6 @@
       <Filter>ソース ファイル\gameobject\billboard</Filter>
     </ClInclude>
     <ClInclude Include="titleeffectmanager.h">
-      <Filter>ソース ファイル\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="enemycommander.h">
       <Filter>ソース ファイル\Manager</Filter>
     </ClInclude>
     <ClInclude Include="load.h">
@@ -420,6 +390,9 @@
     </ClInclude>
     <ClInclude Include="ImZoomSlider.h">
       <Filter>ソース ファイル\system\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="fade.h">
+      <Filter>ソース ファイル\gameobject\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

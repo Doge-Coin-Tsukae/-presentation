@@ -105,7 +105,6 @@ private:
 	}
 	inline static float random(int range)
 	{
-		//ƒfƒtƒH = (rand() % (range * 2)) - range;
 		return (rand() % (range * 4)) - range;
 	}
 

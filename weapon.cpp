@@ -1,6 +1,6 @@
 //=====================================
 //
-//  •Ší
+//  •Ší‚ÌŠî’êƒNƒ‰ƒX
 //  written by Y.Okubo
 //
 //=====================================
@@ -21,7 +21,6 @@
 #define RELOADTIME 240
 #define	ANIMEBLENDSPEED	0.1f
 
-//class CModel* CWEAPON::m_Model;
 class CAnimationModel* CWEAPON::m_AniModel;
 
 typedef struct
